@@ -99,6 +99,7 @@ How to run
             packageResults = TRUE,
             maxCores = maxCores)
 	```
+*Note: If you experience an issue while running the code, please report this via the ```Issues``` tab above. Where possible, please include a snippet of the error message and any relevant information about your R environment / data layer (e.g. SQL Server, RedShift, Google BigQuery). Issues will be debugged and code will be updated accordingly.*
 
 4. Upload the file ```export/Results<DatabaseId>.zip``` in the output folder to the study coordinator:
 
