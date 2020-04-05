@@ -41,7 +41,7 @@ How to run
 
   ```r
 	keyFileName <- "<directory location of where you saved the study key name.dat>"
-	username <- "study-data-site-covid19"
+	userName <- "study-data-site-covid19"
 	OhdsiSharing::sftpUploadFile(privateKeyFileName = keyFileName,
                              userName = userName,
                              remoteFolder = "Covid19EstimationRasInhibitors",
