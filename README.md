@@ -1,6 +1,5 @@
 OHDSI COVID-19 Studyathon: Association of angiotensin converting enzyme (ACE) inhibitors and angiotensin II receptor blockers (ARB) on coronavirus disease (COVID-19) incidence and complications
-
-=============
+==============================
 
 <img src="https://img.shields.io/badge/Study%20Status-Design%20Finalized-brightgreen.svg" alt="Study Status: Design Finalized"> 
 
