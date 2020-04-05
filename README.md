@@ -48,6 +48,8 @@ How to run
                              fileName = "<directory location of outputFolder/export>")
   ```
   
+  If you are unable to utilize the `OhdsiSharing` package, you may utilize a SFTP client of your choosing (e.g. FileZilla) and upload through that tool. If you have questions, contact the [study coordinator](mailto:kristin.kostka@iqvia.com).
+  
 License
 =======
 The Covid19IncidenceRasInhibitors (the Incidence study) and COVID5ACESeverity (the Complications study) packages are licensed under Apache License 2.0
