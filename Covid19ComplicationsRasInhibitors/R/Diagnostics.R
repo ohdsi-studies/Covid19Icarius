@@ -26,6 +26,18 @@
 #'                              available this can speed up the analyses.
 #'
 #' @export
+#' Generate diagnostics
+#'
+#' @details
+#' This function generates analyses diagnostics. Requires the study to be executed first.
+#'
+#' @param outputFolder         Name of local folder where the results were generated; make sure to use forward slashes
+#'                             (/). Do not use a folder on a network drive since this greatly impacts
+#'                             performance.
+#' @param maxCores              How many parallel cores should be used? If more cores are made
+#'                              available this can speed up the analyses.
+#'
+#' @export
 generateDiagnostics <- function(outputFolder, maxCores) {
   cmOutputFolder <- file.path(outputFolder, "cmOutput")
   diagnosticsFolder <- file.path(outputFolder, "diagnostics")
@@ -114,33 +126,33 @@ createDiagnosticsForSubset <- function(subset, allControls, outputFolder, cmOutp
 
   # Statistical power --------------------------------------------------------------------------------------
   outcomeIdsOfInterest <- subset$outcomeId[!(subset$outcomeId %in% controlSubset$outcomeId)]
-  mdrrs <- data.frame()
-  for (outcomeId in outcomeIdsOfInterest) {
-    strataFile <- subset$strataFile[subset$outcomeId == outcomeId]
-    if (strataFile == "") {
-      strataFile <- subset$studyPopFile[subset$outcomeId == outcomeId]
-    }
-    population <- readRDS(file.path(cmOutputFolder, strataFile))
-    modelFile <- subset$outcomeModelFile[subset$outcomeId == outcomeId]
-    model <- readRDS(file.path(cmOutputFolder, modelFile))
-    mdrr <- CohortMethod::computeMdrr(population = population,
-                                      alpha = 0.05,
-                                      power = 0.8,
-                                      twoSided = TRUE,
-                                      modelType =  model$outcomeModelType)
-
-    mdrr$outcomeId <- outcomeId
-    mdrr$outcomeName <- subset$outcomeName[subset$outcomeId == outcomeId]
-    mdrrs <- rbind(mdrrs, mdrr)
-  }
-  mdrrs$analysisId <- analysisId
-  mdrrs$analysisDescription <- subset$analysisDescription[1]
-  mdrrs$targetId <- targetId
-  mdrrs$targetName <- subset$targetName[1]
-  mdrrs$comparatorId <- comparatorId
-  mdrrs$comparatorName <- subset$comparatorName[1]
-  fileName <-  file.path(diagnosticsFolder, paste0("mdrr_a", analysisId, "_t", targetId, "_c", comparatorId, ".csv"))
-  write.csv(mdrrs, fileName, row.names = FALSE)
+  # mdrrs <- data.frame()
+  # for (outcomeId in outcomeIdsOfInterest) {
+  #   strataFile <- subset$strataFile[subset$outcomeId == outcomeId]
+  #   if (strataFile == "") {
+  #     strataFile <- subset$studyPopFile[subset$outcomeId == outcomeId]
+  #   }
+  #   population <- readRDS(file.path(cmOutputFolder, strataFile))
+  #   modelFile <- subset$outcomeModelFile[subset$outcomeId == outcomeId]
+  #   model <- readRDS(file.path(cmOutputFolder, modelFile))
+  #   mdrr <- CohortMethod::computeMdrr(population = population,
+  #                                     alpha = 0.05,
+  #                                     power = 0.8,
+  #                                     twoSided = TRUE,
+  #                                     modelType =  model$outcomeModelType)
+  #
+  #   mdrr$outcomeId <- outcomeId
+  #   mdrr$outcomeName <- subset$outcomeName[subset$outcomeId == outcomeId]
+  #   mdrrs <- rbind(mdrrs, mdrr)
+  # }
+  # mdrrs$analysisId <- analysisId
+  # mdrrs$analysisDescription <- subset$analysisDescription[1]
+  # mdrrs$targetId <- targetId
+  # mdrrs$targetName <- subset$targetName[1]
+  # mdrrs$comparatorId <- comparatorId
+  # mdrrs$comparatorName <- subset$comparatorName[1]
+  # fileName <-  file.path(diagnosticsFolder, paste0("mdrr_a", analysisId, "_t", targetId, "_c", comparatorId, ".csv"))
+  # write.csv(mdrrs, fileName, row.names = FALSE)
 
   # Covariate balance --------------------------------------------------------------------------------------
   outcomeIdsOfInterest <- subset$outcomeId[!(subset$outcomeId %in% controlSubset$outcomeId)]
@@ -151,6 +163,7 @@ createDiagnosticsForSubset <- function(subset, allControls, outputFolder, cmOutp
                                  sprintf("bal_t%s_c%s_o%s_a%s.rds", targetId, comparatorId, outcomeId, analysisId))
     if (file.exists(balanceFileName)) {
       balance <- readRDS(balanceFileName)
+      if(nrow(balance)==0 )next
       fileName = file.path(diagnosticsFolder,
                            sprintf("bal_t%s_c%s_o%s_a%s.csv", targetId, comparatorId, outcomeId, analysisId))
       write.csv(balance, fileName, row.names = FALSE)
@@ -160,21 +173,24 @@ createDiagnosticsForSubset <- function(subset, allControls, outputFolder, cmOutp
                             subset$analysisDescription[1], sep = "\n")
       fileName = file.path(diagnosticsFolder,
                            sprintf("balanceScatter_t%s_c%s_o%s_a%s.png", targetId, comparatorId, outcomeId, analysisId))
-      balanceScatterPlot <- CohortMethod::plotCovariateBalanceScatterPlot(balance = balance,
-                                                                          beforeLabel = "Before PS adjustment",
-                                                                          afterLabel =  "After PS adjustment",
-                                                                          showCovariateCountLabel = TRUE,
-                                                                          showMaxLabel = TRUE,
-                                                                          title = outcomeTitle,
-                                                                          fileName = fileName)
+      try({
+        balanceScatterPlot <- CohortMethod::plotCovariateBalanceScatterPlot(balance = balance,
+                                                                            beforeLabel = "Before PS adjustment",
+                                                                            afterLabel =  "After PS adjustment",
+                                                                            showCovariateCountLabel = TRUE,
+                                                                            showMaxLabel = TRUE,
+                                                                            title = outcomeTitle,
+                                                                            fileName = fileName)
 
-      fileName = file.path(diagnosticsFolder,
-                           sprintf("balanceTop_t%s_c%s_o%s_a%s.png", targetId, comparatorId, outcomeId, analysisId))
-      balanceTopPlot <- CohortMethod::plotCovariateBalanceOfTopVariables(balance = balance,
-                                                                         beforeLabel = "Before PS adjustment",
-                                                                         afterLabel =  "After PS adjustment",
-                                                                         title = outcomeTitle,
-                                                                         fileName = fileName)
+        fileName = file.path(diagnosticsFolder,
+                             sprintf("balanceTop_t%s_c%s_o%s_a%s.png", targetId, comparatorId, outcomeId, analysisId))
+        balanceTopPlot <- CohortMethod::plotCovariateBalanceOfTopVariables(balance = balance,
+                                                                           beforeLabel = "Before PS adjustment",
+                                                                           afterLabel =  "After PS adjustment",
+                                                                           title = outcomeTitle,
+                                                                           fileName = fileName)
+      })
+
     }
   }
   # Propensity score distribution --------------------------------------------------------------------------
