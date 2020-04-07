@@ -181,6 +181,7 @@ createDiagnosticsForSubset <- function(subset, allControls, outputFolder, cmOutp
   psFile <- subset$sharedPsFile[1]
   if (psFile != "") {
     ps <- readRDS(file.path(cmOutputFolder, psFile))
+    if (nrow(ps) > 0) {
     fileName <-  file.path(diagnosticsFolder, paste0("ps_a", analysisId, "_t", targetId, "_c", comparatorId, ".png"))
     CohortMethod::plotPs(data = ps,
                          targetLabel = subset$targetName[1],
@@ -191,4 +192,5 @@ createDiagnosticsForSubset <- function(subset, allControls, outputFolder, cmOutp
                          title = subset$analysisDescription[1],
                          fileName = fileName)
   }
+}
 }

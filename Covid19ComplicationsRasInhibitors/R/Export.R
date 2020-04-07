@@ -110,11 +110,15 @@ exportAnalyses <- function(outputFolder, exportFolder) {
   getCovariateAnalyses <- function(cmAnalysis) {
     cmDataFolder <- reference$cohortMethodDataFolder[reference$analysisId == cmAnalysis$analysisId][1]
     cmData <- CohortMethod::loadCohortMethodData(file.path(outputFolder, "cmOutput", cmDataFolder), readOnly = TRUE)
+    if (!is.null(cmData$analysisRef)) {
     covariateAnalysis <- ff::as.ram(cmData$analysisRef)
     covariateAnalysis <- covariateAnalysis[, c("analysisId", "analysisName")]
     colnames(covariateAnalysis) <- c("covariate_analysis_id", "covariate_analysis_name")
     covariateAnalysis$analysis_id <- cmAnalysis$analysisId
     return(covariateAnalysis)
+    } else {
+      return(data.frame(covariate_analysis_id = 1, covariate_analysis_name = "")[-1,])
+    }
   }
   covariateAnalysis <- lapply(cmAnalysisList, getCovariateAnalyses)
   covariateAnalysis <- do.call("rbind", covariateAnalysis)
@@ -332,10 +336,14 @@ exportMetadata <- function(outputFolder,
     cmDataFolder <- reference$cohortMethodDataFolder[analysisId][1]
     cmData <- CohortMethod::loadCohortMethodData(file.path(outputFolder, "cmOutput", cmDataFolder), readOnly = TRUE)
     covariateRef <- ff::as.ram(cmData$covariateRef)
+    if (nrow(covariateRef) > 0) {
     covariateRef <- covariateRef[, c("covariateId", "covariateName", "analysisId")]
     colnames(covariateRef) <- c("covariateId", "covariateName", "covariateAnalysisId")
     covariateRef$analysisId <- analysisId
     return(covariateRef)
+    } else {
+      return(data.frame(analysisId = analysisId, covariateId = 1, covariateName = "", covariateAnalysisId = 1)[-1])
+    }
   }
   covariates <- lapply(unique(reference$analysisId), getCovariates)
   covariates <- do.call("rbind", covariates)
@@ -636,6 +644,7 @@ exportDiagnostics <- function(outputFolder,
   balanceFolder <- file.path(outputFolder, "balance")
   files <- list.files(balanceFolder, pattern = "bal_.*.rds", full.names = TRUE)
   pb <- txtProgressBar(style = 3)
+  if (length(files) > 0) {
   for (i in 1:length(files)) {
     ids <- gsub("^.*bal_t", "", files[i])
     targetId <- as.numeric(gsub("_c.*", "", ids))
@@ -736,6 +745,7 @@ exportDiagnostics <- function(outputFolder,
                 append = !first)
     first <- FALSE
     setTxtProgressBar(pb, i/length(files))
+  }
   }
   close(pb)
 
@@ -868,10 +878,12 @@ exportDiagnostics <- function(outputFolder,
                 append = !first)
   }
   outputFile <- file.path(exportFolder, "kaplan_meier_dist.csv")
+  if (length(files) > 0) {
   files <- list.files(tempFolder, "km_.*.rds", full.names = TRUE)
   saveKmToCsv(files[1], first = TRUE, outputFile = outputFile)
   if (length(files) > 1) {
     plyr::l_ply(files[2:length(files)], saveKmToCsv, first = FALSE, outputFile = outputFile, .progress = "text")
+  }
   }
   unlink(tempFolder, recursive = TRUE)
 }

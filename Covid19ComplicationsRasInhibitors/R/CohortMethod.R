@@ -57,6 +57,15 @@ runCohortMethod <- function(connectionDetails,
   cmAnalysisList <- CohortMethod::loadCmAnalysisList(cmAnalysisListFile)
   tcosList <- createTcos(outputFolder = outputFolder)
   outcomesOfInterest <- getOutcomesOfInterest()
+
+  # Remove TC pairs with 0-count cohorts
+  cohortCounts <- read.csv(paste0(outputFolder, "/CohortCounts.csv"))
+  nonZeroCount <- unlist(lapply(tcosList, function(tco) {
+    return(tco$targetId %in% cohortCounts$cohortDefinitionId &&
+             tco$comparatorId %in% cohortCounts$cohortDefinitionId)
+  }))
+  # tcosList <- tcosList[nonZeroCount]
+
   results <- CohortMethod::runCmAnalyses(connectionDetails = connectionDetails,
                                          cdmDatabaseSchema = cdmDatabaseSchema,
                                          exposureDatabaseSchema = cohortDatabaseSchema,
@@ -110,8 +119,10 @@ computeCovariateBalance <- function(row, cmOutputFolder, balanceFolder) {
     cohortMethodData <- CohortMethod::loadCohortMethodData(cohortMethodDataFolder)
     strataFile <- file.path(cmOutputFolder, row$strataFile)
     strata <- readRDS(strataFile)
-    balance <- CohortMethod::computeCovariateBalance(population = strata, cohortMethodData = cohortMethodData)
-    saveRDS(balance, outputFileName)
+    if (nrow(strata) > 0) {
+      balance <- CohortMethod::computeCovariateBalance(population = strata, cohortMethodData = cohortMethodData)
+      saveRDS(balance, outputFileName)
+    }
   }
 }
 
