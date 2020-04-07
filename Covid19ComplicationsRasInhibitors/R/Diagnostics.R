@@ -26,7 +26,7 @@
 #'                              available this can speed up the analyses.
 #'
 #' @export
-generateDiagnostics <- function(outputFolder, maxCores) {
+generateDiagnostics <- function(outputFolder, minSubjectsForPs = 10, maxCores) {
   cmOutputFolder <- file.path(outputFolder, "cmOutput")
   diagnosticsFolder <- file.path(outputFolder, "diagnostics")
   if (!file.exists(diagnosticsFolder)) {
@@ -51,11 +51,13 @@ generateDiagnostics <- function(outputFolder, maxCores) {
                                allControls = allControls,
                                outputFolder = outputFolder,
                                cmOutputFolder = cmOutputFolder,
-                               diagnosticsFolder = diagnosticsFolder)
+                               diagnosticsFolder = diagnosticsFolder,
+                               minSubjectsForPs = minSubjectsForPs)
   ParallelLogger::stopCluster(cluster)
 }
 
-createDiagnosticsForSubset <- function(subset, allControls, outputFolder, cmOutputFolder, diagnosticsFolder) {
+createDiagnosticsForSubset <- function(subset, allControls, outputFolder, cmOutputFolder, 
+                                       diagnosticsFolder, minSubjectsForPs) {
   targetId <- subset$targetId[1]
   comparatorId <- subset$comparatorId[1]
   analysisId <- subset$analysisId[1]
@@ -123,11 +125,23 @@ createDiagnosticsForSubset <- function(subset, allControls, outputFolder, cmOutp
     population <- readRDS(file.path(cmOutputFolder, strataFile))
     modelFile <- subset$outcomeModelFile[subset$outcomeId == outcomeId]
     model <- readRDS(file.path(cmOutputFolder, modelFile))
+    if (model$outcomeModelType == "cox") {
     mdrr <- CohortMethod::computeMdrr(population = population,
                                       alpha = 0.05,
                                       power = 0.8,
                                       twoSided = TRUE,
                                       modelType =  model$outcomeModelType)
+    } else {
+      mdrr <- data.frame(targetPersons = length(unique(population$subjectId[population$treatment == 1])),
+                         comparatorPersons = length(unique(population$subjectId[population$treatment == 0])),
+                         targetExposures = sum(population$treatment == 1),
+                         comparatorExposures = sum(population$treatment == 0),
+                         targetDays = sum(population$timeAtRisk[population$treatment == 1]),
+                         comparatorDays = sum(population$timeAtRisk[population$treatment == 0]),
+                         totalOutcomes = sum(population$outcomeCount != 0),
+                         mdrr = NA,
+                         se = NA)
+    }
 
     mdrr$outcomeId <- outcomeId
     mdrr$outcomeName <- subset$outcomeName[subset$outcomeId == outcomeId]
@@ -181,16 +195,16 @@ createDiagnosticsForSubset <- function(subset, allControls, outputFolder, cmOutp
   psFile <- subset$sharedPsFile[1]
   if (psFile != "") {
     ps <- readRDS(file.path(cmOutputFolder, psFile))
-    if (nrow(ps) > 0) {
-    fileName <-  file.path(diagnosticsFolder, paste0("ps_a", analysisId, "_t", targetId, "_c", comparatorId, ".png"))
-    CohortMethod::plotPs(data = ps,
-                         targetLabel = subset$targetName[1],
-                         comparatorLabel = subset$comparatorName[1],
-                         showCountsLabel = TRUE,
-                         showAucLabel = TRUE,
-                         showEquiposeLabel = TRUE,
-                         title = subset$analysisDescription[1],
-                         fileName = fileName)
+    if (nrow(ps) > minSubjectsForPs) {
+      fileName <-  file.path(diagnosticsFolder, paste0("ps_a", analysisId, "_t", targetId, "_c", comparatorId, ".png"))
+      CohortMethod::plotPs(data = ps,
+                           targetLabel = subset$targetName[1],
+                           comparatorLabel = subset$comparatorName[1],
+                           showCountsLabel = TRUE,
+                           showAucLabel = TRUE,
+                           showEquiposeLabel = TRUE,
+                           title = subset$analysisDescription[1],
+                           fileName = fileName)
+    }
   }
-}
 }

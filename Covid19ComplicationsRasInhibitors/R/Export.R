@@ -763,8 +763,14 @@ exportDiagnostics <- function(outputFolder,
       if (min(ps$propensityScore) < max(ps$propensityScore)) {
         ps <- CohortMethod:::computePreferenceScore(ps)
 
-        d1 <- density(ps$preferenceScore[ps$treatment == 1], from = 0, to = 1, n = 100)
-        d0 <- density(ps$preferenceScore[ps$treatment == 0], from = 0, to = 1, n = 100)
+        pop1 <- ps$preferenceScore[ps$treatment == 1]
+        pop0 <- ps$preferenceScore[ps$treatment == 0]
+        
+        bw1 <- ifelse(length(pop1) > 1, "nrd0", 0.1)
+        bw0 <- ifelse(length(pop0) > 1, "nrd0", 0.1)
+        
+        d1 <- density(pop1, bw = bw1, from = 0, to = 1, n = 100)
+        d0 <- density(pop0, bw = bw0, from = 0, to = 1, n = 100)
 
         result <- data.frame(databaseId = databaseId,
                              targetId = row$targetId,
