@@ -208,3 +208,115 @@ createDiagnosticsForSubset <- function(subset, allControls, outputFolder, cmOutp
     }
   }
 }
+
+debug_plotCovariateBalanceScatterPlot <- function(balance,
+                                            absolute = TRUE,
+                                            threshold = 0,
+                                            title = "Standardized difference of mean",
+                                            fileName = NULL,
+                                            beforeLabel = "Before matching",
+                                            afterLabel = "After matching",
+                                            showCovariateCountLabel = FALSE,
+                                            showMaxLabel = FALSE) {
+  beforeLabel <- as.character(beforeLabel)
+  afterLabel <- as.character(afterLabel)
+  if (absolute) {
+    balance$beforeMatchingStdDiff <- abs(balance$beforeMatchingStdDiff)
+    balance$afterMatchingStdDiff <- abs(balance$afterMatchingStdDiff)
+  }
+  limits <- c(min(c(balance$beforeMatchingStdDiff, balance$afterMatchingStdDiff), na.rm = TRUE),
+              max(c(balance$beforeMatchingStdDiff, balance$afterMatchingStdDiff), na.rm = TRUE))
+  plot <- ggplot2::ggplot(balance,
+                          ggplot2::aes(x = beforeMatchingStdDiff, y = afterMatchingStdDiff)) +
+    ggplot2::geom_point(color = rgb(0, 0, 0.8, alpha = 0.3), shape = 16) +
+    ggplot2::geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggplot2::geom_hline(yintercept = 0) +
+    ggplot2::geom_vline(xintercept = 0) +
+    ggplot2::ggtitle(title) +
+    ggplot2::scale_x_continuous(beforeLabel, limits = limits) +
+    ggplot2::scale_y_continuous(afterLabel, limits = limits)
+  if (threshold != 0) {
+    plot <- plot + ggplot2::geom_hline(yintercept = c(threshold,
+                                                      -threshold), alpha = 0.5, linetype = "dotted")
+  }
+  if (showCovariateCountLabel || showMaxLabel) {
+    labels <- c()
+    if (showCovariateCountLabel) {
+      labels <- c(labels, sprintf("Number of covariates: %s", format(nrow(balance), big.mark = ",", scientific = FALSE)))
+    }
+    if (showMaxLabel) {
+      labels <- c(labels, sprintf("%s max(absolute): %.2f", afterLabel, max(abs(balance$afterMatchingStdDiff), na.rm = TRUE)))
+    }
+    dummy <- data.frame(text = paste(labels, collapse = "\n"))
+    plot <- plot + ggplot2::geom_label(x = limits[1] + 0.01, y = limits[2], hjust = "left", vjust = "top", alpha = 0.8, ggplot2::aes(label = text), data = dummy, size = 3.5)
+    
+  }
+  if (!is.null(fileName)) {
+    ggplot2::ggsave(fileName, plot, width = 4, height = 4, dpi = 400)
+  }
+  return(plot)
+}
+
+.truncRight <- function(x, n) {
+  nc <- nchar(x)
+  x[nc > (n - 3)] <- paste("...",
+                           substr(x[nc > (n - 3)], nc[nc > (n - 3)] - n + 1, nc[nc > (n - 3)]),
+                           sep = "")
+  x
+}
+
+
+debug_plotCovariateBalanceOfTopVariables <- function(balance,
+                                               n = 20,
+                                               maxNameWidth = 100,
+                                               title = NULL,
+                                               fileName = NULL,
+                                               beforeLabel = "before matching",
+                                               afterLabel = "after matching") {
+  n <- min(n, nrow(balance))
+  beforeLabel <- as.character(beforeLabel)
+  afterLabel <- as.character(afterLabel)
+  topBefore <- balance[order(-abs(balance$beforeMatchingStdDiff)), ]
+  topBefore <- topBefore[1:n, ]
+  topBefore$facet <- paste("Top", n, beforeLabel)
+  topAfter <- balance[order(-abs(balance$afterMatchingStdDiff)), ]
+  topAfter <- topAfter[1:n, ]
+  topAfter$facet <- paste("Top", n, afterLabel)
+  filtered <- rbind(topBefore, topAfter)
+  
+  data <- data.frame(covariateId = rep(filtered$covariateId, 2),
+                     covariate = rep(filtered$covariateName, 2),
+                     difference = c(filtered$beforeMatchingStdDiff, filtered$afterMatchingStdDiff),
+                     group = rep(c(beforeLabel, afterLabel), each = nrow(filtered)),
+                     facet = rep(filtered$facet, 2),
+                     rowId = rep(nrow(filtered):1, 2))
+  filtered$covariateName <- .truncRight(as.character(filtered$covariateName), maxNameWidth)
+  data$facet <- factor(data$facet, levels = rev(levels(data$facet)))
+  data$group <- factor(data$group, levels = rev(levels(data$group)))
+  plot <- ggplot2::ggplot(data, ggplot2::aes(x = difference,
+                                             y = rowId,
+                                             color = group,
+                                             group = group,
+                                             fill = group,
+                                             shape = group)) +
+    ggplot2::geom_point() +
+    ggplot2::geom_vline(xintercept = 0) +
+    ggplot2::scale_fill_manual(values = c(rgb(0.8, 0, 0, alpha = 0.5),
+                                          rgb(0, 0, 0.8, alpha = 0.5))) +
+    ggplot2::scale_color_manual(values = c(rgb(0.8, 0, 0, alpha = 0.5),
+                                           rgb(0, 0, 0.8, alpha = 0.5))) +
+    ggplot2::scale_x_continuous("Standardized difference of mean") +
+    ggplot2::scale_y_continuous(breaks = nrow(filtered):1, labels = filtered$covariateName) +
+    ggplot2::facet_grid(facet ~ ., scales = "free", space = "free") +
+    ggplot2::theme(axis.text.y = ggplot2::element_text(size = 7),
+                   axis.title.y = ggplot2::element_blank(),
+                   legend.position = "top",
+                   legend.direction = "vertical",
+                   legend.title = ggplot2::element_blank())
+  if (!is.null(title)) {
+    plot <- plot + ggplot2::ggtitle(title)
+  }
+  if (!is.null(fileName))
+    ggplot2::ggsave(fileName, plot, width = 10, height = max(2 + n * 0.2, 5), dpi = 400)
+  return(plot)
+}
