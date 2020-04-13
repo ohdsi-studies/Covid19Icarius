@@ -443,7 +443,9 @@ exportMainResults <- function(outputFolder,
                                           calibrate,
                                           allControls = allControls)
   ParallelLogger::stopCluster(cluster)
+  mainEffects <- do.call("rbind", subsets)[, -c(2,4,6,8,9:20)]
   rm(subsets)  # Free up memory
+
   results <- do.call("rbind", results)
   results$databaseId <- databaseId
   results <- enforceMinCellValue(results, "targetSubjects", minCellCount)
@@ -454,6 +456,37 @@ exportMainResults <- function(outputFolder,
   fileName <- file.path(exportFolder, "cohort_method_result.csv")
   write.csv(results, fileName, row.names = FALSE)
   rm(results)  # Free up memory
+  
+  # Handle main / interaction effects
+  if (ncol(mainEffects) > 4) {
+    ParallelLogger::logInfo("- cm_main_effect_result table")
+    keyCol <- "estimate"
+    valueCol <- "value"
+    gatherCols <- names(mainEffects)[5:length(names(mainEffects))]
+    
+    longTable <- tidyr::gather_(mainEffects, keyCol, valueCol, gatherCols)
+    longTable$label <- as.numeric(sub(".*I", "", longTable$estimate))
+    longTable$estimate <- sub("I.*", "", longTable$estimate)
+    uniqueCovariates <- unique(longTable$label)
+    mainEffects <- tidyr::spread(longTable, estimate, value)
+    mainEffects <- mainEffects[!is.na(mainEffects$logRr),]
+    mainEffects <- data.frame(
+      databaseId = databaseId,
+      analysisId = mainEffects$analysisId,
+      targetId = mainEffects$targetId,
+      comparatorId = mainEffects$comparatorId,
+      outcomeId = mainEffects$outcomeId,
+      covariateId = mainEffects$label,
+      coefficient = mainEffects$logRr,
+      ci95lb = log(mainEffects$ci95lb),
+      ci95ub = log(mainEffects$ci95ub),
+      se = mainEffects$seLogRr
+    )
+    colnames(mainEffects) <- SqlRender::camelCaseToSnakeCase(colnames(mainEffects))
+    fileName <- file.path(exportFolder, "cm_main_effects_result.csv")
+    write.csv(mainEffects, fileName, row.names = FALSE)
+    rm(mainEffects)  # Free up memory
+  }
 
   ParallelLogger::logInfo("- cm_interaction_result table")
   reference <- readRDS(file.path(outputFolder, "cmOutput", "outcomeModelReference.rds"))
