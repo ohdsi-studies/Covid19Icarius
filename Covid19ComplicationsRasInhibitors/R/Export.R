@@ -333,14 +333,14 @@ exportMetadata <- function(outputFolder,
   ParallelLogger::logInfo("- covariate table")
   reference <- readRDS(file.path(outputFolder, "cmOutput", "outcomeModelReference.rds"))
   getCovariates <- function(analysisId) {
-    cmDataFolder <- reference$cohortMethodDataFolder[analysisId][1]
+    cmDataFolder <- reference$cohortMethodDataFolder[reference$analysisId == analysisId][1]
     cmData <- CohortMethod::loadCohortMethodData(file.path(outputFolder, "cmOutput", cmDataFolder), readOnly = TRUE)
     covariateRef <- ff::as.ram(cmData$covariateRef)
     if (nrow(covariateRef) > 0) {
-    covariateRef <- covariateRef[, c("covariateId", "covariateName", "analysisId")]
-    colnames(covariateRef) <- c("covariateId", "covariateName", "covariateAnalysisId")
-    covariateRef$analysisId <- analysisId
-    return(covariateRef)
+      covariateRef <- covariateRef[, c("covariateId", "covariateName", "analysisId")]
+      colnames(covariateRef) <- c("covariateId", "covariateName", "covariateAnalysisId")
+      covariateRef$analysisId <- analysisId
+      return(covariateRef)
     } else {
       return(data.frame(analysisId = analysisId, covariateId = 1, covariateName = "", covariateAnalysisId = 1)[-1])
     }
