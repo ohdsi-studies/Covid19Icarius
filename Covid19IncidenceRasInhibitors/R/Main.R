@@ -18,7 +18,7 @@
 #'
 #' @details
 #' This function executes the Covid19IncidenceRasInhibitors Study.
-#' 
+#'
 #' The \code{createCohorts}, \code{synthesizePositiveControls}, \code{runAnalyses}, and \code{runDiagnostics} arguments
 #' are intended to be used to run parts of the full study at a time, but none of the parts are considered to be optional.
 #'
@@ -48,11 +48,12 @@
 #' @param synthesizePositiveControls  Should positive controls be synthesized?
 #' @param runAnalyses          Perform the cohort method analyses?
 #' @param runDiagnostics       Compute study diagnostics?
-#' @param packageResults       Should results be packaged for later sharing?     
+#' @param packageResults       Should results be packaged for later sharing?
 #' @param maxCores             How many parallel cores should be used? If more cores are made available
 #'                             this can speed up the analyses.
-#' @param minCellCount         The minimum number of subjects contributing to a count before it can be included 
+#' @param minCellCount         The minimum number of subjects contributing to a count before it can be included
 #'                             in packaged results.
+#' @param makePlots
 #'
 #' @examples
 #' \dontrun{
@@ -86,17 +87,18 @@ execute <- function(connectionDetails,
                     runDiagnostics = TRUE,
                     packageResults = TRUE,
                     maxCores = 4,
-                    minCellCount= 5) {
+                    minCellCount= 5,
+                    makePlots = TRUE) {
   if (!file.exists(outputFolder))
     dir.create(outputFolder, recursive = TRUE)
   if (!is.null(getOption("fftempdir")) && !file.exists(getOption("fftempdir"))) {
     warning("fftempdir '", getOption("fftempdir"), "' not found. Attempting to create folder")
     dir.create(getOption("fftempdir"), recursive = TRUE)
   }
-  
+
   ParallelLogger::addDefaultFileLogger(file.path(outputFolder, "log.txt"))
   on.exit(ParallelLogger::unregisterLogger("DEFAULT"))
-  
+
   if (createCohorts) {
     ParallelLogger::logInfo("Creating exposure and outcome cohorts")
     createCohorts(connectionDetails = connectionDetails,
@@ -106,7 +108,7 @@ execute <- function(connectionDetails,
                   oracleTempSchema = oracleTempSchema,
                   outputFolder = outputFolder)
   }
-  
+
   # Set doPositiveControlSynthesis to FALSE if you don't want to use synthetic positive controls:
   doPositiveControlSynthesis = FALSE
   if (doPositiveControlSynthesis) {
@@ -121,7 +123,7 @@ execute <- function(connectionDetails,
                                  maxCores = maxCores)
     }
   }
-  
+
   if (runAnalyses) {
     ParallelLogger::logInfo("Running CohortMethod analyses")
     runCohortMethod(connectionDetails = connectionDetails,
@@ -132,13 +134,14 @@ execute <- function(connectionDetails,
                     outputFolder = outputFolder,
                     maxCores = maxCores)
   }
-  
+
   if (runDiagnostics) {
     ParallelLogger::logInfo("Running diagnostics")
     generateDiagnostics(outputFolder = outputFolder,
+                        makePlots = makePlots,
                         maxCores = maxCores)
   }
-  
+
   if (packageResults) {
     ParallelLogger::logInfo("Packaging results")
     exportResults(outputFolder = outputFolder,
@@ -148,6 +151,6 @@ execute <- function(connectionDetails,
                   minCellCount = minCellCount,
                   maxCores = maxCores)
   }
-  
+
   invisible(NULL)
 }

@@ -53,6 +53,7 @@
 #'                             this can speed up the analyses.
 #' @param minCellCount         The minimum number of subjects contributing to a count before it can be included
 #'                             in packaged results.
+#' @param makePlots
 #'
 #' @examples
 #' \dontrun{
@@ -86,7 +87,8 @@ execute <- function(connectionDetails,
                     runDiagnostics = TRUE,
                     packageResults = TRUE,
                     maxCores = 4,
-                    minCellCount= 5) {
+                    minCellCount= 5,
+                    makePlots = TRUE) {
   if (!file.exists(outputFolder))
     dir.create(outputFolder, recursive = TRUE)
   if (!is.null(getOption("fftempdir")) && !file.exists(getOption("fftempdir"))) {
@@ -136,6 +138,7 @@ execute <- function(connectionDetails,
   if (runDiagnostics) {
     ParallelLogger::logInfo("Running diagnostics")
     generateDiagnostics(outputFolder = outputFolder,
+                        makePlots = makePlots,
                         maxCores = maxCores)
   }
 

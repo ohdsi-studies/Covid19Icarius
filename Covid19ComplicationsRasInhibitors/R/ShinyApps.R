@@ -57,7 +57,12 @@ prepareForEvidenceExplorer <- function(resultsZipFile, dataFolder) {
 
   processFile <- function(file) {
     tableName <- gsub(".csv$", "", file)
-    table <- readr::read_csv(file.path(tempFolder, file), col_types = readr::cols())
+    if (file == "cohort_method_result.csv") {
+      colTypes <- "dddddddddddddddddddddddc"
+    } else {
+      colTypes <- readr::cols()
+    }
+    table <- readr::read_csv(file.path(tempFolder, file), col_types = colTypes)
     if (tableName %in% splittableTables) {
       subsets <- split(table, list(table$target_id, table$comparator_id))
       plyr::l_ply(subsets, processSubet, tableName = tableName)

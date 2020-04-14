@@ -110,11 +110,15 @@ exportAnalyses <- function(outputFolder, exportFolder) {
   getCovariateAnalyses <- function(cmAnalysis) {
     cmDataFolder <- reference$cohortMethodDataFolder[reference$analysisId == cmAnalysis$analysisId][1]
     cmData <- CohortMethod::loadCohortMethodData(file.path(outputFolder, "cmOutput", cmDataFolder), readOnly = TRUE)
+    if (!is.null(cmData$analysisRef)) {
     covariateAnalysis <- ff::as.ram(cmData$analysisRef)
     covariateAnalysis <- covariateAnalysis[, c("analysisId", "analysisName")]
     colnames(covariateAnalysis) <- c("covariate_analysis_id", "covariate_analysis_name")
     covariateAnalysis$analysis_id <- cmAnalysis$analysisId
     return(covariateAnalysis)
+    } else {
+      return(data.frame(covariate_analysis_id = 1, covariate_analysis_name = "")[-1,])
+    }
   }
   covariateAnalysis <- lapply(cmAnalysisList, getCovariateAnalyses)
   covariateAnalysis <- do.call("rbind", covariateAnalysis)
@@ -329,13 +333,17 @@ exportMetadata <- function(outputFolder,
   ParallelLogger::logInfo("- covariate table")
   reference <- readRDS(file.path(outputFolder, "cmOutput", "outcomeModelReference.rds"))
   getCovariates <- function(analysisId) {
-    cmDataFolder <- reference$cohortMethodDataFolder[analysisId][1]
+    cmDataFolder <- reference$cohortMethodDataFolder[reference$analysisId == analysisId][1]
     cmData <- CohortMethod::loadCohortMethodData(file.path(outputFolder, "cmOutput", cmDataFolder), readOnly = TRUE)
     covariateRef <- ff::as.ram(cmData$covariateRef)
-    covariateRef <- covariateRef[, c("covariateId", "covariateName", "analysisId")]
-    colnames(covariateRef) <- c("covariateId", "covariateName", "covariateAnalysisId")
-    covariateRef$analysisId <- analysisId
-    return(covariateRef)
+    if (nrow(covariateRef) > 0) {
+      covariateRef <- covariateRef[, c("covariateId", "covariateName", "analysisId")]
+      colnames(covariateRef) <- c("covariateId", "covariateName", "covariateAnalysisId")
+      covariateRef$analysisId <- analysisId
+      return(covariateRef)
+    } else {
+      return(data.frame(analysisId = analysisId, covariateId = 1, covariateName = "", covariateAnalysisId = 1)[-1])
+    }
   }
   covariates <- lapply(unique(reference$analysisId), getCovariates)
   covariates <- do.call("rbind", covariates)
@@ -435,7 +443,9 @@ exportMainResults <- function(outputFolder,
                                           calibrate,
                                           allControls = allControls)
   ParallelLogger::stopCluster(cluster)
+  mainEffects <- do.call("rbind", subsets)[, -c(2,4,6,8,9:20)]
   rm(subsets)  # Free up memory
+
   results <- do.call("rbind", results)
   results$databaseId <- databaseId
   results <- enforceMinCellValue(results, "targetSubjects", minCellCount)
@@ -446,6 +456,37 @@ exportMainResults <- function(outputFolder,
   fileName <- file.path(exportFolder, "cohort_method_result.csv")
   write.csv(results, fileName, row.names = FALSE)
   rm(results)  # Free up memory
+  
+  # Handle main / interaction effects
+  if (ncol(mainEffects) > 4) {
+    ParallelLogger::logInfo("- cm_main_effect_result table")
+    keyCol <- "estimate"
+    valueCol <- "value"
+    gatherCols <- names(mainEffects)[5:length(names(mainEffects))]
+    
+    longTable <- tidyr::gather_(mainEffects, keyCol, valueCol, gatherCols)
+    longTable$label <- as.numeric(sub(".*I", "", longTable$estimate))
+    longTable$estimate <- sub("I.*", "", longTable$estimate)
+    uniqueCovariates <- unique(longTable$label)
+    mainEffects <- tidyr::spread(longTable, estimate, value)
+    mainEffects <- mainEffects[!is.na(mainEffects$logRr),]
+    mainEffects <- data.frame(
+      databaseId = databaseId,
+      analysisId = mainEffects$analysisId,
+      targetId = mainEffects$targetId,
+      comparatorId = mainEffects$comparatorId,
+      outcomeId = mainEffects$outcomeId,
+      covariateId = mainEffects$label,
+      coefficient = mainEffects$logRr,
+      ci95lb = log(mainEffects$ci95lb),
+      ci95ub = log(mainEffects$ci95ub),
+      se = mainEffects$seLogRr
+    )
+    colnames(mainEffects) <- SqlRender::camelCaseToSnakeCase(colnames(mainEffects))
+    fileName <- file.path(exportFolder, "cm_main_effects_result.csv")
+    write.csv(mainEffects, fileName, row.names = FALSE)
+    rm(mainEffects)  # Free up memory
+  }
 
   ParallelLogger::logInfo("- cm_interaction_result table")
   reference <- readRDS(file.path(outputFolder, "cmOutput", "outcomeModelReference.rds"))
@@ -636,6 +677,7 @@ exportDiagnostics <- function(outputFolder,
   balanceFolder <- file.path(outputFolder, "balance")
   files <- list.files(balanceFolder, pattern = "bal_.*.rds", full.names = TRUE)
   pb <- txtProgressBar(style = 3)
+  if (length(files) > 0) {
   for (i in 1:length(files)) {
     ids <- gsub("^.*bal_t", "", files[i])
     targetId <- as.numeric(gsub("_c.*", "", ids))
@@ -737,6 +779,7 @@ exportDiagnostics <- function(outputFolder,
     first <- FALSE
     setTxtProgressBar(pb, i/length(files))
   }
+  }
   close(pb)
 
   ParallelLogger::logInfo("- preference_score_dist table")
@@ -753,8 +796,14 @@ exportDiagnostics <- function(outputFolder,
       if (min(ps$propensityScore) < max(ps$propensityScore)) {
         ps <- CohortMethod:::computePreferenceScore(ps)
 
-        d1 <- density(ps$preferenceScore[ps$treatment == 1], from = 0, to = 1, n = 100)
-        d0 <- density(ps$preferenceScore[ps$treatment == 0], from = 0, to = 1, n = 100)
+        pop1 <- ps$preferenceScore[ps$treatment == 1]
+        pop0 <- ps$preferenceScore[ps$treatment == 0]
+        
+        bw1 <- ifelse(length(pop1) > 1, "nrd0", 0.1)
+        bw0 <- ifelse(length(pop0) > 1, "nrd0", 0.1)
+        
+        d1 <- density(pop1, bw = bw1, from = 0, to = 1, n = 100)
+        d0 <- density(pop0, bw = bw0, from = 0, to = 1, n = 100)
 
         result <- data.frame(databaseId = databaseId,
                              targetId = row$targetId,
@@ -869,9 +918,11 @@ exportDiagnostics <- function(outputFolder,
   }
   outputFile <- file.path(exportFolder, "kaplan_meier_dist.csv")
   files <- list.files(tempFolder, "km_.*.rds", full.names = TRUE)
-  saveKmToCsv(files[1], first = TRUE, outputFile = outputFile)
-  if (length(files) > 1) {
-    plyr::l_ply(files[2:length(files)], saveKmToCsv, first = FALSE, outputFile = outputFile, .progress = "text")
+  if (length(files) > 0) {
+    saveKmToCsv(files[1], first = TRUE, outputFile = outputFile)
+    if (length(files) > 1) {
+      plyr::l_ply(files[2:length(files)], saveKmToCsv, first = FALSE, outputFile = outputFile, .progress = "text")
+    }
   }
   unlink(tempFolder, recursive = TRUE)
 }
