@@ -13,3 +13,5 @@ atlasId,atlasName,cohortId,name
 145,"[COVID ACE ID40 v1] Prevalent users of thiazide/thiazide-like diuretics (monotherapy), with hypertension",145,COVID_ACE_ID40
 146,"[COVID ACE ID37 v1] Prevalent users of dCCB (monotherapy), with hypertension",146,COVID_ACE_ID37
 147,"[COVID ACE ID34 v1] Prevalent users of ACE inhibitors or ARBs (monotherapy), with hypertension",147,COVID_ACE_ID34
+148,"[COVID ACE ID65 v1] Prevalent users of dCCBs or thiazide/thiazide-like duretics (monotherapy), with hypertension",148,COVID_ACE_ID65
+149,"[COVID ACE ID66 v1] Prevalent users of dCCBs or thiazide/thiazide-like duretics (including non-monotherapy), with hypertension",149,COVID_ACE_ID66
