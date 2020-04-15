@@ -402,7 +402,7 @@
   },
   {
     "analysisId": 4,
-    "description": "Full PS stratified",
+    "description": "Min PS matched",
     "getDbCohortMethodDataArgs": {
       "studyStartDate": "",
       "studyEndDate": "",
@@ -469,16 +469,17 @@
     },
     "createPs": true,
     "createPsArgs": {
+      "includeCovariateIds": [3003, 4003, 5003, 6003, 7003, 8003, 9003, 10003, 11003, 12003, 13003, 14003, 15003, 16003, 17003, 18003, 19003, 20003, 21003, 22003, 1007, 2007, 3007, 4007, 5007, 6007, 7007, 8007, 9007, 10007, 11007, 12007, 8507001, 8532001],
       "maxCohortSizeForFitting": 250000,
       "errorOnHighCorrelation": true,
       "stopOnError": false,
       "prior": {
-        "priorType": "laplace",
+        "priorType": "normal",
         "variance": 1,
         "exclude": null,
         "graph": null,
         "neighborhood": null,
-        "useCrossValidation": true,
+        "useCrossValidation": false,
         "forceIntercept": false,
         "attr_class": "cyclopsPrior"
       },
@@ -510,14 +511,15 @@
     },
     "trimByPs": false,
     "trimByPsToEquipoise": false,
-    "matchOnPs": false,
-    "matchOnPsAndCovariates": false,
-    "stratifyByPs": true,
-    "stratifyByPsArgs": {
-      "numberOfStrata": 5,
-      "baseSelection": "all",
+    "matchOnPs": true,
+    "matchOnPsArgs": {
+      "caliper": 0.2,
+      "caliperScale": "standardized logit",
+      "maxRatio": 1,
       "attr_class": "args"
     },
+    "matchOnPsAndCovariates": false,
+    "stratifyByPs": false,
     "stratifyByPsAndCovariates": false,
     "fitOutcomeModel": true,
     "fitOutcomeModelArgs": {

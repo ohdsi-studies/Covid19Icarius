@@ -149,7 +149,7 @@ cmAnalysis4 <- CohortMethod::createCmAnalysis(analysisId = 4,
                                               createPs = TRUE,
                                               createPsArgs = createMinPsArgs,
                                               matchOnPs = TRUE,
-                                              matchOnPsArgs = matchOnPsArgs,
+                                              matchOnPsArgs = matchByPsArgs,
                                               fitOutcomeModel = TRUE,
                                               fitOutcomeModelArgs = fitPsOutcomeModelArgs)
 
