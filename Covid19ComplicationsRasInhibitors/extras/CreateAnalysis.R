@@ -25,7 +25,8 @@ htnIngredientConceptIds <- c(1319998,1317967,991382,1332418,1314002,40235485,133
 
 firstExposureOnly <- FALSE # TODO Reconfirm
 studyStartDate <- "" # "20200101" # TODO Reconfirm
-fixedVariance <- 1 # TODO confirm
+fixedPsVariance <- 1 # TODO confirm
+fixedOutcomeVariance <- 4
 riskWindowEnd <- 30
 
 covarSettingsWithHtnMeds <- FeatureExtraction::createDefaultCovariateSettings()
@@ -67,7 +68,7 @@ createMinPsArgs <- CohortMethod::createCreatePsArgs(
   stopOnError = FALSE,
   includeCovariateIds = makeCovariateIdsToInclude(),
   prior = Cyclops::createPrior(priorType = "normal",
-                               variance = 10,
+                               variance = fixedPsVariance,
                                useCrossValidation = FALSE))
 
 createLargeScalePsArgs <- CohortMethod::createCreatePsArgs(
@@ -78,7 +79,7 @@ createLargeScalePsArgs <- CohortMethod::createCreatePsArgs(
 createLargeScalePsArgsNoCv <- CohortMethod::createCreatePsArgs(
   stopOnError = FALSE,
   prior = Cyclops::createPrior(priorType = "laplace",
-                               variance = fixedVariance,
+                               variance = fixedPsVariance,
                                useCrossValidation = FALSE))
 
 fitUnadjustedOutcomeModelArgs <- CohortMethod::createFitOutcomeModelArgs(
@@ -88,12 +89,12 @@ fitUnadjustedOutcomeModelArgs <- CohortMethod::createFitOutcomeModelArgs(
 
 fitAdjustedOutcomeModelArgs <- CohortMethod::createFitOutcomeModelArgs(
   modelType = "logistic",
-  useCovariates = TRUE, # TODO Is this correct?
+  useCovariates = TRUE,
   includeCovariateIds = makeCovariateIdsToInclude(),
   stratified = FALSE,
   prior = Cyclops::createPrior(priorType = "normal",
-                      variance = fixedVariance,
-                      useCrossValidation = FALSE))
+                               variance = fixedOutcomeVariance,
+                               useCrossValidation = FALSE))
 
 fitPsOutcomeModelArgs <- CohortMethod::createFitOutcomeModelArgs(
   modelType = "logistic",
@@ -101,6 +102,10 @@ fitPsOutcomeModelArgs <- CohortMethod::createFitOutcomeModelArgs(
   stratified = TRUE)
 
 stratifyByPsArgs <- CohortMethod::createStratifyByPsArgs(numberOfStrata = 5)
+
+matchByPsArgs <- CohortMethod::createMatchOnPsArgs(
+  maxRatio = 1 # TODO Allow for multiple matches
+)
 
 # Analysis 1 -- crude/adjusted
 
@@ -135,9 +140,22 @@ cmAnalysis3 <- CohortMethod::createCmAnalysis(analysisId = 3,
                                               fitOutcomeModel = TRUE,
                                               fitOutcomeModelArgs = fitPsOutcomeModelArgs)
 
-# Analysis 4 -- Large-scale PS stratification
+# Analysis 4 -- minimal PS matching
 
 cmAnalysis4 <- CohortMethod::createCmAnalysis(analysisId = 4,
+                                              description = "Min PS matched",
+                                              getDbCohortMethodDataArgs = getDbCmDataArgsWithoutHtnMeds,
+                                              createStudyPopArgs = createStudyPopArgs,
+                                              createPs = TRUE,
+                                              createPsArgs = createMinPsArgs,
+                                              matchOnPs = TRUE,
+                                              matchOnPsArgs = matchOnPsArgs,
+                                              fitOutcomeModel = TRUE,
+                                              fitOutcomeModelArgs = fitPsOutcomeModelArgs)
+
+# Analysis 5 -- Large-scale PS stratification
+
+cmAnalysis5 <- CohortMethod::createCmAnalysis(analysisId = 5,
                                               description = "Full PS stratified",
                                               getDbCohortMethodDataArgs = getDbCmDataArgsWithoutHtnMeds,
                                               createStudyPopArgs = createStudyPopArgs,
@@ -148,8 +166,21 @@ cmAnalysis4 <- CohortMethod::createCmAnalysis(analysisId = 4,
                                               fitOutcomeModel = TRUE,
                                               fitOutcomeModelArgs = fitPsOutcomeModelArgs)
 
-cmAnalysisList <- list(cmAnalysis1,cmAnalysis2,cmAnalysis3,cmAnalysis4)
+# Analysis 6 -- Large-scale PS stratification, no cross-validation
 
-CohortMethod::saveCmAnalysisList(cmAnalysisList, "cmAnalysisList.json.test")
+cmAnalysis6 <- CohortMethod::createCmAnalysis(analysisId = 6,
+                                              description = "Full PS stratified, no CV",
+                                              getDbCohortMethodDataArgs = getDbCmDataArgsWithoutHtnMeds,
+                                              createStudyPopArgs = createStudyPopArgs,
+                                              createPs = TRUE,
+                                              createPsArgs = createLargeScalePsArgsNoCv,
+                                              stratifyByPs = TRUE,
+                                              stratifyByPsArgs = stratifyByPsArgs,
+                                              fitOutcomeModel = TRUE,
+                                              fitOutcomeModelArgs = fitPsOutcomeModelArgs)
+
+cmAnalysisList <- list(cmAnalysis1,cmAnalysis2,cmAnalysis3,cmAnalysis4,cmAnalysis5,cmAnalysis6)
+
+CohortMethod::saveCmAnalysisList(cmAnalysisList, "cmAnalysisList.json")
 
 
