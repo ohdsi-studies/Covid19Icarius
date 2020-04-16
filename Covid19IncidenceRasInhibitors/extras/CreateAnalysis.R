@@ -159,7 +159,7 @@ cmAnalysis5 <- CohortMethod::createCmAnalysis(analysisId = 5,
 # Analysis 6 -- Large-scale PS matching
 
 cmAnalysis6 <- CohortMethod::createCmAnalysis(analysisId = 6,
-                                              description = "Full PS match",
+                                              description = "Full PS matched",
                                               getDbCohortMethodDataArgs = getDbCmDataArgsWithoutHtnMeds,
                                               createStudyPopArgs = createStudyPopArgs,
                                               createPs = TRUE,
