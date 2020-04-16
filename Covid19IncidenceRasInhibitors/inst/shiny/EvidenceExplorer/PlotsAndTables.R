@@ -610,7 +610,7 @@ plotScatter <- function(controlResults) {
                                       limits = log(c(0.1, 10)),
                                       breaks = log(breaks),
                                       labels = breaks) +
-          ggplot2::scale_y_continuous("Standard Error", limits = c(0, 1)) +
+          ggplot2::scale_y_continuous("Standard Error", limits = c(0, 2)) +
           ggplot2::facet_grid(yGroup ~ Group) +
           ggplot2::theme(panel.grid.minor = ggplot2::element_blank(),
                          panel.background = ggplot2::element_blank(),

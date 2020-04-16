@@ -3,7 +3,9 @@
 controlFile <- system.file("settings", "NegativeControls.csv", package = "Covid19IncidenceRasInhibitors")
 controlData <- unique(read.csv(controlFile)[, c("outcomeId", "outcomeName", "type")])
 controlId <- controlData$outcomeId
-controlName <- controlData$outcomeName
+controlName <- as.character(controlData$outcomeName)
+which <- grepl(",", controlName)
+controlName[which] <- paste0("\"", controlName[which], "\"")
 
 tcs <- read.csv(system.file("settings", "TcosOfInterest.csv", package = "Covid19IncidenceRasInhibitors"))[, c("targetId", "comparatorId")]
 tcs.list <- split(tcs, seq(nrow(tcs)))
