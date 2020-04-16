@@ -112,7 +112,7 @@ FROM
   JOIN #Codesets codesets on ((co.condition_concept_id = codesets.concept_id and codesets.codeset_id = 0))
 ) C
 
-
+WHERE C.condition_start_date > DATEFROMPARTS(2019, 12, 01)
 -- End Condition Occurrence Criteria
 
 UNION ALL
@@ -127,7 +127,7 @@ FROM
   JOIN #Codesets codesets on ((co.condition_source_concept_id = codesets.concept_id and codesets.codeset_id = 3))
 ) C
 
-
+WHERE C.condition_start_date > DATEFROMPARTS(2019, 12, 01)
 -- End Condition Occurrence Criteria
 
 UNION ALL
@@ -142,7 +142,7 @@ from
 JOIN #Codesets codesets on ((m.measurement_concept_id = codesets.concept_id and codesets.codeset_id = 1))
 ) C
 
-
+WHERE C.measurement_date > DATEFROMPARTS(2019, 12, 01)
 -- End Measurement Criteria
 
 UNION ALL
@@ -157,7 +157,8 @@ from
 JOIN #Codesets codesets on ((m.measurement_concept_id = codesets.concept_id and codesets.codeset_id = 2))
 ) C
 
-WHERE C.value_as_concept_id in (4126681,45877985,9191,45884084,4181412,45879438)
+WHERE C.measurement_date > DATEFROMPARTS(2019, 12, 01)
+AND C.value_as_concept_id in (4126681,45877985,9191,45884084,4181412,45879438)
 -- End Measurement Criteria
 
 UNION ALL
@@ -172,7 +173,8 @@ from
 JOIN #Codesets codesets on ((o.observation_concept_id = codesets.concept_id and codesets.codeset_id = 2))
 ) C
 
-WHERE C.value_as_concept_id in (45879438,4126681,45877985,9191,45884084,4181412)
+WHERE  C.observation_date > DATEFROMPARTS(2019, 12, 01)
+AND C.value_as_concept_id in (45879438,4126681,45877985,9191,45884084,4181412)
 -- End Observation Criteria
 
 UNION ALL
@@ -187,7 +189,7 @@ from
 JOIN #Codesets codesets on ((o.observation_source_concept_id = codesets.concept_id and codesets.codeset_id = 3))
 ) C
 
-
+WHERE C.observation_date > DATEFROMPARTS(2019, 12, 01)
 -- End Observation Criteria
 
   ) E
