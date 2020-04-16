@@ -1,23 +1,23 @@
-atlasId,atlasName,cohortId,name
-148,"[COVID ACE ID41 v1] Prevalent users of ACE inhibitors (including non-monotherapy), hospitalized with COVID-19, history of hypertension",148,COVID_ACE_ID41
-149,"[COVID ACE ID42 v1] Prevalent users of ARBs (including non-monotherapy), hospitalized with COVID-19, history of hypertension",149,COVID_ACE_ID42
-121,[COVID ID27 V1] Hospitalizations with pneumonia or ARDS or sepsis or AKI requiring intensive services or resulting in death in 30d,121,COVID_ID27
-91,[LEGEND HTN] Total cardiovascular disease events,91,LEGEND_HTN_Total_cardiovascular_disease_events
-151,"[COVID ACE ID43 v1] Prevalent users of thiazide/thiazide-like duretics (including non-monotherapy), hospitalized with COVID-19, history of hypertension",151,COVID_ACE_ID43
-152,"[COVID ACE ID44 v1] Prevalent users of dCCBs (including non-monotherapy), hospitalized with COVID-19, history of hypertension",152,COVID_ACE_ID44
-153,"[COVID ACE ID45 v1] Prevalent users of ACE inhibitors or ARBs (including non-monotherapy), hospitalized with COVID-19, history of hypertension",153,COVID_ACE_ID45
-154,"[COVID ACE ID56 v1] Prevalent users of ACE inhibitors (monotherapy), hospitalized with COVID-19, history of hypertension",154,COVID_ACE_ID56
-155,"[COVID ACE ID57 v1] Prevalent users of ARBs (monotherapy), hospitalized with COVID-19, history of hypertension",155,COVID_ACE_ID57
-156,"[COVID ACE ID59 v1] Prevalent users of dCCBs (monotherapy), hospitalized with COVID-19, history of hypertension",156,COVID_ACE_ID59
-157,"[COVID ACE ID58 v1] Prevalent users of thiazide/thiazide-like duretics (monotherapy), hospitalized with COVID-19, history of hypertension",157,COVID_ACE_ID58
-158,"[COVID ACE ID60 v1] Prevalent users of ACE inhibitors or ARBs (monotherapy), hospitalized with COVID-19, history of hypertension",158,COVID_ACE_ID60
-159,"[COVID ACE ID51 v1] Prevalent users of ACE inhibitors (monotherapy) with COVID-19, history of hypertension",159,COVID_ACE_ID51
-169,"[COVID ACE ID52 v1] Prevalent users of ARBs (monotherapy) with COVID-19, history of hypertension",169,COVID_ACE_ID52
-161,"[COVID ACE ID54 v1] Prevalent users of dCCBs (monotherapy) with COVID-19, history of hypertension",161,COVID_ACE_ID54
-162,"[COVID ACE ID53 v1] Prevalent users of thiazide/thiazide-like diuretics (monotherapy) with COVID-19, history of hypertension",162,COVID_ACE_ID53
-163,"[COVID ACE ID55 v1] Prevalent users of ACE inhibitors or ARBs (monotherapy) with COVID-19, history of hypertension",163,COVID_ACE_ID55
-164,"[COVID ACE ID46 v1] Prevalent users of ACE inhibitors (including non-monotherapy) with COVID-19, history of hypertension",164,COVID_ACE_ID46
-165,"[COVID ACE ID47 v1] Prevalent users of ARBs (including non-monotherapy) with COVID-19, history of hypertension",165,COVID_ACE_ID47
-166,"[COVID ACE ID49 v1] Prevalent users of dCCBs (including non-monotherapy) with COVID-19, history of hypertension",166,COVID_ACE_ID49
-167,"[COVID ACE ID48 v1] Prevalent users of thiazide/thiazide-like duretics (including non-monotherapy) with COVID-19, history of hypertension",167,COVID_ACE_ID48
-168,"[COVID ACE ID50 v1] Prevalent users of ACE inhibitors or ARBs (including non-monotherapy) with COVID-19, history of hypertension",168,COVID_ACE_ID50
+atlasId,atlasName,cohortId,name,shinyName,shinyOrder
+148,"[COVID ACE ID41 v1] Prevalent users of ACE inhibitors (including non-monotherapy), hospitalized with COVID-19, history of hypertension",148,COVID_ACE_ID41,"ACE +combo hospitalized",31
+149,"[COVID ACE ID42 v1] Prevalent users of ARBs (including non-monotherapy), hospitalized with COVID-19, history of hypertension",149,COVID_ACE_ID42,"ARB +combo hospitalized",32
+121,[COVID ID27 V1] Hospitalizations with pneumonia or ARDS or sepsis or AKI requiring intensive services or resulting in death in 30d,121,COVID_ID27,"Intensive services",1
+91,[LEGEND HTN] Total cardiovascular disease events,91,LEGEND_HTN_Total_cardiovascular_disease_events,"MACE",2
+151,"[COVID ACE ID43 v1] Prevalent users of thiazide/thiazide-like duretics (including non-monotherapy), hospitalized with COVID-19, history of hypertension",151,COVID_ACE_ID43,"THZ +combo hospitalized",35
+152,"[COVID ACE ID44 v1] Prevalent users of dCCBs (including non-monotherapy), hospitalized with COVID-19, history of hypertension",152,COVID_ACE_ID44,"CCB +comb hospitalized",34
+153,"[COVID ACE ID45 v1] Prevalent users of ACE inhibitors or ARBs (including non-monotherapy), hospitalized with COVID-19, history of hypertension",153,COVID_ACE_ID45,"ACE/ARB +comb hospitalized",33
+154,"[COVID ACE ID56 v1] Prevalent users of ACE inhibitors (monotherapy), hospitalized with COVID-19, history of hypertension",154,COVID_ACE_ID56,"ACE mono hospitalized",21
+155,"[COVID ACE ID57 v1] Prevalent users of ARBs (monotherapy), hospitalized with COVID-19, history of hypertension",155,COVID_ACE_ID57,"ARB mono hospitalized",22
+156,"[COVID ACE ID59 v1] Prevalent users of dCCBs (monotherapy), hospitalized with COVID-19, history of hypertension",156,COVID_ACE_ID59,"CCB mono hospitalized",24
+157,"[COVID ACE ID58 v1] Prevalent users of thiazide/thiazide-like duretics (monotherapy), hospitalized with COVID-19, history of hypertension",157,COVID_ACE_ID58,"THZ mono hospitalized",25
+158,"[COVID ACE ID60 v1] Prevalent users of ACE inhibitors or ARBs (monotherapy), hospitalized with COVID-19, history of hypertension",158,COVID_ACE_ID60,"ACE/ARB mono hospitalized",23
+159,"[COVID ACE ID51 v1] Prevalent users of ACE inhibitors (monotherapy) with COVID-19, history of hypertension",159,COVID_ACE_ID51,"ACE mono",1
+169,"[COVID ACE ID52 v1] Prevalent users of ARBs (monotherapy) with COVID-19, history of hypertension",169,COVID_ACE_ID52,"ARB mono",2
+161,"[COVID ACE ID54 v1] Prevalent users of dCCBs (monotherapy) with COVID-19, history of hypertension",161,COVID_ACE_ID54,"CCB mono",4
+162,"[COVID ACE ID53 v1] Prevalent users of thiazide/thiazide-like diuretics (monotherapy) with COVID-19, history of hypertension",162,COVID_ACE_ID53,"THZ mono",5
+163,"[COVID ACE ID55 v1] Prevalent users of ACE inhibitors or ARBs (monotherapy) with COVID-19, history of hypertension",163,COVID_ACE_ID55,"ACE/ARB mono",3
+164,"[COVID ACE ID46 v1] Prevalent users of ACE inhibitors (including non-monotherapy) with COVID-19, history of hypertension",164,COVID_ACE_ID46,"ACE +combo",11
+165,"[COVID ACE ID47 v1] Prevalent users of ARBs (including non-monotherapy) with COVID-19, history of hypertension",165,COVID_ACE_ID47,"ARB +combo",12
+166,"[COVID ACE ID49 v1] Prevalent users of dCCBs (including non-monotherapy) with COVID-19, history of hypertension",166,COVID_ACE_ID49,"CCB +combo",14
+167,"[COVID ACE ID48 v1] Prevalent users of thiazide/thiazide-like duretics (including non-monotherapy) with COVID-19, history of hypertension",167,COVID_ACE_ID48,"THZ +combo",15
+168,"[COVID ACE ID50 v1] Prevalent users of ACE inhibitors or ARBs (including non-monotherapy) with COVID-19, history of hypertension",168,COVID_ACE_ID50,"ACE/ARB +combo",13
