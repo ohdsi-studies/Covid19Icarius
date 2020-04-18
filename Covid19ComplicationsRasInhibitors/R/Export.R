@@ -111,11 +111,11 @@ exportAnalyses <- function(outputFolder, exportFolder) {
     cmDataFolder <- reference$cohortMethodDataFolder[reference$analysisId == cmAnalysis$analysisId][1]
     cmData <- CohortMethod::loadCohortMethodData(file.path(outputFolder, "cmOutput", cmDataFolder), readOnly = TRUE)
     if (!is.null(cmData$analysisRef)) {
-    covariateAnalysis <- ff::as.ram(cmData$analysisRef)
-    covariateAnalysis <- covariateAnalysis[, c("analysisId", "analysisName")]
-    colnames(covariateAnalysis) <- c("covariate_analysis_id", "covariate_analysis_name")
-    covariateAnalysis$analysis_id <- cmAnalysis$analysisId
-    return(covariateAnalysis)
+      covariateAnalysis <- ff::as.ram(cmData$analysisRef)
+      covariateAnalysis <- covariateAnalysis[, c("analysisId", "analysisName")]
+      colnames(covariateAnalysis) <- c("covariate_analysis_id", "covariate_analysis_name")
+      covariateAnalysis$analysis_id <- cmAnalysis$analysisId
+      return(covariateAnalysis)
     } else {
       return(data.frame(covariate_analysis_id = 1, covariate_analysis_name = "")[-1,])
     }
@@ -456,14 +456,14 @@ exportMainResults <- function(outputFolder,
   fileName <- file.path(exportFolder, "cohort_method_result.csv")
   write.csv(results, fileName, row.names = FALSE)
   rm(results)  # Free up memory
-  
+
   # Handle main / interaction effects
   if (ncol(mainEffects) > 4) {
     ParallelLogger::logInfo("- cm_main_effect_result table")
     keyCol <- "estimate"
     valueCol <- "value"
     gatherCols <- names(mainEffects)[5:length(names(mainEffects))]
-    
+
     longTable <- tidyr::gather_(mainEffects, keyCol, valueCol, gatherCols)
     longTable$label <- as.numeric(sub(".*I", "", longTable$estimate))
     longTable$estimate <- sub("I.*", "", longTable$estimate)
@@ -678,107 +678,144 @@ exportDiagnostics <- function(outputFolder,
   files <- list.files(balanceFolder, pattern = "bal_.*.rds", full.names = TRUE)
   pb <- txtProgressBar(style = 3)
   if (length(files) > 0) {
-  for (i in 1:length(files)) {
-    ids <- gsub("^.*bal_t", "", files[i])
-    targetId <- as.numeric(gsub("_c.*", "", ids))
-    ids <- gsub("^.*_c", "", ids)
-    comparatorId <- as.numeric(gsub("_[aso].*$", "", ids))
-    if (grepl("_s", ids)) {
-      subgroupId <- as.numeric(gsub("^.*_s", "", gsub("_a[0-9]*.rds", "", ids)))
-    } else {
-      subgroupId <- NA
-    }
-    if (grepl("_o", ids)) {
-      outcomeId <- as.numeric(gsub("^.*_o", "", gsub("_a[0-9]*.rds", "", ids)))
-    } else {
-      outcomeId <- NA
-    }
-    ids <- gsub("^.*_a", "", ids)
-    analysisId <- as.numeric(gsub(".rds", "", ids))
-    balance <- readRDS(files[i])
-    inferredTargetBeforeSize <- mean(balance$beforeMatchingSumTarget/balance$beforeMatchingMeanTarget,
-                                     na.rm = TRUE)
-    inferredComparatorBeforeSize <- mean(balance$beforeMatchingSumComparator/balance$beforeMatchingMeanComparator,
-                                         na.rm = TRUE)
-    inferredTargetAfterSize <- mean(balance$afterMatchingSumTarget/balance$afterMatchingMeanTarget,
-                                    na.rm = TRUE)
-    inferredComparatorAfterSize <- mean(balance$afterMatchingSumComparator/balance$afterMatchingMeanComparator,
-                                        na.rm = TRUE)
+    for (i in 1:length(files)) {
+      ids <- gsub("^.*bal_t", "", files[i])
+      targetId <- as.numeric(gsub("_c.*", "", ids))
+      ids <- gsub("^.*_c", "", ids)
+      comparatorId <- as.numeric(gsub("_[aso].*$", "", ids))
+      if (grepl("_s", ids)) {
+        subgroupId <- as.numeric(gsub("^.*_s", "", gsub("_a[0-9]*.rds", "", ids)))
+      } else {
+        subgroupId <- NA
+      }
+      if (grepl("_o", ids)) {
+        outcomeId <- as.numeric(gsub("^.*_o", "", gsub("_a[0-9]*.rds", "", ids)))
+      } else {
+        outcomeId <- NA
+      }
+      ids <- gsub("^.*_a", "", ids)
+      analysisId <- as.numeric(gsub(".rds", "", ids))
+      balance <- readRDS(files[i])
+      inferredTargetBeforeSize <- mean(balance$beforeMatchingSumTarget/balance$beforeMatchingMeanTarget,
+                                       na.rm = TRUE)
+      inferredComparatorBeforeSize <- mean(balance$beforeMatchingSumComparator/balance$beforeMatchingMeanComparator,
+                                           na.rm = TRUE)
+      inferredTargetAfterSize <- mean(balance$afterMatchingSumTarget/balance$afterMatchingMeanTarget,
+                                      na.rm = TRUE)
+      inferredComparatorAfterSize <- mean(balance$afterMatchingSumComparator/balance$afterMatchingMeanComparator,
+                                          na.rm = TRUE)
 
-    balance$databaseId <- databaseId
-    balance$targetId <- targetId
-    balance$comparatorId <- comparatorId
-    balance$outcomeId <- outcomeId
-    balance$analysisId <- analysisId
-    balance$interactionCovariateId <- subgroupId
-    balance <- balance[, c("databaseId",
-                           "targetId",
-                           "comparatorId",
-                           "outcomeId",
-                           "analysisId",
-                           "interactionCovariateId",
-                           "covariateId",
-                           "beforeMatchingMeanTarget",
-                           "beforeMatchingMeanComparator",
-                           "beforeMatchingStdDiff",
-                           "afterMatchingMeanTarget",
-                           "afterMatchingMeanComparator",
-                           "afterMatchingStdDiff")]
-    colnames(balance) <- c("databaseId",
-                           "targetId",
-                           "comparatorId",
-                           "outcomeId",
-                           "analysisId",
-                           "interactionCovariateId",
-                           "covariateId",
-                           "targetMeanBefore",
-                           "comparatorMeanBefore",
-                           "stdDiffBefore",
-                           "targetMeanAfter",
-                           "comparatorMeanAfter",
-                           "stdDiffAfter")
-    balance$targetMeanBefore[is.na(balance$targetMeanBefore)] <- 0
-    balance$comparatorMeanBefore[is.na(balance$comparatorMeanBefore)] <- 0
-    balance$stdDiffBefore <- round(balance$stdDiffBefore, 3)
-    balance$targetMeanAfter[is.na(balance$targetMeanAfter)] <- 0
-    balance$comparatorMeanAfter[is.na(balance$comparatorMeanAfter)] <- 0
-    balance$stdDiffAfter <- round(balance$stdDiffAfter, 3)
-    balance <- enforceMinCellValue(balance,
-                                   "targetMeanBefore",
-                                   minCellCount/inferredTargetBeforeSize,
-                                   TRUE)
-    balance <- enforceMinCellValue(balance,
-                                   "comparatorMeanBefore",
-                                   minCellCount/inferredComparatorBeforeSize,
-                                   TRUE)
-    balance <- enforceMinCellValue(balance,
-                                   "targetMeanAfter",
-                                   minCellCount/inferredTargetAfterSize,
-                                   TRUE)
-    balance <- enforceMinCellValue(balance,
-                                   "comparatorMeanAfter",
-                                   minCellCount/inferredComparatorAfterSize,
-                                   TRUE)
-    balance$targetMeanBefore <- round(balance$targetMeanBefore, 3)
-    balance$comparatorMeanBefore <- round(balance$comparatorMeanBefore, 3)
-    balance$targetMeanAfter <- round(balance$targetMeanAfter, 3)
-    balance$comparatorMeanAfter <- round(balance$comparatorMeanAfter, 3)
-    balance <- balance[balance$targetMeanBefore != 0 & balance$comparatorMeanBefore != 0 & balance$targetMeanAfter !=
-                         0 & balance$comparatorMeanAfter != 0 & balance$stdDiffBefore != 0 & balance$stdDiffAfter !=
-                         0, ]
-    balance <- balance[!is.na(balance$targetId), ]
-    colnames(balance) <- SqlRender::camelCaseToSnakeCase(colnames(balance))
-    write.table(x = balance,
-                file = fileName,
-                row.names = FALSE,
-                col.names = first,
-                sep = ",",
-                dec = ".",
-                qmethod = "double",
-                append = !first)
-    first <- FALSE
-    setTxtProgressBar(pb, i/length(files))
-  }
+      balance$databaseId <- databaseId
+      balance$targetId <- targetId
+      balance$comparatorId <- comparatorId
+      balance$outcomeId <- outcomeId
+      balance$analysisId <- analysisId
+      balance$interactionCovariateId <- subgroupId
+      balance <- balance[, c("databaseId",
+                             "targetId",
+                             "comparatorId",
+                             "outcomeId",
+                             "analysisId",
+                             "interactionCovariateId",
+                             "covariateId",
+                             "beforeMatchingMeanTarget",
+                             "beforeMatchingMeanComparator",
+                             "beforeMatchingStdDiff",
+                             "afterMatchingMeanTarget",
+                             "afterMatchingMeanComparator",
+                             "afterMatchingStdDiff")]
+      colnames(balance) <- c("databaseId",
+                             "targetId",
+                             "comparatorId",
+                             "outcomeId",
+                             "analysisId",
+                             "interactionCovariateId",
+                             "covariateId",
+                             "targetMeanBefore",
+                             "comparatorMeanBefore",
+                             "stdDiffBefore",
+                             "targetMeanAfter",
+                             "comparatorMeanAfter",
+                             "stdDiffAfter")
+      balance$targetMeanBefore[is.na(balance$targetMeanBefore)] <- 0
+      balance$comparatorMeanBefore[is.na(balance$comparatorMeanBefore)] <- 0
+      balance$stdDiffBefore <- round(balance$stdDiffBefore, 3)
+      balance$targetMeanAfter[is.na(balance$targetMeanAfter)] <- 0
+      balance$comparatorMeanAfter[is.na(balance$comparatorMeanAfter)] <- 0
+
+      balance$targetSizeBefore <- inferredTargetBeforeSize
+      balance$targetSizeBefore[is.na(inferredTargetBeforeSize)] <- 0
+
+      balance$comparatorSizeBefore <- inferredComparatorBeforeSize
+      balance$comparatorSizeBefore[is.na(inferredComparatorBeforeSize)] <- 0
+
+      balance$targetSizeAfter <- inferredTargetAfterSize
+      balance$targetSizeAfter[is.na(inferredTargetAfterSize)] <- 0
+
+      balance$comparatorSizeAfter <- inferredComparatorAfterSize
+      balance$comparatorSizeAfter[is.na(inferredComparatorAfterSize)] <- 0
+
+      balance$stdDiffAfter <- round(balance$stdDiffAfter, 3)
+      balance <- enforceMinCellValue(balance,
+                                     "targetMeanBefore",
+                                     minCellCount/inferredTargetBeforeSize,
+                                     TRUE)
+      balance <- enforceMinCellValue(balance,
+                                     "comparatorMeanBefore",
+                                     minCellCount/inferredComparatorBeforeSize,
+                                     TRUE)
+      balance <- enforceMinCellValue(balance,
+                                     "targetMeanAfter",
+                                     minCellCount/inferredTargetAfterSize,
+                                     TRUE)
+      balance <- enforceMinCellValue(balance,
+                                     "comparatorMeanAfter",
+                                     minCellCount/inferredComparatorAfterSize,
+                                     TRUE)
+
+      balance <- enforceMinCellValue(balance,
+                                     "targetSizeBefore",
+                                     minCellCount,
+                                     TRUE)
+      balance <- enforceMinCellValue(balance,
+                                     "targetSizeAfter",
+                                     minCellCount,
+                                     TRUE)
+      balance <- enforceMinCellValue(balance,
+                                     "comparatorSizeBefore",
+                                     minCellCount,
+                                     TRUE)
+      balance <- enforceMinCellValue(balance,
+                                     "comparatorSizeAfter",
+                                     minCellCount,
+                                     TRUE)
+
+      balance$targetMeanBefore <- round(balance$targetMeanBefore, 3)
+      balance$comparatorMeanBefore <- round(balance$comparatorMeanBefore, 3)
+      balance$targetMeanAfter <- round(balance$targetMeanAfter, 3)
+      balance$comparatorMeanAfter <- round(balance$comparatorMeanAfter, 3)
+
+      balance$targetSizeBefore <- round(balance$targetSizeBefore, 0)
+      balance$comparatorSizeBefore <- round(balance$comparatorSizeBefore, 0)
+      balance$targetSizeAfter <- round(balance$targetSizeAfter, 0)
+      balance$comparatorSizeAfter <- round(balance$comparatorSizeAfter, 0)
+
+      balance <- balance[balance$targetMeanBefore != 0 & balance$comparatorMeanBefore != 0 & balance$targetMeanAfter !=
+                           0 & balance$comparatorMeanAfter != 0 & balance$stdDiffBefore != 0 & balance$stdDiffAfter !=
+                           0, ]
+      balance <- balance[!is.na(balance$targetId), ]
+      colnames(balance) <- SqlRender::camelCaseToSnakeCase(colnames(balance))
+      write.table(x = balance,
+                  file = fileName,
+                  row.names = FALSE,
+                  col.names = first,
+                  sep = ",",
+                  dec = ".",
+                  qmethod = "double",
+                  append = !first)
+      first <- FALSE
+      setTxtProgressBar(pb, i/length(files))
+    }
   }
   close(pb)
 
@@ -798,10 +835,10 @@ exportDiagnostics <- function(outputFolder,
 
         pop1 <- ps$preferenceScore[ps$treatment == 1]
         pop0 <- ps$preferenceScore[ps$treatment == 0]
-        
+
         bw1 <- ifelse(length(pop1) > 1, "nrd0", 0.1)
         bw0 <- ifelse(length(pop0) > 1, "nrd0", 0.1)
-        
+
         d1 <- density(pop1, bw = bw1, from = 0, to = 1, n = 100)
         d0 <- density(pop0, bw = bw0, from = 0, to = 1, n = 100)
 

@@ -742,6 +742,19 @@ exportDiagnostics <- function(outputFolder,
       balance$stdDiffBefore <- round(balance$stdDiffBefore, 3)
       balance$targetMeanAfter[is.na(balance$targetMeanAfter)] <- 0
       balance$comparatorMeanAfter[is.na(balance$comparatorMeanAfter)] <- 0
+      
+      balance$targetSizeBefore <- inferredTargetBeforeSize
+      balance$targetSizeBefore[is.na(inferredTargetBeforeSize)] <- 0
+      
+      balance$comparatorSizeBefore <- inferredComparatorBeforeSize
+      balance$comparatorSizeBefore[is.na(inferredComparatorBeforeSize)] <- 0
+      
+      balance$targetSizeAfter <- inferredTargetAfterSize
+      balance$targetSizeAfter[is.na(inferredTargetAfterSize)] <- 0
+      
+      balance$comparatorSizeAfter <- inferredComparatorAfterSize
+      balance$comparatorSizeAfter[is.na(inferredComparatorAfterSize)] <- 0
+      
       balance$stdDiffAfter <- round(balance$stdDiffAfter, 3)
       balance <- enforceMinCellValue(balance,
                                      "targetMeanBefore",
@@ -759,10 +772,34 @@ exportDiagnostics <- function(outputFolder,
                                      "comparatorMeanAfter",
                                      minCellCount/inferredComparatorAfterSize,
                                      TRUE)
+      
+      balance <- enforceMinCellValue(balance,
+                                     "targetSizeBefore",
+                                     minCellCount,
+                                     TRUE)
+      balance <- enforceMinCellValue(balance,
+                                     "targetSizeAfter",
+                                     minCellCount,
+                                     TRUE)
+      balance <- enforceMinCellValue(balance,
+                                     "comparatorSizeBefore",
+                                     minCellCount,
+                                     TRUE)
+      balance <- enforceMinCellValue(balance,
+                                     "comparatorSizeAfter",
+                                     minCellCount,
+                                     TRUE)
+      
       balance$targetMeanBefore <- round(balance$targetMeanBefore, 3)
       balance$comparatorMeanBefore <- round(balance$comparatorMeanBefore, 3)
       balance$targetMeanAfter <- round(balance$targetMeanAfter, 3)
       balance$comparatorMeanAfter <- round(balance$comparatorMeanAfter, 3)
+      
+      balance$targetSizeBefore <- round(balance$targetSizeBefore, 0)
+      balance$comparatorSizeBefore <- round(balance$comparatorSizeBefore, 0)
+      balance$targetSizeAfter <- round(balance$targetSizeAfter, 0)
+      balance$comparatorSizeAfter <- round(balance$comparatorSizeAfter, 0)
+      
       balance <- balance[balance$targetMeanBefore != 0 & balance$comparatorMeanBefore != 0 & balance$targetMeanAfter !=
                            0 & balance$comparatorMeanAfter != 0 & balance$stdDiffBefore != 0 & balance$stdDiffAfter !=
                            0, ]
