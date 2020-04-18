@@ -4,7 +4,7 @@
 \alias{prepareForEvidenceExplorer}
 \title{Prepare results for the Evidence Explorer Shiny app.}
 \usage{
-prepareForEvidenceExplorer(resultsZipFile, dataFolder)
+prepareForEvidenceExplorer(resultsZipFile, dataFolder, prettyLabels = FALSE)
 }
 \arguments{
 \item{resultsZipFile}{Path to a zip file containing results from a study executed by this package.}

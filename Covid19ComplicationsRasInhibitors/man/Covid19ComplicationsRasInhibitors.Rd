@@ -3,8 +3,4 @@
 \docType{package}
 \name{Covid19ComplicationsRasInhibitors}
 \alias{Covid19ComplicationsRasInhibitors}
-\alias{Covid19ComplicationsRasInhibitors-package}
 \title{Covid19ComplicationsRasInhibitors}
-\description{
-Covid19ComplicationsRasInhibitors
-}

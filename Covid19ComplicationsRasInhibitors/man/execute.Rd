@@ -4,14 +4,25 @@
 \alias{execute}
 \title{Execute the Study}
 \usage{
-execute(connectionDetails, cdmDatabaseSchema,
-  cohortDatabaseSchema = cdmDatabaseSchema, cohortTable = "cohort",
-  oracleTempSchema = cohortDatabaseSchema, outputFolder,
-  databaseId = "Unknown", databaseName = "Unknown",
-  databaseDescription = "Unknown", createCohorts = TRUE,
-  synthesizePositiveControls = TRUE, runAnalyses = TRUE,
-  runDiagnostics = TRUE, packageResults = TRUE, maxCores = 4,
-  minCellCount = 5)
+execute(
+  connectionDetails,
+  cdmDatabaseSchema,
+  cohortDatabaseSchema = cdmDatabaseSchema,
+  cohortTable = "cohort",
+  oracleTempSchema = cohortDatabaseSchema,
+  outputFolder,
+  databaseId = "Unknown",
+  databaseName = "Unknown",
+  databaseDescription = "Unknown",
+  createCohorts = TRUE,
+  synthesizePositiveControls = TRUE,
+  runAnalyses = TRUE,
+  runDiagnostics = TRUE,
+  packageResults = TRUE,
+  maxCores = 4,
+  minCellCount = 5,
+  makePlots = TRUE
+)
 }
 \arguments{
 \item{connectionDetails}{An object of type \code{connectionDetails} as created using the
@@ -60,6 +71,8 @@ this can speed up the analyses.}
 
 \item{minCellCount}{The minimum number of subjects contributing to a count before it can be included
 in packaged results.}
+
+\item{makePlots}{}
 }
 \description{
 Execute the Study
@@ -68,7 +81,7 @@ Execute the Study
 This function executes the Covid19ComplicationsRasInhibitors Study.
 
 The \code{createCohorts}, \code{synthesizePositiveControls}, \code{runAnalyses}, and \code{runDiagnostics} arguments
-are intended to be used to run parts of the full study at a time, but none of the parts are considerd to be optional.
+are intended to be used to run parts of the full study at a time, but none of the parts are considered to be optional.
 }
 \examples{
 \dontrun{

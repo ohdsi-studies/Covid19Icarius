@@ -4,7 +4,7 @@
 \alias{generateDiagnostics}
 \title{Generate diagnostics}
 \usage{
-generateDiagnostics(outputFolder, maxCores)
+generateDiagnostics(outputFolder, minSubjectsForPs = 10, makePlots, maxCores)
 }
 \arguments{
 \item{outputFolder}{Name of local folder where the results were generated; make sure to use forward slashes
