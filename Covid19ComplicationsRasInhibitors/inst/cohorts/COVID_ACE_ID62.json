@@ -319,182 +319,6 @@
       "id": 3
     },
     {
-      "expression": {"items": [
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1340128,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "1998",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Captopril",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1341927,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "3827",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Enalapril",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1363749,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "50166",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Fosinopril",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1308216,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "29046",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Lisinopril",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1373225,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "54552",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Perindopril",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1334456,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "35296",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Ramipril",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1335471,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "18867",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "benazepril",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1310756,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "30131",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "moexipril",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1331235,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "35208",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "quinapril",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1342439,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "38454",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "trandolapril",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        }
-      ]},
-      "name": "[LEGEND] ACE inhibitors",
-      "id": 5
-    },
-    {
       "expression": {"items": [{
         "isExcluded": false,
         "concept": {
@@ -514,256 +338,6 @@
       }]},
       "name": "[LEGEND] Hypertension",
       "id": 6
-    },
-    {
-      "expression": {"items": [
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1367500,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "52175",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Losartan",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 40235485,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "1091643",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "azilsartan",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1351557,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "214354",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "candesartan",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1346686,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "83515",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "eprosartan",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1347384,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "83818",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "irbesartan",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 40226742,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "321064",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "olmesartan",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1317640,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "73494",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "telmisartan",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1308842,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "69749",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "valsartan",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        }
-      ]},
-      "name": "[LEGEND] Angiotensin receptor blockers (ARBs)",
-      "id": 7
-    },
-    {
-      "expression": {"items": [
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1332418,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "17767",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Amlodipine",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1353776,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "4316",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Felodipine",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1326012,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "33910",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Isradipine",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1318137,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "7396",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Nicardipine",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1318853,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "7417",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Nifedipine",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1319880,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "7435",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Nisoldipine",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        }
-      ]},
-      "name": "[LEGEND] Dihydropyridine calcium channel blockers (dCCB)",
-      "id": 8
     },
     {
       "expression": {"items": [
@@ -1021,80 +595,6 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1395058,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "2409",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Chlorthalidone",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 974166,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "5487",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Hydrochlorothiazide",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 978555,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "5764",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Indapamide",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 907013,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "6916",
-            "VOCABULARY_ID": "RxNorm",
-            "CONCEPT_NAME": "Metolazone",
-            "DOMAIN_ID": "Drug",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Ingredient",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        }
-      ]},
-      "name": "[LEGEND] Thiazide or thiazide-like diuretics",
-      "id": 11
-    },
-    {
-      "expression": {"items": [
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
             "CONCEPT_ID": 991382,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "644",
@@ -1213,6 +713,500 @@
       ]},
       "name": "[LEGEND] Diuretics",
       "id": 12
+    },
+    {
+      "expression": {"items": [
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1332418,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "17767",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Amlodipine",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1395058,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "2409",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Chlorthalidone",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1353776,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "4316",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Felodipine",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 974166,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "5487",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Hydrochlorothiazide",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 978555,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "5764",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Indapamide",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1326012,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "33910",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Isradipine",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 907013,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "6916",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Metolazone",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1318137,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "7396",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Nicardipine",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1318853,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "7417",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Nifedipine",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1319880,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "7435",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Nisoldipine",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        }
+      ]},
+      "name": "[LEGEND] dCCBs and thiazides/thiazide-like diuretics",
+      "id": 14
+    },
+    {
+      "expression": {"items": [
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1367500,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "52175",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Losartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 40235485,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "1091643",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "azilsartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1351557,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "214354",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "candesartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1346686,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "83515",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "eprosartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1347384,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "83818",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "irbesartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 40226742,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "321064",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "olmesartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1317640,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "73494",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "telmisartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1308842,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "69749",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "valsartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        }
+      ]},
+      "name": "[LEGEND] Angiotensin receptor blockers (ARBs)",
+      "id": 15
+    },
+    {
+      "expression": {"items": [
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1340128,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "1998",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Captopril",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1341927,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "3827",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Enalapril",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1363749,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "50166",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Fosinopril",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1308216,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "29046",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Lisinopril",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1373225,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "54552",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Perindopril",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1334456,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "35296",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Ramipril",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1335471,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "18867",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "benazepril",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1310756,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "30131",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "moexipril",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1331235,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "35208",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "quinapril",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1342439,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "38454",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "trandolapril",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        }
+      ]},
+      "name": "[LEGEND] ACE inhibitors",
+      "id": 16
     }
   ],
   "cdmVersionRange": ">=5.0.0",
@@ -1331,7 +1325,7 @@
               "OccurrenceCount": null,
               "AgeAtStart": null,
               "GapDays": null,
-              "CodesetId": 11,
+              "CodesetId": 14,
               "AgeAtEnd": null,
               "First": null,
               "Gender": null,
@@ -1364,7 +1358,7 @@
               "OccurrenceEndDate": null,
               "CorrelatedCriteria": null,
               "DrugSourceConcept": null,
-              "CodesetId": 11,
+              "CodesetId": 14,
               "DrugTypeExclude": false,
               "Quantity": null,
               "DrugType": null,
@@ -1467,7 +1461,7 @@
               "OccurrenceEndDate": null,
               "CorrelatedCriteria": null,
               "DrugSourceConcept": null,
-              "CodesetId": 5,
+              "CodesetId": 16,
               "DrugTypeExclude": false,
               "Quantity": null,
               "DrugType": null,
@@ -1511,51 +1505,7 @@
               "OccurrenceEndDate": null,
               "CorrelatedCriteria": null,
               "DrugSourceConcept": null,
-              "CodesetId": 7,
-              "DrugTypeExclude": false,
-              "Quantity": null,
-              "DrugType": null,
-              "ProviderSpecialty": null,
-              "EffectiveDrugDose": null,
-              "Gender": null,
-              "DaysSupply": null,
-              "DoseUnit": null,
-              "VisitType": null,
-              "Refills": null,
-              "First": null,
-              "OccurrenceStartDate": null,
-              "RouteConcept": null,
-              "StopReason": null,
-              "LotNumber": null,
-              "Age": null
-            }},
-            "Occurrence": {
-              "Type": 0,
-              "IsDistinct": false,
-              "Count": 0
-            }
-          },
-          {
-            "RestrictVisit": false,
-            "StartWindow": {
-              "UseEventEnd": false,
-              "Start": {
-                "Days": 180,
-                "Coeff": -1
-              },
-              "End": {
-                "Days": 1,
-                "Coeff": -1
-              },
-              "UseIndexEnd": false
-            },
-            "IgnoreObservationPeriod": false,
-            "EndWindow": null,
-            "Criteria": {"DrugExposure": {
-              "OccurrenceEndDate": null,
-              "CorrelatedCriteria": null,
-              "DrugSourceConcept": null,
-              "CodesetId": 8,
+              "CodesetId": 15,
               "DrugTypeExclude": false,
               "Quantity": null,
               "DrugType": null,

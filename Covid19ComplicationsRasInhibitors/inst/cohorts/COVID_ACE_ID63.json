@@ -362,6 +362,23 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1395058,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "2409",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Chlorthalidone",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
             "CONCEPT_ID": 1353776,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "4316",
@@ -379,11 +396,62 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 974166,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "5487",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Hydrochlorothiazide",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 978555,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "5764",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Indapamide",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
             "CONCEPT_ID": 1326012,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "33910",
             "VOCABULARY_ID": "RxNorm",
             "CONCEPT_NAME": "Isradipine",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 907013,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "6916",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "Metolazone",
             "DOMAIN_ID": "Drug",
             "STANDARD_CONCEPT_CAPTION": "Standard",
             "CONCEPT_CLASS_ID": "Ingredient",
@@ -444,8 +512,8 @@
           "includeDescendants": true
         }
       ]},
-      "name": "[LEGEND] Dihydropyridine calcium channel blockers (dCCB)",
-      "id": 8
+      "name": "[LEGEND] dCCBs and thiazides/thiazide-like diuretics",
+      "id": 14
     }
   ],
   "cdmVersionRange": ">=5.0.0",
@@ -564,7 +632,7 @@
               "OccurrenceCount": null,
               "AgeAtStart": null,
               "GapDays": null,
-              "CodesetId": 8,
+              "CodesetId": 14,
               "AgeAtEnd": null,
               "First": null,
               "Gender": null,
@@ -597,7 +665,7 @@
               "OccurrenceEndDate": null,
               "CorrelatedCriteria": null,
               "DrugSourceConcept": null,
-              "CodesetId": 8,
+              "CodesetId": 14,
               "DrugTypeExclude": false,
               "Quantity": null,
               "DrugType": null,

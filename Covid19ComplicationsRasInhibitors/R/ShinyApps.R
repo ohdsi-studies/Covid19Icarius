@@ -32,7 +32,7 @@
 #' }
 #'
 #' @export
-prepareForEvidenceExplorer <- function(resultsZipFile, dataFolder) {
+prepareForEvidenceExplorer <- function(resultsZipFile, dataFolder, prettyLabels = FALSE) {
   # resultsZipFile <- "c:/temp/ResultsMDCD.zip"
   # dataFolder <- "c:/temp/shinyData"
   if (!file.exists(dataFolder)) {
@@ -73,6 +73,21 @@ prepareForEvidenceExplorer <- function(resultsZipFile, dataFolder) {
 
   files <- list.files(tempFolder, ".*.csv")
   plyr::l_ply(files, processFile, .progress = "text")
+  
+  if (prettyLabels) {
+    # Relabel exposure_of_interest.csv
+    exposureFile <- file.path(dataFolder, sprintf("exposure_of_interest_%s.rds", databaseId))
+    exposureOfInterest <- readRDS(file = exposureFile)
+    cohortFile <- system.file("settings",
+                                      "CohortsToCreate.csv",
+                                      package = "Covid19ComplicationsRasInhibitors")
+    cohorts <- read.csv(cohortFile)[, c("cohortId", "shinyName", "shinyOrder")]
+    cohorts$exposureId <- cohorts$cohortId
+    colnames(cohorts) <- SqlRender::camelCaseToSnakeCase(colnames(cohorts))
+    tmp <- exposureOfInterest %>% dplyr::left_join(cohorts, by = "exposure_id") %>% 
+      dplyr::arrange(shiny_order) %>% dplyr::mutate(exposure_name = shiny_name)
+    saveRDS(tmp, exposureFile)
+  }
 }
 
 

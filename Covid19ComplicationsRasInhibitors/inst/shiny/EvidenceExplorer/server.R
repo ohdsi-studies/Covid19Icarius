@@ -149,7 +149,7 @@ shinyServer(function(input, output, session) {
     row <- selectedRow()
     if (!is.null(row)) {
       text <- "<strong>Table 1a.</strong> Number of subjects, follow-up time (in years), number of outcome
-      events, and event incidence rate (IR) per 1,000 patient years (PY) in the target (<em>%s</em>) and
+      events, and event incidence rate (IR) per 1,000 patient days (PD) in the target (<em>%s</em>) and
       comparator (<em>%s</em>) group after propensity score adjustment, as  well as the minimum detectable  relative risk (MDRR).
       Note that the IR does not account for any stratification."
       return(HTML(sprintf(text, input$target, input$comparator)))
@@ -167,12 +167,12 @@ shinyServer(function(input, output, session) {
       table$description <- NULL
       colnames(table) <- c("Target subjects",
                            "Comparator subjects",
-                           "Target years",
-                           "Comparator years",
+                           "Target days",
+                           "Comparator days",
                            "Target events",
                            "Comparator events",
-                           "Target IR (per 1,000 PY)",
-                           "Comparator IR (per 1,000 PY)",
+                           "Target IR (per 1,000 PD)",
+                           "Comparator IR (per 1,000 PD)",
                            "MDRR")
       return(table)
     }

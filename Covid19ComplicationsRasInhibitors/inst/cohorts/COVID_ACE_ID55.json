@@ -1682,7 +1682,11 @@
         "Gender": null,
         "VisitType": null,
         "First": null,
-        "OccurrenceStartDate": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
         "ConditionType": null,
         "ConditionSourceConcept": null,
         "StopReason": null,
@@ -1697,7 +1701,11 @@
         "Gender": null,
         "VisitType": null,
         "First": null,
-        "OccurrenceStartDate": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
         "ConditionType": null,
         "ConditionSourceConcept": 3,
         "StopReason": null,
@@ -1720,7 +1728,11 @@
         "VisitType": null,
         "ValueAsNumber": null,
         "First": null,
-        "OccurrenceStartDate": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
         "RangeLow": null,
         "Abnormal": null,
         "Age": null
@@ -1815,7 +1827,11 @@
         "VisitType": null,
         "ValueAsNumber": null,
         "First": null,
-        "OccurrenceStartDate": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
         "RangeLow": null,
         "Abnormal": null,
         "Age": null
@@ -1908,7 +1924,11 @@
         "ValueAsNumber": null,
         "Qualifier": null,
         "First": null,
-        "OccurrenceStartDate": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
         "Age": null
       }},
       {"Observation": {
@@ -1926,7 +1946,11 @@
         "ValueAsNumber": null,
         "Qualifier": null,
         "First": null,
-        "OccurrenceStartDate": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
         "Age": null
       }}
     ],
