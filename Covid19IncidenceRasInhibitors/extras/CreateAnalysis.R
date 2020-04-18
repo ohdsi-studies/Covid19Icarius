@@ -94,7 +94,7 @@ fitPsOutcomeModelArgs <- CohortMethod::createFitOutcomeModelArgs(
 stratifyByPsArgs <- CohortMethod::createStratifyByPsArgs(numberOfStrata = 5)
 
 matchByPsArgs <- CohortMethod::createMatchOnPsArgs(
-  maxRatio = 1 # TODO Allow for multiple matches
+  maxRatio = 10
 )
 
 # Analysis 1 -- crude/adjusted
