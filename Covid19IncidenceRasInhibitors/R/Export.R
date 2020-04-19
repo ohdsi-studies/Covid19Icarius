@@ -1012,7 +1012,7 @@ prepareKm <- function(task,
 }
 
 prepareKaplanMeier <- function(population) {
-  dataCutoff <- 0.9
+  dataCutoff <- 0.975
   population$y <- 0
   population$y[population$outcomeCount != 0] <- 1
   if (is.null(population$stratumId) || length(unique(population$stratumId)) == nrow(population)/2) {
