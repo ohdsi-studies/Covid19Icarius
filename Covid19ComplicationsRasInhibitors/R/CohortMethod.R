@@ -108,6 +108,34 @@ runCohortMethod <- function(connectionDetails,
     ParallelLogger::clusterApply(cluster, subset, computeCovariateBalance, cmOutputFolder = cmOutputFolder, balanceFolder = balanceFolder)
     ParallelLogger::stopCluster(cluster)
   }
+  
+  ParallelLogger::logInfo("Extract log-likelihood profiles")
+  profileFolder <- file.path(outputFolder, "profile")
+  if (!file.exists(profileFolder)) {
+    dir.create(profileFolder)
+  }
+  subset <- results[results$outcomeId %in% outcomesOfInterest, ] # TODO Do we want negative controls?
+  subset <- subset[subset$outcomeModelFile != "", ]
+  if (nrow(subset) > 0) {
+    subset <- split(subset, seq(nrow(subset)))
+    cluster <- ParallelLogger::makeCluster(min(3, maxCores))
+    ParallelLogger::clusterApply(cluster, subset, extractProfile, 
+                                 cmOutputFolder = cmOutputFolder,
+                                 profileFolder = profileFolder)
+    ParallelLogger::stopCluster(cluster)
+  }
+}
+
+extractProfile <- function(row, cmOutputFolder, profileFolder) {
+  outputFileName <- file.path(profileFolder,
+                              sprintf("prof_t%s_c%s_o%s_a%s.rds",
+                                      row$targetId, row$comparatorId, row$outcomeId,
+                                      row$analysisId))
+  outcomeFile <- file.path(cmOutputFolder, row$outcomeModelFile)
+  outcome <- readRDS(outcomeFile)
+  if (!is.null(outcome$logLikelihoodProfile)) {
+    saveRDS(outcome$logLikelihoodProfile, outputFileName)
+  }
 }
 
 computeCovariateBalance <- function(row, cmOutputFolder, balanceFolder) {

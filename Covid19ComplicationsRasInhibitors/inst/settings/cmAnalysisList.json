@@ -373,6 +373,7 @@
         "attr_class": "cyclopsPrior"
       },
       "control": {
+        "profileLogLikelihood": true,
         "maxIterations": 1000,
         "tolerance": 2e-07,
         "convergenceType": "gradient",
@@ -538,6 +539,7 @@
         "attr_class": "cyclopsPrior"
       },
       "control": {
+        "profileLogLikelihood": true,
         "maxIterations": 1000,
         "tolerance": 2e-07,
         "convergenceType": "gradient",
@@ -701,6 +703,7 @@
         "attr_class": "cyclopsPrior"
       },
       "control": {
+        "profileLogLikelihood": true,
         "maxIterations": 1000,
         "tolerance": 2e-07,
         "convergenceType": "gradient",

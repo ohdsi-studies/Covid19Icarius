@@ -68,6 +68,14 @@ exportResults <- function(outputFolder,
                     databaseId = databaseId,
                     minCellCount = minCellCount,
                     maxCores = maxCores)
+  
+  exportProfiles(outputFolder = outputFolder,
+                 exportFolder = exportFolder,
+                 databaseId = databaseId,
+                 minCellCount = minCellCount,
+                 maxCores = maxCores)
+  
+  
 
   # Add all to zip file -------------------------------------------------------------------------------
   ParallelLogger::logInfo("Adding results to zip file")
@@ -659,6 +667,62 @@ calibrateInteractions <- function(subset, negativeControls) {
     subset$calibratedP <- rep(NA, nrow(subset))
   }
   return(subset)
+}
+
+exportProfiles <- function(outputFolder,
+                              exportFolder,
+                              databaseId,
+                              minCellCount,
+                              maxCores) {
+  ParallelLogger::logInfo("Exporting profiles")
+  fileName <- file.path(exportFolder, "outcome_profile.csv")
+  if (file.exists(fileName)) {
+    unlink(fileName)
+  }
+  first <- TRUE
+  profileFolder <- file.path(outputFolder, "profile")
+  files <- list.files(profileFolder, pattern = "prof_.*.rds", full.names = TRUE)
+  pb <- txtProgressBar(style = 3)
+  if (length(files) > 0) {
+    for (i in 1:length(files)) {
+      ids <- gsub("^.*prof_t", "", files[i])
+      targetId <- as.numeric(gsub("_c.*", "", ids))
+      ids <- gsub("^.*_c", "", ids)
+      comparatorId <- as.numeric(gsub("_[aso].*$", "", ids))
+      if (grepl("_s", ids)) {
+        subgroupId <- as.numeric(gsub("^.*_s", "", gsub("_a[0-9]*.rds", "", ids)))
+      } else {
+        subgroupId <- NA
+      }
+      if (grepl("_o", ids)) {
+        outcomeId <- as.numeric(gsub("^.*_o", "", gsub("_a[0-9]*.rds", "", ids)))
+      } else {
+        outcomeId <- NA
+      }
+      ids <- gsub("^.*_a", "", ids)
+      analysisId <- as.numeric(gsub(".rds", "", ids))
+      
+      profile <- readRDS(files[i])
+      profile$targetId <- targetId
+      profile$comparatorId <- comparatorId
+      profile$outcomeId <- outcomeId
+      profile$analysisId <- analysisId
+      profile$databaseId <- databaseId
+  
+      colnames(profile) <- SqlRender::camelCaseToSnakeCase(colnames(profile))
+      write.table(x = profile,
+                  file = fileName,
+                  row.names = FALSE,
+                  col.names = first,
+                  sep = ",",
+                  dec = ".",
+                  qmethod = "double",
+                  append = !first)
+      first <- FALSE
+      setTxtProgressBar(pb, i/length(files))
+    }
+  }
+  close(pb)
 }
 
 
