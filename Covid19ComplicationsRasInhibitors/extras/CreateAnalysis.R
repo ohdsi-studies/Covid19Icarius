@@ -32,6 +32,8 @@ riskWindowEnd <- 30
 covarSettingsWithHtnMeds <- FeatureExtraction::createDefaultCovariateSettings()
 covarSettingsWithHtnMeds$mediumTermStartDays <- -90
 covarSettingsWithHtnMeds$longTermStartDays <- -180
+covarSettingsWithHtnMeds$longTermStartDays <- -180
+covarSettingsWithHtnMeds$endDays  <- -1
 
 covarSettingsWithoutHtnMeds <- FeatureExtraction::createDefaultCovariateSettings(
   excludedCovariateConceptIds = htnIngredientConceptIds,
@@ -39,6 +41,7 @@ covarSettingsWithoutHtnMeds <- FeatureExtraction::createDefaultCovariateSettings
 )
 covarSettingsWithoutHtnMeds$mediumTermStartDays <- -90
 covarSettingsWithoutHtnMeds$longTermStartDays <- -180
+covarSettingsWithoutHtnMeds$endDays  <- -1
 
 getDbCmDataArgsWithHtnMeds <- CohortMethod::createGetDbCohortMethodDataArgs(
   firstExposureOnly = firstExposureOnly,
@@ -96,10 +99,14 @@ fitAdjustedOutcomeModelArgs <- CohortMethod::createFitOutcomeModelArgs(
                                variance = fixedOutcomeVariance,
                                useCrossValidation = FALSE))
 
-fitPsOutcomeModelArgs <- CohortMethod::createFitOutcomeModelArgs(
+fitPsOutcomeModelArgsConditioned<- CohortMethod::createFitOutcomeModelArgs(
   modelType = "logistic",
   useCovariates = FALSE,
   stratified = TRUE)
+fitPsOutcomeModelArgsUnConditioned<- CohortMethod::createFitOutcomeModelArgs(
+  modelType = "logistic",
+  useCovariates = FALSE,
+  stratified = FALSE)
 
 stratifyByPsArgs <- CohortMethod::createStratifyByPsArgs(numberOfStrata = 5)
 
@@ -138,7 +145,7 @@ cmAnalysis3 <- CohortMethod::createCmAnalysis(analysisId = 3,
                                               stratifyByPs = TRUE,
                                               stratifyByPsArgs = stratifyByPsArgs,
                                               fitOutcomeModel = TRUE,
-                                              fitOutcomeModelArgs = fitPsOutcomeModelArgs)
+                                              fitOutcomeModelArgs = fitPsOutcomeModelArgsConditioned)
 
 # Analysis 4 -- minimal PS matching
 
@@ -151,7 +158,7 @@ cmAnalysis4 <- CohortMethod::createCmAnalysis(analysisId = 4,
                                               matchOnPs = TRUE,
                                               matchOnPsArgs = matchByPsArgs,
                                               fitOutcomeModel = TRUE,
-                                              fitOutcomeModelArgs = fitPsOutcomeModelArgs)
+                                              fitOutcomeModelArgs = fitPsOutcomeModelArgsUnConditioned)
 
 # Analysis 5 -- Large-scale PS stratification
 
@@ -164,7 +171,7 @@ cmAnalysis5 <- CohortMethod::createCmAnalysis(analysisId = 5,
                                               stratifyByPs = TRUE,
                                               stratifyByPsArgs = stratifyByPsArgs,
                                               fitOutcomeModel = TRUE,
-                                              fitOutcomeModelArgs = fitPsOutcomeModelArgs)
+                                              fitOutcomeModelArgs = fitPsOutcomeModelArgsConditioned)
 
 # Analysis 6 -- Large-scale PS stratification, no cross-validation
 
@@ -177,7 +184,7 @@ cmAnalysis6 <- CohortMethod::createCmAnalysis(analysisId = 6,
                                               stratifyByPs = TRUE,
                                               stratifyByPsArgs = stratifyByPsArgs,
                                               fitOutcomeModel = TRUE,
-                                              fitOutcomeModelArgs = fitPsOutcomeModelArgs)
+                                              fitOutcomeModelArgs = fitPsOutcomeModelArgsConditioned)
 
 cmAnalysisList <- list(cmAnalysis1,cmAnalysis2,cmAnalysis3,cmAnalysis4,cmAnalysis5,cmAnalysis6)
 

@@ -46,9 +46,9 @@ OhdsiRTools::insertCohortDefinitionSetInPackage(fileName = "CohortsToCreate.csv"
                                                 packageName = "Covid19ComplicationsRasInhibitors")
 
 # Create analysis details -------------------------------------------------
-source("extras/CreateStudyAnalysisDetails.R")
-createAnalysesDetails("inst/settings/")
-createPositiveControlSynthesisArgs("inst/settings/")
+source("extras/CreateAnalysis.R")
+#createAnalysesDetails("inst/settings/")
+#createPositiveControlSynthesisArgs("inst/settings/")
 
 # Store environment in which the study was executed -----------------------
 OhdsiRTools::insertEnvironmentSnapshotInPackage("Covid19ComplicationsRasInhibitors")
