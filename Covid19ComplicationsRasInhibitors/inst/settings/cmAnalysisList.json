@@ -44,7 +44,7 @@
         "addDescendantsToExclude": false,
         "shortTermStartDays": -30,
         "mediumTermStartDays": -90,
-        "endDays": 0,
+        "endDays": -1,
         "longTermStartDays": -180,
         "attr_fun": "getDbDefaultCovariateData",
         "attr_class": "covariateSettings"
@@ -162,7 +162,7 @@
         "addDescendantsToExclude": false,
         "shortTermStartDays": -30,
         "mediumTermStartDays": -90,
-        "endDays": 0,
+        "endDays": -1,
         "longTermStartDays": -180,
         "attr_fun": "getDbDefaultCovariateData",
         "attr_class": "covariateSettings"
@@ -281,7 +281,7 @@
         "addDescendantsToExclude": true,
         "shortTermStartDays": -30,
         "mediumTermStartDays": -90,
-        "endDays": 0,
+        "endDays": -1,
         "longTermStartDays": -180,
         "attr_fun": "getDbDefaultCovariateData",
         "attr_class": "covariateSettings"
@@ -446,7 +446,7 @@
         "addDescendantsToExclude": true,
         "shortTermStartDays": -30,
         "mediumTermStartDays": -90,
-        "endDays": 0,
+        "endDays": -1,
         "longTermStartDays": -180,
         "attr_fun": "getDbDefaultCovariateData",
         "attr_class": "covariateSettings"
@@ -525,7 +525,7 @@
     "fitOutcomeModel": true,
     "fitOutcomeModelArgs": {
       "modelType": "logistic",
-      "stratified": true,
+      "stratified": false,
       "useCovariates": false,
       "inversePtWeighting": false,
       "prior": {
@@ -612,7 +612,7 @@
         "addDescendantsToExclude": true,
         "shortTermStartDays": -30,
         "mediumTermStartDays": -90,
-        "endDays": 0,
+        "endDays": -1,
         "longTermStartDays": -180,
         "attr_fun": "getDbDefaultCovariateData",
         "attr_class": "covariateSettings"
@@ -776,7 +776,7 @@
         "addDescendantsToExclude": true,
         "shortTermStartDays": -30,
         "mediumTermStartDays": -90,
-        "endDays": 0,
+        "endDays": -1,
         "longTermStartDays": -180,
         "attr_fun": "getDbDefaultCovariateData",
         "attr_class": "covariateSettings"

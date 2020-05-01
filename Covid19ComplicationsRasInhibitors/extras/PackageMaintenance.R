@@ -47,6 +47,7 @@ OhdsiRTools::insertCohortDefinitionSetInPackage(fileName = "CohortsToCreate.csv"
 
 # Create analysis details -------------------------------------------------
 source("extras/CreateAnalysis.R")
+createAnalysesDetails("inst/settings/")
 #createAnalysesDetails("inst/settings/")
 #createPositiveControlSynthesisArgs("inst/settings/")
 
