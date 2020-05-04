@@ -25,7 +25,7 @@ How to run
 	install_github("ohdsi/DatabaseConnector", ref = "v2.4.1")
 	install_github("ohdsi/OhdsiSharing", ref = "v0.1.3")
 	install_github("ohdsi/FeatureExtraction", ref = "v2.2.5")
-	install_github("ohdsi/CohortMethod", ref = "v3.1.0")
+	install_github("ohdsi/CohortMethod", ref = "develop")
 	install_github("ohdsi/EmpiricalCalibration", ref = "v2.0.0")
 	install_github("ohdsi/MethodEvaluation", ref = "v1.1.0")
 	```
