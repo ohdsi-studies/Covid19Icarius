@@ -96,6 +96,7 @@ stratifyByPsArgs <- CohortMethod::createStratifyByPsArgs(numberOfStrata = 5)
 matchByPsArgs <- CohortMethod::createMatchOnPsArgs(
   maxRatio = 10
 )
+matchByPsArgs$allowReverseMatch <- TRUE
 
 # Analysis 1 -- crude/adjusted
 
