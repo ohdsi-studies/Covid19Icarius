@@ -306,7 +306,7 @@
     "createPs": true,
     "createPsArgs": {
       "includeCovariateIds": [3003, 4003, 5003, 6003, 7003, 8003, 9003, 10003, 11003, 12003, 13003, 14003, 15003, 16003, 17003, 18003, 19003, 20003, 21003, 22003, 1007, 2007, 3007, 4007, 5007, 6007, 7007, 8007, 9007, 10007, 11007, 12007, 8507001, 8532001],
-      "maxCohortSizeForFitting": 250000,
+      "maxCohortSizeForFitting": 100000,
       "errorOnHighCorrelation": true,
       "stopOnError": false,
       "prior": {
@@ -470,7 +470,7 @@
     "createPs": true,
     "createPsArgs": {
       "includeCovariateIds": [3003, 4003, 5003, 6003, 7003, 8003, 9003, 10003, 11003, 12003, 13003, 14003, 15003, 16003, 17003, 18003, 19003, 20003, 21003, 22003, 1007, 2007, 3007, 4007, 5007, 6007, 7007, 8007, 9007, 10007, 11007, 12007, 8507001, 8532001],
-      "maxCohortSizeForFitting": 250000,
+      "maxCohortSizeForFitting": 100000,
       "errorOnHighCorrelation": true,
       "stopOnError": false,
       "prior": {
@@ -635,7 +635,7 @@
     },
     "createPs": true,
     "createPsArgs": {
-      "maxCohortSizeForFitting": 250000,
+      "maxCohortSizeForFitting": 100000,
       "errorOnHighCorrelation": true,
       "stopOnError": false,
       "prior": {
@@ -798,7 +798,7 @@
     },
     "createPs": true,
     "createPsArgs": {
-      "maxCohortSizeForFitting": 250000,
+      "maxCohortSizeForFitting": 100000,
       "errorOnHighCorrelation": true,
       "stopOnError": false,
       "prior": {

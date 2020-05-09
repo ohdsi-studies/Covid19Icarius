@@ -62,6 +62,7 @@ createStudyPopArgs <- CohortMethod::createCreateStudyPopulationArgs(
 
 createMinPsArgs <- CohortMethod::createCreatePsArgs(
   stopOnError = FALSE,
+  maxCohortSizeForFitting = 100000,
   includeCovariateIds = makeCovariateIdsToInclude(),
   prior = Cyclops::createPrior(priorType = "normal",
                                variance = fixedPsVariance,
@@ -69,6 +70,7 @@ createMinPsArgs <- CohortMethod::createCreatePsArgs(
 
 createLargeScalePsArgs <- CohortMethod::createCreatePsArgs(
   stopOnError = FALSE,
+  maxCohortSizeForFitting = 100000,
   prior = Cyclops::createPrior(priorType = "laplace",
                                useCrossValidation = TRUE))
 
