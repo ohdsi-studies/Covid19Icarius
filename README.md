@@ -50,6 +50,26 @@ How to run
   
   If you are unable to utilize the `OhdsiSharing` package, you may utilize a SFTP client of your choosing (e.g. FileZilla) and upload through that tool. If you have questions, contact the [study coordinator](mailto:kristin.kostka@iqvia.com).
   
+Suggested PostgreSQL cache settings
+==========
+```
+max_connections = 40 
+shared_buffers = 64GB 
+effective_cache_size = 192GB 
+maintenance_work_mem = 2GB 
+checkpoint_completion_target = 0.9 
+wal_buffers = 16MB 
+default_statistics_target = 500 
+random_page_cost = 4 
+effective_io_concurrency = 2 
+work_mem = 209715kB 
+min_wal_size = 4GB 
+max_wal_size = 16GB 
+max_worker_processes = 8 
+max_parallel_workers_per_gather = 4 
+max_parallel_workers = 8
+```
+
 License
 =======
 The Covid19IncidenceRasInhibitors (the Incidence study) and COVID5ACESeverity (the Complications study) packages are licensed under Apache License 2.0
