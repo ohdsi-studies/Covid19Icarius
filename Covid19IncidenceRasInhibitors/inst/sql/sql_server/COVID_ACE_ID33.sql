@@ -19,11 +19,11 @@ UNION  select c.concept_id
 INSERT INTO #Codesets (codeset_id, concept_id)
 SELECT 17 as codeset_id, c.concept_id FROM (select distinct I.concept_id FROM
 ( 
-  select concept_id from @vocabulary_database_schema.CONCEPT where concept_id in (1340128,1341927,1363749,1308216,1367500,1373225,1334456,40235485,1335471,1351557,1346686,1347384,1310756,40226742,1331235,1317640,1342439,1308842)
+  select concept_id from @vocabulary_database_schema.CONCEPT where concept_id in (1340128,1341927,1363749,1308216,1367500,1373225,1334456,40235485,1335471,1351557,1346686,1347384,1310756,40226742,1331235,1317640,1342439,1308842,19122327)
 UNION  select c.concept_id
   from @vocabulary_database_schema.CONCEPT c
   join @vocabulary_database_schema.CONCEPT_ANCESTOR ca on c.concept_id = ca.descendant_concept_id
-  and ca.ancestor_concept_id in (1340128,1341927,1363749,1308216,1367500,1373225,1334456,40235485,1335471,1351557,1346686,1347384,1310756,40226742,1331235,1317640,1342439,1308842)
+  and ca.ancestor_concept_id in (1340128,1341927,1363749,1308216,1367500,1373225,1334456,40235485,1335471,1351557,1346686,1347384,1310756,40226742,1331235,1317640,1342439,1308842,19122327)
   and c.invalid_reason is null
 
 ) I
