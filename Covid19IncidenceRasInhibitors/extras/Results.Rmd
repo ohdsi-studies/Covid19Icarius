@@ -1,0 +1,174 @@
+---
+params:
+    save: NULL #"first.Rda"
+    load: "first.Rda"
+    completeReload: false
+# bibliography: CohortDefinition.bib
+# csl: nature-publishing-group-vancouver.csl
+output:
+  pdf_document:
+    keep_tex: true
+    md_extensions: +raw_attribute
+    #citation_package: natbib
+    #rticles::sim_article
+fontsize: 11pt
+geometry: margin=1in
+classoptions: doublespace
+longtable: true
+header-includes:
+  - \usepackage[numbers,sort&compress]{natbib}
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{array}
+  - \usepackage{multirow}
+  - \usepackage[table]{xcolor}
+  - \usepackage{wrapfig}
+  - \usepackage{float}
+  - \usepackage{colortbl}
+  - \usepackage{pdflscape}
+  - \usepackage{tabu}
+  - \usepackage{threeparttable}
+  - \usepackage{threeparttablex}
+  - \usepackage[normalem]{ulem}
+  - \usepackage{makecell}
+  - \usepackage{caption}
+  - \usepackage{rotating}
+  - \usepackage{multirow}
+  - \usepackage{mwe,tikz}
+  - \usepackage[percent]{overpic}
+  - \usepackage{enumitem}
+  - \usepackage{mas_fun}
+  - \usepackage{hyperref}
+---
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+options(kableExtra.latex.load_packages = FALSE)
+library(kableExtra)
+knitr::knit_hooks$set(document = function(x) {sub('\\usepackage[]{color}', '\\usepackage[table]{xcolor}', x, fixed = TRUE)})
+library(dplyr)
+library(tidyr)
+library(xtable)
+```
+
+\centerline{{\Huge Results: Incidence}}
+
+<!-- \captionsetup[table]{name=Supplementary Table} -->
+<!-- \captionsetup[figure]{name=Supplementary Figure} -->
+\captionsetup{labelfont=bf}
+
+# Cohorts
+
+```{r, echo=FALSE}
+cohorts <- read.csv(file = system.file("settings", "CohortsToCreate.csv", package = "Covid19IncidenceRasInhibitors")) %>% select(cohortId, shinyName)
+
+aceMonoId <- cohorts %>% filter(shinyName == "ACE mono") %>% select(cohortId) %>% pull()
+arbMonoId <- cohorts %>% filter(shinyName == "ARB mono") %>% select(cohortId) %>% pull()
+aceArbMonoId <- cohorts %>% filter(shinyName == "ACE/ARB mono") %>% select(cohortId) %>% pull()
+ccbThzMonoId <- cohorts %>% filter(shinyName == "CCB/THZ mono") %>% select(cohortId) %>% pull()
+
+aceComboId <- cohorts %>% filter(shinyName == "ACE +combo") %>% select(cohortId) %>% pull()
+arbComboId <- cohorts %>% filter(shinyName == "ARB +combo") %>% select(cohortId) %>% pull()
+aceArbComboId <- cohorts %>% filter(shinyName == "ACE/ARB +combo") %>% select(cohortId) %>% pull()
+ccbThzComboId <- cohorts %>% filter(shinyName == "CCB/THZ +combo") %>% select(cohortId) %>% pull()
+
+covidNarrowId <- cohorts %>% filter(shinyName == "COVID-19 narrow") %>% select(cohortId) %>% pull()
+
+primaryAnalysisId <- 5 # Full stratified PS
+```
+
+
+# Sample sizes (monotherapy)
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+sidiapDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/SIDIAP"
+
+cmResults <- read.csv(file = file.path(sidiapDir, "cohort_method_result.csv")) 
+colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
+  alpha <- 0.05
+  power <- 0.8
+  z1MinAlpha <- qnorm(1 - alpha/2)
+  zBeta <- -qnorm(1 - power)
+  pA <- cmResults$targetSubjects/(cmResults$targetSubjects + cmResults$comparatorSubjects)
+  pB <- 1 - pA
+  totalEvents <- abs(cmResults$targetOutcomes) + (cmResults$comparatorOutcomes)
+  cmResults$mdrr <- exp(sqrt((zBeta + z1MinAlpha)^2/(totalEvents * pA * pB)))
+  cmResults$targetYears <- cmResults$targetDays/365.25
+  cmResults$comparatorYears <- cmResults$comparatorDays/365.25
+
+cmResults <- cmResults %>% filter(analysisId == primaryAnalysisId, outcomeId == covidNarrowId)
+
+table <- rbind(
+  cmResults %>% filter(targetId == aceArbMonoId, comparatorId == ccbThzMonoId) %>% mutate(targetId = "ACE/ARB (m)", comparatorId = "CCB/THZ (m)"),
+  cmResults %>% filter(targetId == aceMonoId, comparatorId == arbMonoId) %>% mutate(targetId = "ACE (m)", comparatorId = "ARB (m)"),
+  cmResults %>% filter(targetId == aceArbComboId, comparatorId == ccbThzComboId) %>% mutate(targetId = "ACE/ARB (c)", comparatorId = "CCB/THZ (c)"),
+  cmResults %>% filter(targetId == aceComboId, comparatorId == arbComboId) %>% mutate(targetId = "ACE (c)", comparatorId = "ARB (c)")  
+  ) %>% select(targetId, comparatorId, targetSubjects, comparatorSubjects, targetYears, comparatorYears, targetOutcomes, comparatorOutcomes, mdrr)
+
+  table$targetSubjects <- formatC(table$targetSubjects, big.mark = ",", format = "d")
+  table$comparatorSubjects <- formatC(table$comparatorSubjects, big.mark = ",", format = "d")
+  table$targetYears <- formatC(table$targetYears, big.mark = ",", format = "d")
+  table$comparatorYears <- formatC(table$comparatorYears, big.mark = ",", format = "d")
+  table$targetOutcomes <- formatC(table$targetOutcomes, big.mark = ",", format = "d")
+  table$comparatorOutcomes <- formatC(table$comparatorOutcomes, big.mark = ",", format = "d")
+  # table$targetIr <- sprintf("%.2f", table$targetIr)
+  # table$comparatorIr <- sprintf("%.2f", table$comparatorIr)
+  table$mdrr <- sprintf("%.2f", table$mdrr)
+  table$targetSubjects <- gsub("^-", "<", table$targetSubjects)
+  table$comparatorSubjects <- gsub("^-", "<", table$comparatorSubjects)
+  table$targetOutcomes <- gsub("^-", "<", table$targetOutcomes)
+  table$comparatorOutcomes <- gsub("^-", "<", table$comparatorOutcomes)
+  # table$targetIr <- gsub("^-", "<", table$targetIr)
+  # table$comparatorIr <- gsub("^-", "<", table$comparatorIr)
+
+
+```
+
+
+    <!-- & & & \multicolumn{2}{c}{On-treatment} & \multicolumn{2}{c}{Total follow-up} \\ -->
+    <!-- & & & \multicolumn{2}{c}{time (in days)} & \multicolumn{2}{c}{time (in days)} \\ -->
+    <!-- \cmidrule(lr){4-5} \cmidrule(lr){6-7} -->
+    <!-- & \multicolumn{1}{c}{Database} & \multicolumn{1}{c}{Patients} -->
+    <!-- & \multicolumn{1}{c}{median} & \multicolumn{1}{c}{IQR} -->
+    <!-- & \multicolumn{1}{c}{median} & \multicolumn{1}{c}{IQR} \\ -->
+
+
+\begin{table}[H]
+ \caption{Population size, total exposure time and COVID-19 diagnoses for ACEI, ARB and CCB/THZ monotherapy and in-combination user cohorts.}
+  \rowcolors{2}{gray!6}{white}
+  \centering{
+  \begin{tabular}{rrrrrrrrr}
+    \hiderowcolors
+    \toprule
+    &  & \multicolumn{2}{c}{Patients} & \multicolumn{2}{c}{Time (years)} & \multicolumn{2}{c}{Events} \\
+    \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}
+    \multicolumn{1}{c}{Target (T)} & \multicolumn{1}{c}{Comparator (C)} 
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C} 
+    & MDRR \\
+    \midrule \showrowcolors
+    ```{r, echo=FALSE, results="asis"}
+print(xtable(table, format = "latex"),
+      include.rownames = FALSE,
+      include.colnames = FALSE,
+      hline.after = NULL,
+      only.contents = TRUE,
+      
+      sanitize.text.function = identity)
+```
+  \bottomrule
+  \end{tabular}
+  }
+\end{table}    
+
+<!-- ```{r} -->
+<!-- knitr::kable(tab, -->
+<!--              format = "latex", escape = FALSE, longtable = TRUE, booktabs = TRUE, -->
+<!--              caption = "\\textbf{Patient counts, total exposure and COVID-19 diagnoses}. We report study statistics (to change) for both monotherapy and in-combination cohort." -->
+<!--              ) %>% -->
+<!--   # kableExtra::column_spec(1, width="2cm") %>% -->
+<!--   # kableExtra::column_spec(2, width="10cm") %>% -->
+<!--   # kableExtra::column_spec(3, width="3cm") %>% -->
+<!--   kableExtra::kable_styling(latex_options = "striped") -->
+<!-- ``` -->
+
