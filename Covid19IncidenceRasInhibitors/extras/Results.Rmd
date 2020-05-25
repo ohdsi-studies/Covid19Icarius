@@ -82,7 +82,12 @@ primaryAnalysisId <- 5 # Full stratified PS
 
 sidiapDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/SIDIAP"
 
-cmResults <- read.csv(file = file.path(sidiapDir, "cohort_method_result.csv")) 
+dataFolder <- file.path(sidiapDir, "shinyData")
+databaseId <- "SIDIAP"
+
+
+# cmResults <- read.csv(file = file.path(sidiapDir, "cohort_method_result.csv")) 
+cmResults <- readRDS(file = file.path(sidiapDir, "shinyData", paste0("cohort_method_result_", databaseId, ".rds")))
 colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
   alpha <- 0.05
   power <- 0.8
@@ -119,18 +124,7 @@ table <- rbind(
   table$comparatorOutcomes <- gsub("^-", "<", table$comparatorOutcomes)
   # table$targetIr <- gsub("^-", "<", table$targetIr)
   # table$comparatorIr <- gsub("^-", "<", table$comparatorIr)
-
-
 ```
-
-
-    <!-- & & & \multicolumn{2}{c}{On-treatment} & \multicolumn{2}{c}{Total follow-up} \\ -->
-    <!-- & & & \multicolumn{2}{c}{time (in days)} & \multicolumn{2}{c}{time (in days)} \\ -->
-    <!-- \cmidrule(lr){4-5} \cmidrule(lr){6-7} -->
-    <!-- & \multicolumn{1}{c}{Database} & \multicolumn{1}{c}{Patients} -->
-    <!-- & \multicolumn{1}{c}{median} & \multicolumn{1}{c}{IQR} -->
-    <!-- & \multicolumn{1}{c}{median} & \multicolumn{1}{c}{IQR} \\ -->
-
 
 \begin{table}[H]
  \caption{Population size, total exposure time and COVID-19 diagnoses for ACEI, ARB and CCB/THZ monotherapy and in-combination user cohorts.}
@@ -147,7 +141,7 @@ table <- rbind(
     & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C} 
     & MDRR \\
     \midrule \showrowcolors
-    ```{r, echo=FALSE, results="asis"}
+```{r, echo=FALSE, results="asis"}
 print(xtable(table, format = "latex"),
       include.rownames = FALSE,
       include.colnames = FALSE,
@@ -159,7 +153,104 @@ print(xtable(table, format = "latex"),
   \bottomrule
   \end{tabular}
   }
-\end{table}    
+\end{table}   
+
+
+```{r, echo=FALSE}
+source(system.file("shiny", "EvidenceExplorer", "PlotsAndTables.R",
+                   package = "Covid19IncidenceRasInhibitors"))
+source(system.file("shiny", "EvidenceExplorer", "DataPulls.R",
+                   package = "Covid19IncidenceRasInhibitors"))
+```
+
+```{r, echo=FALSE, results="asis", cache=FALSE, warning=FALSE}
+
+
+covariate <- readRDS(file.path(dataFolder, "covariate_SIDIAP.rds"))
+colnames(covariate) <- SqlRender::snakeCaseToCamelCase(colnames(covariate))
+
+balance <- getCovariateBalance(NULL, aceArbMonoId, ccbThzMonoId, databaseId = databaseId, analysisId = primaryAnalysisId, outcomeId = covidNarrowId)
+
+
+
+#out <- lapply(balances_strat, function(tmp) {
+
+  scale <- 0.55
+  header <- readr::read_file("Table1Top.tex")
+  # targetName <- (firstLineClasses %>% filter(cohortId == tmp$targetId))$shortName
+  # comparatorName <- (firstLineClasses %>% filter(cohortId == tmp$comparatorId))$shortName
+
+  # if (!(targetName == "THZ" && comparatorName == "ACEi")) {
+
+  targetName <- "ACE/ARB monotherapy"
+  comparatorName <- "CCB/THZ monotherapy"
+  title <- sub(pattern = "Patient demographics",
+               replacement = paste0("Baseline patient characteristcs for ", targetName," (T) and ", comparatorName, " (C) prevalent-users in the SIDIAP data source"),
+               x = header)
+
+  title <- sub("0.5\\\\textwidth", paste0(scale, "\\\\textwidth"), x = title)
+  title <- sub("-0.5em", "+0.5em", x = title)
+
+  title <- sub("% Extra row",
+               paste0("& \\\\multicolumn{3}{c}{$N$ = XXX} & \\\\multicolumn{3}{c}{$N$ = XXX} \\\\\\\\"),
+               # , "\\\\\\\\ \n",
+               #        "\& \\\\multicolumn{3}{c}{Before stratification} \& \\\\multicolumn{3}{c}{After stratification} "),
+               x = title)
+  
+  # if (targetName == "THZ" && comparatorName == "ARB") {
+  #   title <- sub("table}", "table}[H]\\\\ContinuedFloat*", title)
+  # } else {
+  #   title <- sub("table}", "table}[H]\\\\ContinuedFloat", title)
+  # }
+
+  cat(title)
+
+  # table <- prepareTable1(tmp$balance, pathToCsv = file.path("..", "Table1Specs.csv"))
+  table <- prepareTable1(balance,pathToCsv = system.file("shiny", "EvidenceExplorer", "Table1Specs.csv", 
+                                      package = "Covid19IncidenceRasInhibitors"))
+  table <- table[3:nrow(table),]
+
+  print(xtable(table, format = "latex", align = c("l","l","r","r","r","r","r","r")),
+        include.rownames = FALSE,
+        include.colnames = FALSE,
+        hline.after = NULL,
+        only.contents = TRUE,
+        add.to.row = list(pos = list(nrow(table)), command = c("\\bottomrule")),
+        sanitize.text.function = identity)
+
+  footer <- readr::read_file("Table1Botton.tex")
+  cat(footer)
+```
+
+
+```{r}
+
+  # }
+
+  # plot <- plotCovariateBalanceScatterPlot(tmp$balance, labels = FALSE,
+  #                                         beforeLabel = "Before stratification", afterLabel = "After stratification")
+  #                                         # beforeLabel = "", afterLabel = "")
+  #   suppressMessages(ggplot2::ggsave(paste0("scatter_", targetName, "_", comparatorName, ".pdf"), plot,
+  #                                    width = 3, height = 3, units = "in"))
+# })
+
+# text <- prepareTable1(balance,
+#               output = "latex",
+#               pathToCsv = system.file("shiny", "EvidenceExplorer", "Table1Specs.csv", 
+#                                       package = "Covid19IncidenceRasInhibitors"))
+
+
+# function(balance,
+#                           beforeLabel = "Before stratification",
+#                           afterLabel = "After stratification",
+#                           targetLabel = "Target",
+#                           comparatorLabel = "Comparator",
+#                           percentDigits = 1,
+#                           stdDiffDigits = 2,
+#                           output = "latex",
+#                           pathToCsv = "Table1Specs.csv") {
+
+```
 
 <!-- ```{r} -->
 <!-- knitr::kable(tab, -->
