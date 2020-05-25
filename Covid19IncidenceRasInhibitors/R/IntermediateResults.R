@@ -14,15 +14,15 @@ packageIntermediateResults <- function(outputFolder,
                                     "cmAnalysisList.json",
                                     package = "Covid19IncidenceRasInhibitors")
   cmAnalysisList <- CohortMethod::loadCmAnalysisList(cmAnalysisListFile)
-  tcosList <- createTcos(outputFolder = outputFolder)
+  # tcosList <- createTcos(outputFolder = outputFolder)
   outcomesOfInterest <- getOutcomesOfInterest()
   
   # Remove TC pairs with 0-count cohorts
-  cohortCounts <- read.csv(paste0(outputFolder, "/CohortCounts.csv"))
-  nonZeroCount <- unlist(lapply(tcosList, function(tco) {
-    return(tco$targetId %in% cohortCounts$cohortDefinitionId &&
-             tco$comparatorId %in% cohortCounts$cohortDefinitionId)
-  }))
+  # cohortCounts <- read.csv(paste0(outputFolder, "/CohortCounts.csv"))
+  # nonZeroCount <- unlist(lapply(tcosList, function(tco) {
+  #   return(tco$targetId %in% cohortCounts$cohortDefinitionId &&
+  #            tco$comparatorId %in% cohortCounts$cohortDefinitionId)
+  # }))
   
   #Make results objects
   results <- readRDS(file.path(outputFolder, "outcomeModelReference.rds"))
