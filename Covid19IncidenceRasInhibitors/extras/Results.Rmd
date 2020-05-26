@@ -71,24 +71,30 @@ aceArbComboId <- cohorts %>% filter(shinyName == "ACE/ARB +combo") %>% select(co
 ccbThzComboId <- cohorts %>% filter(shinyName == "CCB/THZ +combo") %>% select(cohortId) %>% pull()
 
 covidNarrowId <- cohorts %>% filter(shinyName == "COVID-19 narrow") %>% select(cohortId) %>% pull()
+covidBroadId <- cohorts %>% filter(shinyName == "COVID-19 broad") %>% select(cohortId) %>% pull()
+
+pnaId <- cohorts %>% filter(shinyName == "Pneumonia") %>% select(cohortId) %>% pull()
+adverseId <- cohorts %>% filter(shinyName == "Adverse event") %>% select(cohortId) %>% pull()
 
 primaryAnalysisId <- 5 # Full stratified PS
 ```
 
 
-# Sample sizes (monotherapy)
+# Sample sizes
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
 sidiapDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/SIDIAP"
+cuimcDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/CUIMC"
 
 dataFolder <- file.path(sidiapDir, "shinyData")
 databaseId <- "SIDIAP"
 
-
-# cmResults <- read.csv(file = file.path(sidiapDir, "cohort_method_result.csv")) 
-cmResults <- readRDS(file = file.path(sidiapDir, "shinyData", paste0("cohort_method_result_", databaseId, ".rds")))
-colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
+makeSampleSizeTable <- function(databaseId, 
+                                dataFolder,
+                                databaseOrder = 1) {
+  cmResults <- readRDS(file = file.path(dataFolder, paste0("cohort_method_result_", databaseId, ".rds")))
+  colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
   alpha <- 0.05
   power <- 0.8
   z1MinAlpha <- qnorm(1 - alpha/2)
@@ -99,16 +105,25 @@ colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
   cmResults$mdrr <- exp(sqrt((zBeta + z1MinAlpha)^2/(totalEvents * pA * pB)))
   cmResults$targetYears <- cmResults$targetDays/365.25
   cmResults$comparatorYears <- cmResults$comparatorDays/365.25
-
-cmResults <- cmResults %>% filter(analysisId == primaryAnalysisId, outcomeId == covidNarrowId)
-
-table <- rbind(
-  cmResults %>% filter(targetId == aceArbMonoId, comparatorId == ccbThzMonoId) %>% mutate(targetId = "ACE/ARB (m)", comparatorId = "CCB/THZ (m)"),
-  cmResults %>% filter(targetId == aceMonoId, comparatorId == arbMonoId) %>% mutate(targetId = "ACE (m)", comparatorId = "ARB (m)"),
-  cmResults %>% filter(targetId == aceArbComboId, comparatorId == ccbThzComboId) %>% mutate(targetId = "ACE/ARB (c)", comparatorId = "CCB/THZ (c)"),
-  cmResults %>% filter(targetId == aceComboId, comparatorId == arbComboId) %>% mutate(targetId = "ACE (c)", comparatorId = "ARB (c)")  
-  ) %>% select(targetId, comparatorId, targetSubjects, comparatorSubjects, targetYears, comparatorYears, targetOutcomes, comparatorOutcomes, mdrr)
-
+  
+  cmResults <- cmResults %>% filter(analysisId == primaryAnalysisId, outcomeId == covidNarrowId)
+  
+  table <- rbind(
+    # cmResults %>% filter(targetId == aceArbMonoId, comparatorId == ccbThzMonoId) %>% mutate(targetId = "ACE/ARB (m)", comparatorId = "CCB/THZ (m)"),
+    # cmResults %>% filter(targetId == aceMonoId, comparatorId == arbMonoId) %>% mutate(targetId = "ACE (m)", comparatorId = "ARB (m)"),
+    # cmResults %>% filter(targetId == aceArbComboId, comparatorId == ccbThzComboId) %>% mutate(targetId = "ACE/ARB (c)", comparatorId = "CCB/THZ (c)"),
+    # cmResults %>% filter(targetId == aceComboId, comparatorId == arbComboId) %>% mutate(targetId = "ACE (c)", comparatorId = "ARB (c)")  
+    cmResults %>% filter(targetId == aceArbMonoId, comparatorId == ccbThzMonoId) %>% mutate(targetId = "ACE/ARB (m)", comparatorId = "CCB/THZ (m)", order = 1),
+    cmResults %>% filter(targetId == aceArbComboId, comparatorId == ccbThzComboId) %>% mutate(targetId = "ACE/ARB (c)", comparatorId = "CCB/THZ (c)", order = 2),
+    cmResults %>% filter(targetId == aceMonoId, comparatorId == arbMonoId) %>% mutate(targetId = "ACE (m)", comparatorId = "ARB (m)", order = 3),
+    cmResults %>% filter(targetId == aceComboId, comparatorId == arbComboId) %>% mutate(targetId = "ACE (c)", comparatorId = "ARB (c)", order = 4),
+    cmResults %>% filter(targetId == aceMonoId, comparatorId == ccbThzMonoId) %>% mutate(targetId = "ACE (m)", comparatorId = "CCB/THZ (m)", order = 5),
+    cmResults %>% filter(targetId == aceComboId, comparatorId == ccbThzComboId) %>% mutate(targetId = "ACE (c)", comparatorId = "CCB/THZ (c)", order = 6),
+    cmResults %>% filter(targetId == arbMonoId, comparatorId == ccbThzMonoId) %>% mutate(targetId = "ARB (m)", comparatorId = "CCB/THZ (m)", order = 7),
+    cmResults %>% filter(targetId == arbComboId, comparatorId == ccbThzComboId) %>% mutate(targetId = "ARB (c)", comparatorId = "CCB/THZ (c)", order = 8)    
+  ) %>% mutate (databaseId = databaseId, databaseOrder = databaseOrder) %>% 
+    select(targetId, comparatorId, databaseId, targetSubjects, comparatorSubjects, targetYears, comparatorYears, targetOutcomes, comparatorOutcomes, mdrr, order, databaseOrder)
+  
   table$targetSubjects <- formatC(table$targetSubjects, big.mark = ",", format = "d")
   table$comparatorSubjects <- formatC(table$comparatorSubjects, big.mark = ",", format = "d")
   table$targetYears <- formatC(table$targetYears, big.mark = ",", format = "d")
@@ -124,18 +139,26 @@ table <- rbind(
   table$comparatorOutcomes <- gsub("^-", "<", table$comparatorOutcomes)
   # table$targetIr <- gsub("^-", "<", table$targetIr)
   # table$comparatorIr <- gsub("^-", "<", table$comparatorIr)
+  return(table)
+}
+
+tableSidiap <- makeSampleSizeTable(databaseId = "SIDIAP", dataFolder = file.path(sidiapDir, "shinyData"), databaseOrder = 1)
+tableCuimc <- makeSampleSizeTable(databaseId = "CUIMC", dataFolder = file.path(cuimcDir, "shinyData"), databaseOrder = 2)
+
+table <- rbind(tableSidiap, tableCuimc) %>% arrange(order, databaseOrder) %>% 
+  mutate(targetId = "", comparatorId = "") %>% select(-order, -databaseOrder)
 ```
 
 \begin{table}[H]
- \caption{Population size, total exposure time and COVID-19 diagnoses for ACEI, ARB and CCB/THZ monotherapy and in-combination user cohorts.}
+ \caption{Population size, total exposure time and COVID-19 diagnoses for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
   \rowcolors{2}{gray!6}{white}
   \centering{
-  \begin{tabular}{rrrrrrrrr}
+  \begin{tabular}{p{-2em}p{-2em}rrrrrrrr}
     \hiderowcolors
     \toprule
-    &  & \multicolumn{2}{c}{Patients} & \multicolumn{2}{c}{Time (years)} & \multicolumn{2}{c}{Events} \\
-    \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}
-    \multicolumn{1}{c}{Target (T)} & \multicolumn{1}{c}{Comparator (C)} 
+    &  &  & \multicolumn{2}{c}{Patients} & \multicolumn{2}{c}{Time (years)} & \multicolumn{2}{c}{Events} \\
+    \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9}
+    &  &
     & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
     & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
     & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C} 
@@ -147,7 +170,19 @@ print(xtable(table, format = "latex"),
       include.colnames = FALSE,
       hline.after = NULL,
       only.contents = TRUE,
-      
+      add.to.row = list(
+        pos = as.list(c(0,2,4,6,8,10,12,14)),
+        command = c(
+          "                       \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs ARB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{8}{l}{+ Combination} \\\\"
+          )
+      ),
       sanitize.text.function = identity)
 ```
   \bottomrule
@@ -159,33 +194,249 @@ print(xtable(table, format = "latex"),
 ```{r, echo=FALSE}
 source(system.file("shiny", "EvidenceExplorer", "PlotsAndTables.R",
                    package = "Covid19IncidenceRasInhibitors"))
-source(system.file("shiny", "EvidenceExplorer", "DataPulls.R",
-                   package = "Covid19IncidenceRasInhibitors"))
+# source(system.file("shiny", "EvidenceExplorer", "DataPulls.R",
+#                    package = "Covid19IncidenceRasInhibitors"))
 ```
 
 ```{r, echo=FALSE, results="asis", cache=FALSE, warning=FALSE}
 
+getCovariateBalance <- function(connection,
+                                targetId,
+                                comparatorId,
+                                databaseId,
+                                analysisId,
+                                covariate,
+                                dataFolder,
+                                outcomeId = NULL) {
+  file <- sprintf("covariate_balance_t%s_c%s_%s.rds", targetId, comparatorId, databaseId)
+  balance <- readRDS(file.path(dataFolder, file))
+  colnames(balance) <- SqlRender::snakeCaseToCamelCase(colnames(balance))
+  balance <- balance[balance$analysisId == analysisId & balance$outcomeId == outcomeId, ]
+  balance <- merge(balance, covariate[covariate$databaseId == databaseId & covariate$analysisId == analysisId, 
+                                      c("covariateId", "covariateAnalysisId", "covariateName")])
+  balance <- balance[ c("covariateId",
+                        "covariateName",
+                        "covariateAnalysisId", 
+                        "targetMeanBefore", 
+                        "comparatorMeanBefore", 
+                        "stdDiffBefore", 
+                        "targetMeanAfter", 
+                        "comparatorMeanAfter",
+                        "stdDiffAfter")]
+  colnames(balance) <- c("covariateId",
+                         "covariateName",
+                         "analysisId",
+                         "beforeMatchingMeanTreated",
+                         "beforeMatchingMeanComparator",
+                         "beforeMatchingStdDiff",
+                         "afterMatchingMeanTreated",
+                         "afterMatchingMeanComparator",
+                         "afterMatchingStdDiff")
+  balance$absBeforeMatchingStdDiff <- abs(balance$beforeMatchingStdDiff)
+  balance$absAfterMatchingStdDiff <- abs(balance$afterMatchingStdDiff)
+  return(balance)
+}
 
-covariate <- readRDS(file.path(dataFolder, "covariate_SIDIAP.rds"))
-colnames(covariate) <- SqlRender::snakeCaseToCamelCase(colnames(covariate))
 
-balance <- getCovariateBalance(NULL, aceArbMonoId, ccbThzMonoId, databaseId = databaseId, analysisId = primaryAnalysisId, outcomeId = covidNarrowId)
+blend <- function(databaseIds,
+                                     targetId,
+                                     comparatorId,
+                                     dataFolders,
+                                     outcomeId = covidNarrowId) {
+
+
+  covariate1 <- readRDS(file.path(dataFolders[1], paste0("covariate_", databaseIds[1], ".rds")))
+  colnames(covariate1) <- SqlRender::snakeCaseToCamelCase(colnames(covariate1))
+
+  balance1 <- getCovariateBalance(NULL, targetId, comparatorId, databaseId = databaseIds[1], analysisId = primaryAnalysisId,
+                                  outcomeId = outcomeId,
+                                  covariate = covariate1, dataFolder = dataFolders[1])
+
+  covariate2 <- readRDS(file.path(dataFolders[2], paste0("covariate_", databaseIds[2], ".rds")))
+  colnames(covariate2) <- SqlRender::snakeCaseToCamelCase(colnames(covariate2))
+
+  balance2 <- getCovariateBalance(NULL, targetId, comparatorId, databaseId = databaseIds[2], analysisId = primaryAnalysisId,
+                                  outcomeId = outcomeId,
+                                  covariate = covariate2, dataFolder = dataFolders[2])
+  
+    specifications <- read.csv(system.file("shiny", "EvidenceExplorer", "Table1Specs.csv",
+                                      package = "Covid19IncidenceRasInhibitors"), stringsAsFactors = FALSE)
+
+
+  table1 <- prepareTable1(balance1,pathToCsv = system.file("shiny", "EvidenceExplorer", "Table1Specs.csv",
+                                      package = "Covid19IncidenceRasInhibitors"))
+
+  table1 <- table1[3:nrow(table1),]
+  colnames(table1) <- c("id","b","c","d","e","f","g")
+
+  table2 <- prepareTable1(balance2,pathToCsv = system.file("shiny", "EvidenceExplorer", "Table1Specs.csv",
+                                      package = "Covid19IncidenceRasInhibitors"))
+
+  table2 <- table2[3:nrow(table2),]
+  colnames(table2) <- c("id","b","c","d","e","f","g")
+
+  table <- table2
+  
+  table1$order <- c(1:nrow(table1))
+  table2$order <- c(1:nrow(table2))
+
+  return(list(table1, table2, specifications))
+}
+
+ tmp <- blend(aceArbMonoId, ccbThzMonoId,
+                          databaseIds = c("SIDIAP", "CUIMC"),
+                          dataFolders = c(dataFolder = file.path(sidiapDir, "shinyData"),
+                                          dataFolder = file.path(cuimcDir, "shinyData")))
+ 
+ t2 <- full_join(tmp[[1]], tmp[[2]], by = "id")
+ 
+names <- c(
+  "Age group",
+  "    15-19",
+  "    20-24",
+  "    25-29",
+  "    30-34",
+  "    35-39",
+  "    40-44",
+  "    45-49",
+  "    50-54",
+  "    55-59",
+  "    60-64",
+  "    65-69",
+  "    70-74",
+  "    75-79",
+  "    80-84",
+  "    85-89",
+  "    90-94",
+  "    95-99",
+  "    00-04",
+  "Gender: female",
+  "Medical history: General",
+  "    Acute respiratory disease",
+  "    Attention deficit hyperactivity disorder",
+  "    Chronic liver disease",
+  "    Chronic obstructive lung disease",
+  "    Crohn's disease",
+  "    Dementia",
+  "    Depressive disorder",
+  "    Diabetes mellitus",
+  "    Gastroesophageal reflux disease",
+  "    Gastrointestinal hemorrhage",
+  "    Human immunodeficiency virus infection",
+  "    Hyperlipidemia",
+  "    Hypertensive disorder",
+  "    Lesion of liver",
+  "    Obesity",
+  "    Osteoarthritis",
+  "    Pneumonia",
+  "    Psoriasis",
+  "    Renal impairment",
+  "    Rheumatoid arthritis",
+  "    Schizophrenia",
+  "    Ulcerative colitis",
+  "    Urinary tract infectious disease",
+  "    Viral hepatitis C",
+  "    Visual system disorder",
+  "Medical history: Cardiovascular disease",
+  "    Atrial fibrillation",
+  "    Cerebrovascular disease",
+  "    Coronary arteriosclerosis",  
+  "    Heart disease",
+  "    Heart failure",
+  "    Ischemic heart disease",
+  "    Peripheral vascular disease",
+  "    Pulmonary embolism",
+  "    Venous thrombosis",
+  "Medical history: Neoplasms",
+  "    Hematologic neoplasm",
+  "    Malignant lymphoma",
+  "    Malignant neoplasm of anorectum",
+  "    Malignant neoplastic disease",
+  "    Malignant tumor of breast",
+  "    Malignant tumor of colon",
+  "    Malignant tumor of lung",
+  "    Malignant tumor of urinary bladder",
+  "    Primary malignant neoplasm of prostate",
+  "Medication use",
+  "    Agents acting on the renin-angiotensin system",
+  "    Antibacterials for systemic use",
+  "    Antidepressants",
+  "    Antiepileptics",
+  "    Antiinflammatory and antirheumatic products",
+  "    Antineoplastic agents",
+  "    Antipsoriatics",
+  "    Antithrombotic agents",
+  "    Beta blocking agents",
+  "    Calcium channel blockers",
+  "    Diuretics",  
+  "    Drugs for acid related disorders",
+  "    Drugs for obstructive airway diseases",
+  "    Drugs used in diabetes",
+  "    Immunosuppressants",
+  "    Lipid modifying agents",  
+  "    Opioids",
+  "    Psycholeptics",
+  "    Psychostimulants, agents used for adhd and nootropics",
+  "Race",
+  "    race = Asian",
+  "    race = Other Race",
+  "    race = White",
+  "    race = Unknown",
+  "    race = American Indian or Alaska Native",
+  "    race = Asian Indian",
+  "    race = Chinese",
+  "    race = Filipino",
+  "    race = Korean",
+  "    race = Laotian",
+  "    race = Vietnamese",
+  "    race = Other Pacific Islander",
+  "Ethnicity",
+  "    ethnicity = Hispanic or Latino",
+  "    ethnicity = Not Hispanic or Latino")
+
+orders <- c(1:length(names))
+tableOrder <- data.frame(id = names,
+                         order = orders)
+
+t3 <- full_join(t2, tableOrder, by = "id") %>% arrange(order) %>% select(-order.x, order.y, order)
+t3[is.na(t3)] <- ""
+
+targetId <- aceArbMonoId
+comparatorId <- ccbThzMonoId
+databaseId = "SIDIAP and CUIMC" 
+
+# makeCharacteristicsTable <- function(databaseId,
+#                                      targetId,
+#                                      comparatorId,
+#                                      dataFolder,
+#                                      outcomeId = covidNarrowId) {
+# 
+# covariate <- readRDS(file.path(dataFolder, paste0("covariate_", databaseId, ".rds")))
+# colnames(covariate) <- SqlRender::snakeCaseToCamelCase(colnames(covariate))
+# 
+# balance <- getCovariateBalance(NULL, targetId, comparatorId, databaseId = databaseId, analysisId = primaryAnalysisId, outcomeId = outcomeId, 
+#                                covariate = covariate, dataFolder = dataFolder)
+# 
+#   table <- prepareTable1(balance,pathToCsv = system.file("shiny", "EvidenceExplorer", "Table1Specs.csv", 
+#                                       package = "Covid19IncidenceRasInhibitors"))
+#   table <- table[3:nrow(table),]
+
 
 
 
 #out <- lapply(balances_strat, function(tmp) {
 
-  scale <- 0.55
-  header <- readr::read_file("Table1Top.tex")
+  scale <- 0.64
+  header <- readr::read_file("Table1TopDouble.tex")
   # targetName <- (firstLineClasses %>% filter(cohortId == tmp$targetId))$shortName
   # comparatorName <- (firstLineClasses %>% filter(cohortId == tmp$comparatorId))$shortName
 
   # if (!(targetName == "THZ" && comparatorName == "ACEi")) {
 
-  targetName <- "ACE/ARB monotherapy"
-  comparatorName <- "CCB/THZ monotherapy"
+  targetName <- cohorts %>% filter(cohortId == targetId) %>% select(shinyName) %>% pull
+  comparatorName <- cohorts %>% filter(cohortId == comparatorId) %>% select(shinyName) %>% pull
   title <- sub(pattern = "Patient demographics",
-               replacement = paste0("Baseline patient characteristcs for ", targetName," (T) and ", comparatorName, " (C) prevalent-users in the SIDIAP data source"),
+               replacement = paste0("Baseline patient characteristcs for ", targetName," (T) and ", comparatorName, " (C) prevalent-users in the ", databaseId, " data source"),
                x = header)
 
   title <- sub("0.5\\\\textwidth", paste0(scale, "\\\\textwidth"), x = title)
@@ -206,11 +457,15 @@ balance <- getCovariateBalance(NULL, aceArbMonoId, ccbThzMonoId, databaseId = da
   cat(title)
 
   # table <- prepareTable1(tmp$balance, pathToCsv = file.path("..", "Table1Specs.csv"))
-  table <- prepareTable1(balance,pathToCsv = system.file("shiny", "EvidenceExplorer", "Table1Specs.csv", 
-                                      package = "Covid19IncidenceRasInhibitors"))
-  table <- table[3:nrow(table),]
+  # table <- prepareTable1(balance,pathToCsv = system.file("shiny", "EvidenceExplorer", "Table1Specs.csv", 
+  #                                     package = "Covid19IncidenceRasInhibitors"))
+  
+  
+  
+  # table <- table[3:nrow(table),]
+  table <- t3 %>% select(-order.y, -order)
 
-  print(xtable(table, format = "latex", align = c("l","l","r","r","r","r","r","r")),
+  print(xtable(table, format = "latex", align = c("l","l","r","r","r","r","r","r","r","r","r","r","r","r")),
         include.rownames = FALSE,
         include.colnames = FALSE,
         hline.after = NULL,
@@ -220,6 +475,16 @@ balance <- getCovariateBalance(NULL, aceArbMonoId, ccbThzMonoId, databaseId = da
 
   footer <- readr::read_file("Table1Botton.tex")
   cat(footer)
+#}
+
+ # tmp <- makeCharacteristicsTable(aceArbMonoId, ccbThzMonoId, 
+ #                          databaseIds = c("SIDIAP", "CUIMC"),
+ #                          dataFolders = c(dataFolder = file.path(sidiapDir, "shinyData"),
+ #                                          dataFolder = file.path(cuimcDir, "shinyData")))
+
+# makeCharacteristicsTable(aceArbMonoId, ccbThzMonoId,   databaseId = "SIDIAP", dataFolder = file.path(sidiapDir, "shinyData"))
+# makeCharacteristicsTable(aceArbMonoId, ccbThzMonoId,   databaseId = "CUIMC", dataFolder = file.path(cuimcDir, "shinyData"))
+
 ```
 
 
