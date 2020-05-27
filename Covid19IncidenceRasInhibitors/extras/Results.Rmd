@@ -9,9 +9,11 @@ output:
   pdf_document:
     keep_tex: true
     md_extensions: +raw_attribute
+    latex_engine: xelatex
+mainfont: Arial
     #citation_package: natbib
     #rticles::sim_article
-fontsize: 11pt
+fontsize: 10pt
 geometry: margin=1in
 classoptions: doublespace
 longtable: true
@@ -70,11 +72,22 @@ arbComboId <- cohorts %>% filter(shinyName == "ARB +combo") %>% select(cohortId)
 aceArbComboId <- cohorts %>% filter(shinyName == "ACE/ARB +combo") %>% select(cohortId) %>% pull()
 ccbThzComboId <- cohorts %>% filter(shinyName == "CCB/THZ +combo") %>% select(cohortId) %>% pull()
 
+ccbMonoId <- cohorts %>% filter(shinyName == "CCB mono") %>% select(cohortId) %>% pull()
+thzMonoId <- cohorts %>% filter(shinyName == "THZ mono") %>% select(cohortId) %>% pull()
+ccbComboId <- cohorts %>% filter(shinyName == "CCB +combo") %>% select(cohortId) %>% pull()
+thzComboId <- cohorts %>% filter(shinyName == "THZ +combo") %>% select(cohortId) %>% pull()
+
 covidNarrowId <- cohorts %>% filter(shinyName == "COVID-19 narrow") %>% select(cohortId) %>% pull()
 covidBroadId <- cohorts %>% filter(shinyName == "COVID-19 broad") %>% select(cohortId) %>% pull()
 
 pnaId <- cohorts %>% filter(shinyName == "Pneumonia") %>% select(cohortId) %>% pull()
 adverseId <- cohorts %>% filter(shinyName == "Adverse event") %>% select(cohortId) %>% pull()
+
+prettyNames <- data.frame(
+  cohortId = c(aceMonoId, arbMonoId, aceArbMonoId, ccbMonoId, thzMonoId, ccbThzMonoId,
+               aceComboId, arbComboId, aceArbComboId, ccbComboId, thzComboId, ccbThzComboId),
+  cohortName = c("ACE", "ARB", "ACE/ARB", "CCB", "THZ", "CCB/THZ",
+                 "ACE+", "ARB+", "ACE/ARB+", "CCB+", "THZ+", "CCB/THZ+"))
 
 primaryAnalysisId <- 5 # Full stratified PS
 ```
@@ -86,6 +99,7 @@ primaryAnalysisId <- 5 # Full stratified PS
 
 sidiapDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/SIDIAP"
 cuimcDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/CUIMC"
+studyFolder <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors"
 
 dataFolder <- file.path(sidiapDir, "shinyData")
 databaseId <- "SIDIAP"
@@ -173,13 +187,13 @@ print(xtable(table, format = "latex"),
       add.to.row = list(
         pos = as.list(c(0,2,4,6,8,10,12,14)),
         command = c(
-          "                       \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                       \\multicolumn{9}{l}{ACE/ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs ARB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ACE vs ARB} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ACE vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\"
           )
       ),
@@ -473,7 +487,7 @@ databaseId = "SIDIAP and CUIMC"
         add.to.row = list(pos = list(nrow(table)), command = c("\\bottomrule")),
         sanitize.text.function = identity)
 
-  footer <- readr::read_file("Table1Botton.tex")
+  footer <- readr::read_file("Table1BottonDouble.tex")
   cat(footer)
 #}
 
@@ -488,7 +502,7 @@ databaseId = "SIDIAP and CUIMC"
 ```
 
 
-```{r}
+```{r, echo=FALSE}
 
   # }
 
@@ -517,14 +531,85 @@ databaseId = "SIDIAP and CUIMC"
 
 ```
 
-<!-- ```{r} -->
-<!-- knitr::kable(tab, -->
-<!--              format = "latex", escape = FALSE, longtable = TRUE, booktabs = TRUE, -->
-<!--              caption = "\\textbf{Patient counts, total exposure and COVID-19 diagnoses}. We report study statistics (to change) for both monotherapy and in-combination cohort." -->
-<!--              ) %>% -->
-<!--   # kableExtra::column_spec(1, width="2cm") %>% -->
-<!--   # kableExtra::column_spec(2, width="10cm") %>% -->
-<!--   # kableExtra::column_spec(3, width="3cm") %>% -->
-<!--   kableExtra::kable_styling(latex_options = "striped") -->
-<!-- ``` -->
+```{r, echo=FALSE}
 
+tcs <- list(
+  list(aceArbMonoId, ccbThzMonoId),
+  list(aceArbComboId, ccbThzComboId),
+
+  list(aceMonoId, arbMonoId),
+  list(aceComboId, arbComboId),
+  
+  list(aceMonoId, ccbThzMonoId),
+  list(aceComboId, ccbThzComboId),
+  
+  list(arbMonoId, ccbThzMonoId),
+  list(arbComboId, ccbThzComboId)
+)
+tcs <- lapply(tcs, function(x) { names(x) <- c("targetId", "comparatorId"); return(x) })
+
+outcomesOfInterest <- Covid19IncidenceRasInhibitors:::getOutcomesOfInterest()
+
+databaseId <- "SIDIAP"
+cmResults <- readRDS(file.path(studyFolder, databaseId, "shinyData", sprintf("cohort_method_result_%s.rds", databaseId)))
+colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
+cmResultsSidiap <- cmResults %>% filter(outcomeId %in% outcomesOfInterest, analysisId == primaryAnalysisId)
+
+databaseId <- "CUIMC"
+cmResults <- readRDS(file.path(studyFolder, databaseId, "shinyData", sprintf("cohort_method_result_%s.rds", databaseId)))
+colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
+cmResultsCuimc <- cmResults %>% filter(outcomeId %in% outcomesOfInterest, analysisId == primaryAnalysisId)
+
+cmResults <- rbind(cmResultsSidiap, cmResultsCuimc)
+
+table <- do.call(
+  "rbind",
+  lapply(tcs, function(tc) {
+    cmResults %>% filter(targetId == tc$targetId, comparatorId == tc$comparatorId) %>%
+      left_join(prettyNames, by = c("targetId" = "cohortId")) %>% rename(targetName = cohortName) %>%
+      left_join(prettyNames, by = c("comparatorId" = "cohortId")) %>% rename(comparatorName = cohortName) %>%
+      mutate(ci = sprintf("(%1.2f - %1.2f)", ci95Lb, ci95Ub),
+             calibratedCi = sprintf("(%1.2f - %1.2f)", calibratedCi95Lb, calibratedCi95Ub)) %>%
+      select(targetName, comparatorName, databaseId, outcomeId, 
+             #rr, ci, p, 
+             calibratedRr, calibratedCi, calibratedP)
+  }))
+```
+
+\begin{table}[H]
+ \caption{COVID-19 (narrow) diagnosis risk. We calibrated hazard ratios (HRs) and their 95\% confidence intervals (CIs) across data sources.}
+  \rowcolors{2}{gray!6}{white}
+  \centering{
+  \begin{tabular}{p{-2em}p{-2em}lrrr}
+    \hiderowcolors
+    \toprule
+     & 
+    & & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$} \\
+    \midrule \showrowcolors
+```{r, echo=FALSE, results="asis"}
+print(xtable(table %>% filter(outcomeId == covidNarrowId) %>% select(-outcomeId) %>%
+               mutate(targetName = "", comparatorName = ""), 
+             format = "latex"),
+      include.rownames = FALSE,
+      include.colnames = FALSE,
+      hline.after = NULL,
+      only.contents = TRUE,
+ add.to.row = list(
+        pos = as.list(c(0,2,4,6,8,10,12,14)),
+        command = c(
+          "                       \\multicolumn{6}{l}{ACE/ARB vs CCB/THZ} \\\\ & \\multicolumn{5}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{5}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{6}{l}{ACE vs ARB} \\\\ & \\multicolumn{5}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{5}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{6}{l}{ACE vs CCB/THZ} \\\\ & \\multicolumn{5}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{5}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{6}{l}{ARB vs CCB/THZ} \\\\ & \\multicolumn{5}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{5}{l}{+ Combination} \\\\"
+          )
+      ),      
+      sanitize.text.function = identity)
+```
+  \bottomrule
+  \end{tabular}
+  }
+\end{table}

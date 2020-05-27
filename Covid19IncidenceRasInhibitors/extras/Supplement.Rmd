@@ -94,6 +94,11 @@ covidBroadId <- cohorts %>% filter(shinyName == "COVID-19 broad") %>% select(coh
 pnaId <- cohorts %>% filter(shinyName == "Pneumonia") %>% select(cohortId) %>% pull()
 adverseId <- cohorts %>% filter(shinyName == "Adverse event") %>% select(cohortId) %>% pull()
 
+prettyNames <- data.frame(
+  cohortId = c(aceMonoId, arbMonoId, aceArbMonoId, ccbMonoId, thzMonoId, ccbThzMonoId,
+               aceComboId, arbComboId, aceArbComboId, ccbComboId, thzComboId, ccbThzComboId),
+  cohortName = c("ACE", "ARB", "ACE/ARB", "CCB", "THZ", "CCB/THZ",
+                 "ACE+", "ARB+", "ACE/ARB+", "CCB+", "THZ+", "CCB/THZ+"))
 
 primaryAnalysisId <- 5 # Full stratified PS
 ```
@@ -101,10 +106,14 @@ primaryAnalysisId <- 5 # Full stratified PS
 
 # Sample sizes, total follow-up times and events
 
+## PS Stratification
+
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
 sidiapDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/SIDIAP"
 cuimcDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/CUIMC"
+
+studyFolder <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors"
 
 dataFolder <- file.path(sidiapDir, "shinyData")
 databaseId <- "SIDIAP"
@@ -476,6 +485,8 @@ source(system.file("shiny", "EvidenceExplorer", "PlotsAndTables.R",
 #                    package = "Covid19IncidenceRasInhibitors"))
 ```
 
+## PS Stratification
+
 ```{r, echo=FALSE, results="asis", cache=FALSE, warning=FALSE}
 
 getCovariateBalance <- function(connection,
@@ -659,4 +670,93 @@ makeAll("CUIMC", cuimcDir)
 <!--   # kableExtra::column_spec(3, width="3cm") %>% -->
 <!--   kableExtra::kable_styling(latex_options = "striped") -->
 <!-- ``` -->
+
+# Effect estimates
+
+## PS Stratification
+
+```{r, echo=FALSE}
+
+tcs <- list(
+  list(aceArbMonoId, ccbThzMonoId),
+  list(aceArbComboId, ccbThzComboId),
+  
+  list(aceArbMonoId, ccbMonoId),
+  list(aceArbComboId, ccbComboId),
+  
+  list(aceArbMonoId, thzMonoId),
+  list(aceArbComboId, thzComboId),
+  
+  list(aceMonoId, arbMonoId),
+  list(aceComboId, arbComboId),
+  
+  list(aceMonoId, ccbThzMonoId),
+  list(aceComboId, ccbThzComboId),
+  
+  list(aceMonoId, ccbMonoId),
+  list(aceComboId, ccbComboId),
+  
+  list(aceMonoId, thzMonoId),
+  list(aceComboId, thzComboId),
+  
+  list(arbMonoId, ccbThzMonoId),
+  list(arbComboId, ccbThzComboId),
+  
+  list(arbMonoId, ccbMonoId),
+  list(arbComboId, ccbComboId),
+  
+  list(arbMonoId, thzMonoId),
+  list(arbComboId, thzComboId)
+)
+tcs <- lapply(tcs, function(x) { names(x) <- c("targetId", "comparatorId"); return(x) })
+
+databaseId <- "SIDIAP"
+
+outcomesOfInterest <- Covid19IncidenceRasInhibitors:::getOutcomesOfInterest()
+cmResults <- readRDS(file.path(studyFolder, databaseId, "shinyData", sprintf("cohort_method_result_%s.rds", databaseId)))
+colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
+cmResults <- cmResults %>% filter(outcomeId %in% outcomesOfInterest, analysisId == primaryAnalysisId)
+
+
+table <- do.call(
+  "rbind",
+  lapply(tcs, function(tc) {
+    cmResults %>% filter(targetId == tc$targetId, comparatorId == tc$comparatorId) %>%
+      left_join(prettyNames, by = c("targetId" = "cohortId")) %>% rename(targetName = cohortName) %>%
+      left_join(prettyNames, by = c("comparatorId" = "cohortId")) %>% rename(comparatorName = cohortName) %>%
+      mutate(ci = sprintf("(%1.2f - %1.2f)", ci95Lb, ci95Ub),
+             calibratedCi = sprintf("(%1.2f - %1.2f)", calibratedCi95Lb, calibratedCi95Ub)) %>%
+      select(targetName, comparatorName, outcomeId, 
+             rr, ci, p, 
+             calibratedRr, calibratedCi, calibratedP)
+  }))
+```
+
+\begin{table}[H]
+ \caption{Need a title for COVID narrow effects in SIDIAP. (+) indicates in-combination.}
+  \rowcolors{2}{gray!6}{white}
+  \centering{
+  \begin{tabular}{llrrrrrr}
+    \hiderowcolors
+    \toprule
+    & & \multicolumn{3}{c}{Uncalibrated} & \multicolumn{3}{c}{Calibrated} \\
+    \multicolumn{1}{c}{Target} & \multicolumn{1}{c}{Comparator} 
+    & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$}
+    & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$} \\
+    \midrule \showrowcolors
+```{r, echo=FALSE, results="asis"}
+print(xtable(table %>% filter(outcomeId == covidNarrowId) %>% select(-outcomeId), 
+             format = "latex"),
+      include.rownames = FALSE,
+      include.colnames = FALSE,
+      hline.after = NULL,
+      only.contents = TRUE,
+      sanitize.text.function = identity)
+```
+  \bottomrule
+  \end{tabular}
+  }
+\end{table}
+
+## PS Matching
 
