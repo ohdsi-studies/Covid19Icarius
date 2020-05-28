@@ -294,13 +294,17 @@ blend <- function(databaseIds,
   table1$order <- c(1:nrow(table1))
   table2$order <- c(1:nrow(table2))
 
-  return(list(table1, table2, specifications))
+  return(list(table1, table2, specifications,
+              numCovariates = c(nrow(balance1), nrow(balance2))))
 }
 
  tmp <- blend(aceArbMonoId, ccbThzMonoId,
                           databaseIds = c("SIDIAP", "CUIMC"),
                           dataFolders = c(dataFolder = file.path(sidiapDir, "shinyData"),
                                           dataFolder = file.path(cuimcDir, "shinyData")))
+ 
+ numCovariates <- tmp$numCovariates
+ names(numCovariates) <- c("SIDIAP", "CUIMC")
  
  t2 <- full_join(tmp[[1]], tmp[[2]], by = "id")
  
@@ -531,6 +535,12 @@ databaseId = "SIDIAP and CUIMC"
 
 ```
 
+## Numbers of covariates
+
+```{r}
+numCovariates
+```
+
 ```{r, echo=FALSE}
 
 tcs <- list(
@@ -572,7 +582,7 @@ table <- do.call(
              calibratedCi = sprintf("(%1.2f - %1.2f)", calibratedCi95Lb, calibratedCi95Ub)) %>%
       select(targetName, comparatorName, databaseId, outcomeId, 
              #rr, ci, p, 
-             calibratedRr, calibratedCi, calibratedP)
+             calibratedRr, calibratedCi, calibratedP, calibratedCi95Lb, calibratedCi95Ub)
   }))
 ```
 
@@ -587,7 +597,8 @@ table <- do.call(
     & & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$} \\
     \midrule \showrowcolors
 ```{r, echo=FALSE, results="asis"}
-print(xtable(table %>% filter(outcomeId == covidNarrowId) %>% select(-outcomeId) %>%
+print(xtable(table %>% filter(outcomeId == covidNarrowId) %>% 
+               select(-outcomeId, -calibratedCi95Lb, -calibratedCi95Ub) %>%
                mutate(targetName = "", comparatorName = ""), 
              format = "latex"),
       include.rownames = FALSE,
@@ -613,3 +624,244 @@ print(xtable(table %>% filter(outcomeId == covidNarrowId) %>% select(-outcomeId)
   \end{tabular}
   }
 \end{table}
+
+# Pretty figure
+
+```{r, echo=FALSE}
+
+pdf(file = "SixEffect.pdf", height = 6, width = 6)
+
+dbs <- 2
+
+map <- function(index) {
+  floor(index / dbs) + 2 * floor(index / (2 * dbs)) + 3 + index
+}
+
+tab <- table %>% filter(outcomeId == covidNarrowId) %>%
+  mutate(index = row_number() - 1,
+         row = map(index))
+
+ymax <- max(tab$row)
+ 
+par(mar = c(1,1,1,1))
+
+plot(0,0, type = "n",
+     ylim = c(-3, ymax),
+     xlim = c(0, 12), axes = FALSE, ylab = "", xlab = "")
+
+textCex <- 0.6
+
+cohortNames <- c("ACE/ARB vs CCB/THZ", "ACE vs ARB", "ACE vs CCB/THZ", "ARB vs CCB/THZ")
+cohortPositions <- (c(1:length(cohortNames)) - 1) * (2 * dbs + 4) + 1
+text(x = 0, y = ymax - cohortPositions, labels = cohortNames, pos = 4, cex = textCex)
+
+minorNames <- rep(c("Monotherapy", "+ Combination"), length(cohortNames))
+minorTicks <- tab %>% filter(databaseId == "SIDIAP") %>% select(row) %>% pull() - 1
+text(x = 0.25, y = ymax - minorTicks, labels = minorNames, pos = 4, cex = textCex)
+
+text(x = 0.5, y = ymax - tab$row, labels = tab$databaseId, pos = 4, cex = textCex)
+
+start <- 3.5
+width <- 2
+spacer <- 2.4
+tick <- 0.1
+
+scaleMin <- 1/4  # -1
+scaleMax <- 4    # +1
+
+scale <- function(x) {
+  log(x) / (log(scaleMax) - log(scaleMin)) * width
+}
+
+clip_min <- function(x) { 
+  pmax(x, -width / 2)
+}
+
+clip_max <- function(x) {
+  pmin(x, +width / 2)
+}
+
+clip_rm <- function(x) {
+  x[x > width / 2] <- NA
+  x[x < -width / 2] <- NA
+  x
+}
+
+outcomeIds <- c(covidNarrowId, covidBroadId, adverseId, pnaId)
+outcomeNames <- c("Narrow", "Broad", "Severe", "PNA")
+
+for (i in 1:4) {
+  
+  offset <- start + (i - 1) * spacer
+  
+  rect(xleft = offset + scale(scaleMin),
+       xright = offset + scale(scaleMax),
+       ytop = ymax - 2,
+       ybottom = -0.5,
+       col = "grey90", border = NA)
+  
+  segments(x0 = offset, x1 = offset,
+           y0 = -0.5, y1 = ymax - 2, lty = 3)
+  
+  tab <- table %>% filter(outcomeId == outcomeIds[i]) %>%
+    mutate(index = row_number() - 1,
+           row = map(index))  
+  
+  points(x = offset + scale(tab$calibratedRr), y = ymax - tab$row, pch = 20)
+  segments(x0 = offset + clip_min(scale(tab$calibratedCi95Lb)),
+           x1 = offset + clip_max(scale(tab$calibratedCi95Ub)),
+           y0 = ymax - tab$row, y1 = ymax - tab$row)  
+  
+  segments(x0 = offset + clip_rm(scale(tab$calibratedCi95Lb)),
+           x1 = offset + clip_rm(scale(tab$calibratedCi95Lb)),
+           y0 = ymax - tab$row + tick,
+           y1 = ymax - tab$row - tick)
+  
+  segments(x0 = offset + clip_rm(scale(tab$calibratedCi95Ub)),
+           x1 = offset + clip_rm(scale(tab$calibratedCi95Ub)),
+           y0 = ymax - tab$row + tick,
+           y1 = ymax - tab$row - tick)  
+  
+  bt <- -0.75
+  
+  segments(x0 = offset - width / 2,
+           x1 = offset + width / 2,
+           y0 = bt, y1 = bt)
+  
+  marks <- scale(c(1/4, 1/2, 1, 2, 4))
+  labels <- c("1/4", "1/2", "1", "2", "4")
+  
+  segments(x0 = offset + marks,
+           x1 = offset + marks,
+           y0 = bt,
+           y1 = bt - 0.2)
+  
+  text(x = offset + marks,
+       y = bt - 0.1,
+       labels = labels,
+       pos = 1, cex = textCex)
+  
+  text(x = offset,
+       y = bt - 2,
+       labels = outcomeNames[i])
+}
+
+invisible(dev.off())
+
+```
+
+
+\begin{figure}[H]
+  \caption{Effect estimates for selected comparisons and all outcomes}
+  \centerline{
+    \includegraphics[width=0.95\textwidth]{SixEffect}
+  }
+\end{figure}
+
+# Balance plots
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+plotCovariateBalanceScatterPlot <- function(balance, beforeLabel = "Before stratification", afterLabel = "After stratification") {
+  limits <- c(min(c(balance$absBeforeMatchingStdDiff, balance$absAfterMatchingStdDiff),
+                  na.rm = TRUE),
+              max(c(balance$absBeforeMatchingStdDiff, balance$absAfterMatchingStdDiff),
+                  na.rm = TRUE))
+  theme <- ggplot2::element_text(colour = "#000000", size = 12)
+  plot <- ggplot2::ggplot(balance, ggplot2::aes(x = absBeforeMatchingStdDiff, y = absAfterMatchingStdDiff)) +
+    ggplot2::geom_point(color = rgb(0, 0, 0.8, alpha = 0.3), shape = 16, size = 2) +
+    ggplot2::geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    ggplot2::geom_hline(yintercept = 0) +
+    ggplot2::geom_vline(xintercept = 0) +
+    ggplot2::scale_x_continuous(beforeLabel, limits = limits) +
+    ggplot2::scale_y_continuous(afterLabel, limits = limits) +
+    ggplot2::theme(text = theme)
+  
+  return(plot)
+}
+
+covariate <- readRDS(file.path(studyFolder, "CUIMC", "shinyData", paste0("covariate_", "CUIMC", ".rds")))
+colnames(covariate) <- SqlRender::snakeCaseToCamelCase(colnames(covariate))
+
+balanceStrat <- getCovariateBalance(NULL, arbComboId, ccbThzComboId, databaseId = "CUIMC", analysisId = primaryAnalysisId,
+                                    outcomeId = covidNarrowId,
+                                    covariate = covariate, 
+                                    dataFolder = file.path(studyFolder, "CUIMC", "shinyData"))
+
+plotStrat <- plotCovariateBalanceScatterPlot(balanceStrat,
+                                             beforeLabel = "Before stratification", 
+                                             afterLabel = "After stratification")
+
+balanceMatch <- getCovariateBalance(NULL, arbComboId, ccbThzComboId, databaseId = "CUIMC", analysisId = 6,
+                                    outcomeId = covidNarrowId,
+                                    covariate = covariate, 
+                                    dataFolder = file.path(studyFolder, "CUIMC", "shinyData"))
+
+plotMatch <- plotCovariateBalanceScatterPlot(balanceMatch,
+                                             beforeLabel = "Before matching", 
+                                             afterLabel = "After matching")
+
+library(ggplot2)
+ggsave("plotStratArb.pdf", plot = plotStrat, width = 4, height = 4)
+ggsave("plotMatchArb.pdf", plot = plotMatch, width = 4, height = 4)
+
+balanceStratArb <- balanceStrat
+
+balanceStrat <- getCovariateBalance(NULL, aceComboId, arbComboId, databaseId = "CUIMC", analysisId = primaryAnalysisId,
+                                    outcomeId = covidNarrowId,
+                                    covariate = covariate, 
+                                    dataFolder = file.path(studyFolder, "CUIMC", "shinyData"))
+
+plotStrat <- plotCovariateBalanceScatterPlot(balanceStrat,
+                                             beforeLabel = "Before stratification", 
+                                             afterLabel = "After stratification")
+
+balanceMatch <- getCovariateBalance(NULL, aceComboId, arbComboId, databaseId = "CUIMC", analysisId = 6,
+                                    outcomeId = covidNarrowId,
+                                    covariate = covariate, 
+                                    dataFolder = file.path(studyFolder, "CUIMC", "shinyData"))
+
+plotMatch <- plotCovariateBalanceScatterPlot(balanceMatch,
+                                             beforeLabel = "Before matching", 
+                                             afterLabel = "After matching")
+
+balanceStratAce <- balanceStrat
+
+library(ggplot2)
+ggsave("plotStratAce.pdf", plot = plotStrat, width = 4, height = 4)
+ggsave("plotMatchAce.pdf", plot = plotMatch, width = 4, height = 4)
+
+```
+
+\begin{figure}[H]
+  \caption{ARB combo vs CCB/THZ combo in CUIMC.}
+  \begin{center}
+    \includegraphics[width=0.4\textwidth]{plotStratArb} \includegraphics[width=0.4\textwidth]{plotMatchArb}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \caption{ACE combo vs ARB combo in CUIMC.}
+  \begin{center}
+    \includegraphics[width=0.4\textwidth]{plotStratAce} \includegraphics[width=0.4\textwidth]{plotMatchAce}
+  \end{center}
+\end{figure}
+
+### Info about ARB vs CCB/THZ the extreme values in CUIMC stratification:
+```{r}
+maxIndex <- which(balanceStratArb$absBeforeMatchingStdDiff == max(
+  balanceStratArb$absBeforeMatchingStdDiff))
+balanceStratArb[maxIndex,
+                c("covariateName", "beforeMatchingMeanTreated", "beforeMatchingMeanComparator")]
+
+```
+
+### Info about ACE vs ARB the extreme values in CUIMC stratification:
+```{r}
+maxIndex <- which(balanceStratAce$absBeforeMatchingStdDiff > 0.3)
+balanceStratAce[maxIndex,
+                c("covariateName", "beforeMatchingMeanTreated", "beforeMatchingMeanComparator")]
+
+```
+
+
