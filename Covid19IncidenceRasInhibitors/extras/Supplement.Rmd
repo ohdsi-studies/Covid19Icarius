@@ -9,8 +9,8 @@ output:
   pdf_document:
     keep_tex: true
     md_extensions: +raw_attribute
-    #citation_package: natbib
-    #rticles::sim_article
+    latex_engine: xelatex
+mainfont: Arial    
 fontsize: 11pt
 geometry: margin=1in
 classoptions: doublespace
@@ -673,9 +673,7 @@ makeAll("CUIMC", cuimcDir)
 
 # Effect estimates
 
-## PS Stratification
-
-```{r, echo=FALSE}
+```{r setupOutcomeTables, echo=FALSE}
 
 tcs <- list(
   list(aceArbMonoId, ccbThzMonoId),
@@ -710,15 +708,36 @@ tcs <- list(
 )
 tcs <- lapply(tcs, function(x) { names(x) <- c("targetId", "comparatorId"); return(x) })
 
+makeEffectTable <- function(outcomeName, designName, databaseName, table) {
+  header <- readr::read_file("SupTabEffectTop.tex")
+  header <- sub(pattern = "OUTCOME", replacement = outcomeName, x = header)
+  header <- sub(pattern = "DESIGN", replacement = designName, x = header)
+  header <- sub(pattern = "DATASOURCE", replacement = databaseName, x = header)
+  cat(header)
+  print(xtable(table %>% select(-outcomeId, -analysisId), 
+               format = "latex"),
+        include.rownames = FALSE,
+        include.colnames = FALSE,
+        hline.after = NULL,
+        only.contents = TRUE,
+        sanitize.text.function = identity)
+  footer <- readr::read_file("SupTabEffectBottom.tex")
+  cat(footer)
+}
+```
+
+## PS Stratification
+
+### SIDIAP
+
+```{r, echo=FALSE}
 databaseId <- "SIDIAP"
 
 outcomesOfInterest <- Covid19IncidenceRasInhibitors:::getOutcomesOfInterest()
 cmResults <- readRDS(file.path(studyFolder, databaseId, "shinyData", sprintf("cohort_method_result_%s.rds", databaseId)))
 colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
-cmResults <- cmResults %>% filter(outcomeId %in% outcomesOfInterest, analysisId == primaryAnalysisId)
 
-
-table <- do.call(
+sidiapTable <- do.call(
   "rbind",
   lapply(tcs, function(tc) {
     cmResults %>% filter(targetId == tc$targetId, comparatorId == tc$comparatorId) %>%
@@ -726,37 +745,92 @@ table <- do.call(
       left_join(prettyNames, by = c("comparatorId" = "cohortId")) %>% rename(comparatorName = cohortName) %>%
       mutate(ci = sprintf("(%1.2f - %1.2f)", ci95Lb, ci95Ub),
              calibratedCi = sprintf("(%1.2f - %1.2f)", calibratedCi95Lb, calibratedCi95Ub)) %>%
-      select(targetName, comparatorName, outcomeId, 
+      select(targetName, comparatorName, outcomeId, analysisId,
+             rr, ci, p, 
+             calibratedRr, calibratedCi, calibratedP)
+  }))
+
+
+databaseId <- "CUIMC"
+
+outcomesOfInterest <- Covid19IncidenceRasInhibitors:::getOutcomesOfInterest()
+cmResults <- readRDS(file.path(studyFolder, databaseId, "shinyData", sprintf("cohort_method_result_%s.rds", databaseId)))
+colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
+
+cuimcTable <- do.call(
+  "rbind",
+  lapply(tcs, function(tc) {
+    cmResults %>% filter(targetId == tc$targetId, comparatorId == tc$comparatorId) %>%
+      left_join(prettyNames, by = c("targetId" = "cohortId")) %>% rename(targetName = cohortName) %>%
+      left_join(prettyNames, by = c("comparatorId" = "cohortId")) %>% rename(comparatorName = cohortName) %>%
+      mutate(ci = sprintf("(%1.2f - %1.2f)", ci95Lb, ci95Ub),
+             calibratedCi = sprintf("(%1.2f - %1.2f)", calibratedCi95Lb, calibratedCi95Ub)) %>%
+      select(targetName, comparatorName, outcomeId, analysisId,
              rr, ci, p, 
              calibratedRr, calibratedCi, calibratedP)
   }))
 ```
 
-\begin{table}[H]
- \caption{Need a title for COVID narrow effects in SIDIAP. (+) indicates in-combination.}
-  \rowcolors{2}{gray!6}{white}
-  \centering{
-  \begin{tabular}{llrrrrrr}
-    \hiderowcolors
-    \toprule
-    & & \multicolumn{3}{c}{Uncalibrated} & \multicolumn{3}{c}{Calibrated} \\
-    \multicolumn{1}{c}{Target} & \multicolumn{1}{c}{Comparator} 
-    & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$}
-    & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$} \\
-    \midrule \showrowcolors
 ```{r, echo=FALSE, results="asis"}
-print(xtable(table %>% filter(outcomeId == covidNarrowId) %>% select(-outcomeId), 
-             format = "latex"),
-      include.rownames = FALSE,
-      include.colnames = FALSE,
-      hline.after = NULL,
-      only.contents = TRUE,
-      sanitize.text.function = identity)
+makeEffectTable("COVID-19 diagnosis", "stratified", "SIDIAP", 
+                sidiapTable %>% filter(outcomeId == covidNarrowId, analysisId == primaryAnalysisId))
+  
+makeEffectTable("COVID-19 hospitalization", "stratifed", "SIDIAP", 
+                sidiapTable %>% filter(outcomeId == covidBroadId, analysisId == primaryAnalysisId))
+
+makeEffectTable("intensive services", "stratifed", "SIDIAP", 
+                sidiapTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId))
+
+makeEffectTable("pneumonia", "stratifed", "SIDIAP", 
+                sidiapTable %>% filter(outcomeId == pnaId, analysisId == primaryAnalysisId))
 ```
-  \bottomrule
-  \end{tabular}
-  }
-\end{table}
+
+### CUIMC
+
+```{r, echo=FALSE, results="asis"}
+makeEffectTable("COVID-19 diagnosis", "stratified", "CUIMC", 
+                cuimcTable %>% filter(outcomeId == covidNarrowId, analysisId == primaryAnalysisId))
+  
+makeEffectTable("COVID-19 hospitalization", "stratifed", "CUIMC", 
+                cuimcTable %>% filter(outcomeId == covidBroadId, analysisId == primaryAnalysisId))
+
+makeEffectTable("intensive services", "stratifed", "CUIMC", 
+                cuimcTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId))
+
+makeEffectTable("pneumonia", "stratifed", "CUIMC", 
+                cuimcTable %>% filter(outcomeId == pnaId, analysisId == primaryAnalysisId))
+```
 
 ## PS Matching
 
+### SIDIAP
+
+```{r, echo=FALSE, results="asis"}
+makeEffectTable("COVID-19 diagnosis", "matched", "SIDIAP", 
+                sidiapTable %>% filter(outcomeId == covidNarrowId, analysisId == 6))
+  
+makeEffectTable("COVID-19 hospitalization", "matched", "SIDIAP", 
+                sidiapTable %>% filter(outcomeId == covidBroadId, analysisId == 6))
+
+makeEffectTable("intensive services", "matched", "SIDIAP", 
+                sidiapTable %>% filter(outcomeId == adverseId, analysisId == 6))
+
+makeEffectTable("pneumonia", "matched", "SIDIAP", 
+                sidiapTable %>% filter(outcomeId == pnaId, analysisId == 6))
+```
+
+### CUIMC
+
+```{r, echo=FALSE, results="asis"}
+makeEffectTable("COVID-19 diagnosis", "matched", "CUIMC", 
+                cuimcTable %>% filter(outcomeId == covidNarrowId, analysisId == 6))
+  
+makeEffectTable("COVID-19 hospitalization", "matched", "CUIMC", 
+                cuimcTable %>% filter(outcomeId == covidBroadId, analysisId == 6))
+
+makeEffectTable("intensive services", "matched", "CUIMC", 
+                cuimcTable %>% filter(outcomeId == adverseId, analysisId == 6))
+
+makeEffectTable("pneumonia", "matched", "CUIMC", 
+                cuimcTable %>% filter(outcomeId == pnaId, analysisId == 6))
+```

@@ -758,7 +758,7 @@ invisible(dev.off())
   }
 \end{figure}
 
-# Count covariates
+# Min/max covariate counts across data sources
 
 ```{r, echo=FALSE, cache=TRUE}
 files <- list.files(file.path(sidiapDir, "shinyData"), 
@@ -772,7 +772,9 @@ sidiapCounts <- do.call("rbind.data.frame",
                           target <- sub("_.*", "", t)
                           c <- sub(".*c", "", file)
                           comparator <- sub("_.*", "", c)
-                          return(list(rows = nrow(bal), target = as.numeric(target), 
+                          return(list(rows = bal %>% filter(analysis_id == primaryAnalysisId, 
+                                                            outcome_id == covidNarrowId) %>% nrow(), 
+                                      target = as.numeric(target), 
                                       comparator = as.numeric(comparator)))
                         }))
 
@@ -787,12 +789,14 @@ cuimcCounts <- do.call("rbind.data.frame",
                          target <- sub("_.*", "", t)
                          c <- sub(".*c", "", file)
                          comparator <- sub("_.*", "", c)
-                         return(list(rows = nrow(bal), target = as.numeric(target), 
+                         return(list(rows = bal %>% filter(analysis_id == primaryAnalysisId, 
+                                                            outcome_id == covidNarrowId) %>% nrow(), 
+                                     target = as.numeric(target), 
                                      comparator = as.numeric(comparator)))
                        }))
 ```
 
-```{r}
+```{r, echo=FALSE}
 #library(dplyr)
 sidiapCounts %>% filter(rows == max(sidiapCounts$rows) | rows == min(sidiapCounts$rows)) %>%
   inner_join(cohorts, by = c("target" = "cohortId")) %>% 
@@ -807,9 +811,7 @@ cuimcCounts %>% filter(rows == max(cuimcCounts$rows) | rows == min(cuimcCounts$r
   inner_join(cohorts, by = c("comparator" = "cohortId")) %>% 
   rename(comparatorName = shinyName) %>% 
   select(rows, targetName, comparatorName) %>% mutate(databaseId = "CUIMC")
-
 ```
-
 
 # Balance plots
 
