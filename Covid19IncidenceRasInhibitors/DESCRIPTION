@@ -1,7 +1,7 @@
 Package: Covid19IncidenceRasInhibitors
 Type: Package
 Title: A Package Skeleton for Comparative Effectiveness Studies
-Version: 0.0.1
+Version: 1.1.0
 Author: Marc A. Suchard [aut, cre]
 Maintainer: Marc A. Suchard <msuchard@ucla.edu>
 Description: A skeleton package, to be used as a starting point when implementing comparative effect studies.

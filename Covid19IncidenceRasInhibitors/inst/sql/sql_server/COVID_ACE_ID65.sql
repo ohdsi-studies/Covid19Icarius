@@ -55,11 +55,11 @@ UNION  select c.concept_id
 INSERT INTO #Codesets (codeset_id, concept_id)
 SELECT 20 as codeset_id, c.concept_id FROM (select distinct I.concept_id FROM
 ( 
-  select concept_id from @vocabulary_database_schema.CONCEPT where concept_id in (1332418,1395058,1353776,974166,978555,1326012,907013,1318137,1318853,1319880,19015802,19004539,19071995,1316354,19010493)
+  select concept_id from @vocabulary_database_schema.CONCEPT where concept_id in (1332418,1395058,1353776,974166,978555,1326012,907013,1318137,1318853,1319880,1319133,19020061,19089969,19004539,19015802,19071995,19102106,19113063,1316354,19010493)
 UNION  select c.concept_id
   from @vocabulary_database_schema.CONCEPT c
   join @vocabulary_database_schema.CONCEPT_ANCESTOR ca on c.concept_id = ca.descendant_concept_id
-  and ca.ancestor_concept_id in (1332418,1395058,1353776,974166,978555,1326012,907013,1318137,1318853,1319880,19015802,19004539,19071995,1316354,19010493)
+  and ca.ancestor_concept_id in (1332418,1395058,1353776,974166,978555,1326012,907013,1318137,1318853,1319880,1319133,19020061,19089969,19004539,19015802,19071995,19102106,19113063,1316354,19010493)
   and c.invalid_reason is null
 
 ) I
@@ -67,11 +67,11 @@ UNION  select c.concept_id
 INSERT INTO #Codesets (codeset_id, concept_id)
 SELECT 21 as codeset_id, c.concept_id FROM (select distinct I.concept_id FROM
 ( 
-  select concept_id from @vocabulary_database_schema.CONCEPT where concept_id in (1340128,1341927,1363749,1308216,1373225,1334456,1335471,1310756,1331235,1342439,19122327)
+  select concept_id from @vocabulary_database_schema.CONCEPT where concept_id in (1308216,1310756,1331235,1334456,1335471,1340128,1341927,1342001,1342439,1363749,1373225,19040051,19050216,19102107,19122327,45775374,45775375,45775527,45775529,45775539,45775544)
 UNION  select c.concept_id
   from @vocabulary_database_schema.CONCEPT c
   join @vocabulary_database_schema.CONCEPT_ANCESTOR ca on c.concept_id = ca.descendant_concept_id
-  and ca.ancestor_concept_id in (1340128,1341927,1363749,1308216,1373225,1334456,1335471,1310756,1331235,1342439,19122327)
+  and ca.ancestor_concept_id in (1308216,1310756,1331235,1334456,1335471,1340128,1341927,1342001,1342439,1363749,1373225,19040051,19050216,19102107,19122327,45775374,45775375,45775527,45775529,45775539,45775544)
   and c.invalid_reason is null
 
 ) I
