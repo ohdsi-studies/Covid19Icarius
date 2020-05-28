@@ -706,14 +706,12 @@ tcs <- list(
 tcs <- lapply(tcs, function(x) { names(x) <- c("targetId", "comparatorId"); return(x) })
 ```
 
-# Cohort balance diagnostics
-
-
+# Cohort balance and systematic error diagnostics
 
 ```{r, echo=FALSE}
 plotScatter <- function(controlResults) {
   size <- 2
-  labelY <- 0.7
+  labelY <- 1.5
   d <- rbind(data.frame(yGroup = "Uncalibrated",
                         logRr = controlResults$logRr,
                         seLogRr = controlResults$seLogRr,
@@ -774,18 +772,18 @@ plotScatter <- function(controlResults) {
                               shape = 16) +
           ggplot2::geom_hline(yintercept = 0) +
           ggplot2::geom_label(x = log(0.15),
-                              y = 0.9,
+                              y = 1.9,
                               alpha = 1,
                               hjust = "left",
                               ggplot2::aes(label = nLabel),
-                              size = 5,
+                              size = 3,
                               data = dd) +
           ggplot2::geom_label(x = log(0.15),
                               y = labelY,
                               alpha = 1,
                               hjust = "left",
                               ggplot2::aes(label = meanLabel),
-                              size = 5,
+                              size = 3,
                               data = dd) +
           ggplot2::scale_x_continuous("Hazard ratio",
                                       limits = log(c(0.1, 10)),
@@ -944,11 +942,14 @@ saveSideBySidePlots <- function(plot) {
                   plot$databaseId)
   invisible(save_plot(file,
             plot_grid(
-              plot$psStrat, plot$plotStrat, plot$plotMatch, plot$errorStrat, plot$errorMatch),
-            ncol = 1, base_asp = 0.5, base_height = 8))
+              plot$psStrat, plot$plotStrat, plot$plotMatch, NULL, plot$errorStrat, plot$errorMatch, 
+              ncol = 3, rel_heights = c(1, 1)),
+            #base_asp = 0.5, 
+            #ncol = 5,
+            base_height = 8))
   return(list(file = file, targetName = plot$targetName,
               comparatorName = plot$comparatorName,
-              databaseName = databaseId))
+              databaseName = plot$databaseId))
 }
 ```
 
@@ -1016,9 +1017,6 @@ devNull <- lapply(tcs, function(tc) {
 ```
 
 \clearpage
-
-# Systematic error distributions
-
 
 
 # Effect estimates
