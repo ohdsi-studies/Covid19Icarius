@@ -106,9 +106,9 @@ primaryAnalysisId <- 5 # Full stratified PS
 ```
 
 
-# Sample sizes, total follow-up times and events
+\clearpage
 
-## PS Stratification
+# Sample sizes, total follow-up times and events
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
@@ -227,12 +227,12 @@ tableAdverse <- rbind(
   mutate(targetId = "", comparatorId = "") %>% select(-order, -databaseOrder)
 ```
 
-\begin{table}[H]
- \caption{Population size, total exposure time and COVID-19 narrow definition outcomes for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
-  \rowcolors{2}{gray!6}{white}
-  \tiny
-  \centering{
-  \begin{tabular}{p{-2em}p{-2em}rrrrrrrr}
+## COVID-19 diagnoses
+
+\rowcolors{2}{gray!6}{white}
+\begin{longtable}{p{-2em}p{-2em}rrrrrrrr}
+ \caption{Population size, total exposure time and COVID-19 diagnoses (events) for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
+  \\
     \hiderowcolors
     \toprule
     &  &  & \multicolumn{2}{c}{Patients} & \multicolumn{2}{c}{Time (years)} & \multicolumn{2}{c}{Events} \\
@@ -242,7 +242,18 @@ tableAdverse <- rbind(
     & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
     & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C} 
     & MDRR \\
-    \midrule \showrowcolors
+    \midrule 
+\endfirsthead
+    (Continued) &  &  & \multicolumn{2}{c}{Patients} & \multicolumn{2}{c}{Time (years)} & \multicolumn{2}{c}{Events} \\
+    \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9}
+    &  &
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C} 
+    & MDRR \\
+\midrule
+\endhead
+    \showrowcolors
 ```{r, echo=FALSE, results="asis"}
 print(xtable(tableNarrow, format = "latex"),
       include.rownames = FALSE,
@@ -286,16 +297,16 @@ print(xtable(tableNarrow, format = "latex"),
       sanitize.text.function = identity)
 ```
   \bottomrule
-  \end{tabular}
-  }
-\end{table}  
+\end{longtable}  
 
-\begin{table}[H]
- \caption{Population size, total exposure time and COVID-19 broad definition outcomes for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
-  \rowcolors{2}{gray!6}{white}
-  \tiny
-  \centering{
-  \begin{tabular}{p{-2em}p{-2em}rrrrrrrr}
+\clearpage
+
+## COVID-19 hospitalizations
+
+\rowcolors{2}{gray!6}{white}
+\begin{longtable}{p{-2em}p{-2em}rrrrrrrr}
+ \caption{Population size, total exposure time and COVID-19 hospitalizations (events) for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
+  \\
     \hiderowcolors
     \toprule
     &  &  & \multicolumn{2}{c}{Patients} & \multicolumn{2}{c}{Time (years)} & \multicolumn{2}{c}{Events} \\
@@ -305,7 +316,18 @@ print(xtable(tableNarrow, format = "latex"),
     & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
     & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C} 
     & MDRR \\
-    \midrule \showrowcolors
+    \midrule 
+\endfirsthead
+    (Continued) &  &  & \multicolumn{2}{c}{Patients} & \multicolumn{2}{c}{Time (years)} & \multicolumn{2}{c}{Events} \\
+    \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9}
+    &  &
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C} 
+    & MDRR \\
+\midrule
+\endhead
+    \showrowcolors
 ```{r, echo=FALSE, results="asis"}
 print(xtable(tableBroad, format = "latex"),
       include.rownames = FALSE,
@@ -349,16 +371,16 @@ print(xtable(tableBroad, format = "latex"),
       sanitize.text.function = identity)
 ```
   \bottomrule
-  \end{tabular}
-  }
-\end{table}  
+\end{longtable}  
 
-\begin{table}[H]
- \caption{Population size, total exposure time and pneunomia outcomes for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
-  \rowcolors{2}{gray!6}{white}
-  \tiny
-  \centering{
-  \begin{tabular}{p{-2em}p{-2em}rrrrrrrr}
+\clearpage
+
+## Intensive services
+
+\rowcolors{2}{gray!6}{white}
+\begin{longtable}{p{-2em}p{-2em}rrrrrrrr}
+ \caption{Population size, total exposure time and intensive services (events) for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
+  \\
     \hiderowcolors
     \toprule
     &  &  & \multicolumn{2}{c}{Patients} & \multicolumn{2}{c}{Time (years)} & \multicolumn{2}{c}{Events} \\
@@ -368,7 +390,18 @@ print(xtable(tableBroad, format = "latex"),
     & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
     & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C} 
     & MDRR \\
-    \midrule \showrowcolors
+    \midrule 
+\endfirsthead
+    (Continued) &  &  & \multicolumn{2}{c}{Patients} & \multicolumn{2}{c}{Time (years)} & \multicolumn{2}{c}{Events} \\
+    \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9}
+    &  &
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C} 
+    & MDRR \\
+\midrule
+\endhead
+    \showrowcolors
 ```{r, echo=FALSE, results="asis"}
 print(xtable(tablePna, format = "latex"),
       include.rownames = FALSE,
@@ -412,16 +445,16 @@ print(xtable(tablePna, format = "latex"),
       sanitize.text.function = identity)
 ```
   \bottomrule
-  \end{tabular}
-  }
-\end{table}  
+\end{longtable}   
 
-\begin{table}[H]
- \caption{Population size, total exposure time and COVID-19 adverse definition outcomes for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
-  \rowcolors{2}{gray!6}{white}
-  \tiny
-  \centering{
-  \begin{tabular}{p{-2em}p{-2em}rrrrrrrr}
+\clearpage
+
+## Pneumonia
+
+\rowcolors{2}{gray!6}{white}
+\begin{longtable}{p{-2em}p{-2em}rrrrrrrr}
+ \caption{Population size, total exposure time and pneumonia (events) for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
+  \\
     \hiderowcolors
     \toprule
     &  &  & \multicolumn{2}{c}{Patients} & \multicolumn{2}{c}{Time (years)} & \multicolumn{2}{c}{Events} \\
@@ -431,7 +464,18 @@ print(xtable(tablePna, format = "latex"),
     & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
     & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C} 
     & MDRR \\
-    \midrule \showrowcolors
+    \midrule 
+\endfirsthead
+    (Continued) &  &  & \multicolumn{2}{c}{Patients} & \multicolumn{2}{c}{Time (years)} & \multicolumn{2}{c}{Events} \\
+    \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9}
+    &  &
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C}
+    & \multicolumn{1}{c}{T} & \multicolumn{1}{c}{C} 
+    & MDRR \\
+\midrule
+\endhead
+    \showrowcolors
 ```{r, echo=FALSE, results="asis"}
 print(xtable(tableAdverse, format = "latex"),
       include.rownames = FALSE,
@@ -475,10 +519,10 @@ print(xtable(tableAdverse, format = "latex"),
       sanitize.text.function = identity)
 ```
   \bottomrule
-  \end{tabular}
-  }
-\end{table}  
+\end{longtable}   
 
+
+# Baseline patient characteristics and balance
 
 ```{r, echo=FALSE}
 source(system.file("shiny", "EvidenceExplorer", "PlotsAndTables.R",
@@ -486,8 +530,6 @@ source(system.file("shiny", "EvidenceExplorer", "PlotsAndTables.R",
 # source(system.file("shiny", "EvidenceExplorer", "DataPulls.R",
 #                    package = "Covid19IncidenceRasInhibitors"))
 ```
-
-## PS Stratification
 
 ```{r, echo=FALSE, results="asis", cache=FALSE, warning=FALSE}
 
@@ -546,7 +588,7 @@ balance <- getCovariateBalance(NULL, targetId, comparatorId, databaseId = databa
 #out <- lapply(balances_strat, function(tmp) {
 
   scale <- 0.55
-  header <- readr::read_file("Table1Top.tex")
+  header <- readr::read_file("Table1TopSup.tex")
   # targetName <- (firstLineClasses %>% filter(cohortId == tmp$targetId))$shortName
   # comparatorName <- (firstLineClasses %>% filter(cohortId == tmp$comparatorId))$shortName
 
@@ -561,21 +603,11 @@ balance <- getCovariateBalance(NULL, targetId, comparatorId, databaseId = databa
   title <- sub("0.5\\\\textwidth", paste0(scale, "\\\\textwidth"), x = title)
   title <- sub("-0.5em", "+0.5em", x = title)
 
-  title <- sub("% Extra row",
-               paste0("& \\\\multicolumn{3}{c}{$N$ = XXX} & \\\\multicolumn{3}{c}{$N$ = XXX} \\\\\\\\"),
-               # , "\\\\\\\\ \n",
-               #        "\& \\\\multicolumn{3}{c}{Before stratification} \& \\\\multicolumn{3}{c}{After stratification} "),
-               x = title)
-  
-  # if (targetName == "THZ" && comparatorName == "ARB") {
-  #   title <- sub("table}", "table}[H]\\\\ContinuedFloat*", title)
-  # } else {
-  #   title <- sub("table}", "table}[H]\\\\ContinuedFloat", title)
-  # }
-
+  # title <- sub("% Extra row",
+  #              paste0("& \\\\multicolumn{3}{c}{$N$ = XXX} & \\\\multicolumn{3}{c}{$N$ = XXX} \\\\\\\\"),
+  #              x = title)
   cat(title)
 
-  # table <- prepareTable1(tmp$balance, pathToCsv = file.path("..", "Table1Specs.csv"))
   table <- prepareTable1(balance,pathToCsv = system.file("shiny", "EvidenceExplorer", "Table1Specs.csv", 
                                       package = "Covid19IncidenceRasInhibitors"))
   table <- table[3:nrow(table),]
@@ -588,12 +620,14 @@ balance <- getCovariateBalance(NULL, targetId, comparatorId, databaseId = databa
         add.to.row = list(pos = list(nrow(table)), command = c("\\bottomrule")),
         sanitize.text.function = identity)
 
-  footer <- readr::read_file("Table1Botton.tex")
+  footer <- readr::read_file("Table1BottomSup.tex")
   cat(footer)
 }
 ```
 
-```{r, echo=FALSE, results="asis", cache=FALSE, warning=FALSE}
+## SIDIAP
+
+```{r, echo=FALSE, results="asis", warning=FALSE}
 
 makeAll <- function(db, dbDir) {
   makeCharacteristicsTable(aceArbMonoId, ccbThzMonoId,   databaseId = db, dataFolder = file.path(dbDir, "shinyData"))
@@ -628,7 +662,11 @@ makeAll <- function(db, dbDir) {
 }
 
 makeAll("SIDIAP", sidiapDir)
+```
 
+## CUIMC
+
+```{r, echo=FALSE, results="asis", warning=FALSE}
 makeAll("CUIMC", cuimcDir)
 ```
 
@@ -668,9 +706,130 @@ tcs <- list(
 tcs <- lapply(tcs, function(x) { names(x) <- c("targetId", "comparatorId"); return(x) })
 ```
 
-# Cohort balance
+# Cohort balance diagnostics
 
-```{r}
+
+
+```{r, echo=FALSE}
+plotScatter <- function(controlResults) {
+  size <- 2
+  labelY <- 0.7
+  d <- rbind(data.frame(yGroup = "Uncalibrated",
+                        logRr = controlResults$logRr,
+                        seLogRr = controlResults$seLogRr,
+                        ci95Lb = controlResults$ci95Lb,
+                        ci95Ub = controlResults$ci95Ub,
+                        trueRr = controlResults$effectSize),
+             data.frame(yGroup = "Calibrated",
+                        logRr = controlResults$calibratedLogRr,
+                        seLogRr = controlResults$calibratedSeLogRr,
+                        ci95Lb = controlResults$calibratedCi95Lb,
+                        ci95Ub = controlResults$calibratedCi95Ub,
+                        trueRr = controlResults$effectSize))
+  d <- d[!is.na(d$logRr), ]
+  d <- d[!is.na(d$ci95Lb), ]
+  d <- d[!is.na(d$ci95Ub), ]
+  if (nrow(d) == 0) {
+    return(NULL)
+  }
+  d$Group <- as.factor(d$trueRr)
+  d$Significant <- d$ci95Lb > d$trueRr | d$ci95Ub < d$trueRr
+  temp1 <- aggregate(Significant ~ Group + yGroup, data = d, length)
+  temp2 <- aggregate(Significant ~ Group + yGroup, data = d, mean)
+  temp1$nLabel <- paste0(formatC(temp1$Significant, big.mark = ","), " estimates")
+  temp1$Significant <- NULL
+
+  temp2$meanLabel <- paste0(formatC(100 * (1 - temp2$Significant), digits = 1, format = "f"),
+                            "% of CIs include ",
+                            temp2$Group)
+  temp2$Significant <- NULL
+  dd <- merge(temp1, temp2)
+  dd$tes <- as.numeric(as.character(dd$Group))
+
+  breaks <- c(0.1, 0.25, 0.5, 1, 2, 4, 6, 8, 10)
+  theme <- ggplot2::element_text(colour = "#000000", size = 12)
+  themeRA <- ggplot2::element_text(colour = "#000000", size = 12, hjust = 1)
+  themeLA <- ggplot2::element_text(colour = "#000000", size = 12, hjust = 0)
+
+  d$Group <- paste("True hazard ratio =", d$Group)
+  dd$Group <- paste("True hazard ratio =", dd$Group)
+  alpha <- 1 - min(0.95 * (nrow(d)/nrow(dd)/50000)^0.1, 0.95)
+  plot <- ggplot2::ggplot(d, ggplot2::aes(x = logRr, y = seLogRr), environment = environment()) +
+          ggplot2::geom_vline(xintercept = log(breaks), colour = "#AAAAAA", lty = 1, size = 0.5) +
+          ggplot2::geom_abline(ggplot2::aes(intercept = (-log(tes))/qnorm(0.025), slope = 1/qnorm(0.025)),
+                               colour = rgb(0.8, 0, 0),
+                               linetype = "dashed",
+                               size = 1,
+                               alpha = 0.5,
+                               data = dd) +
+          ggplot2::geom_abline(ggplot2::aes(intercept = (-log(tes))/qnorm(0.975), slope = 1/qnorm(0.975)),
+                               colour = rgb(0.8, 0, 0),
+                               linetype = "dashed",
+                               size = 1,
+                               alpha = 0.5,
+                               data = dd) +
+          ggplot2::geom_point(size = size,
+                              color = rgb(0, 0, 0, alpha = 0.05),
+                              alpha = alpha,
+                              shape = 16) +
+          ggplot2::geom_hline(yintercept = 0) +
+          ggplot2::geom_label(x = log(0.15),
+                              y = 0.9,
+                              alpha = 1,
+                              hjust = "left",
+                              ggplot2::aes(label = nLabel),
+                              size = 5,
+                              data = dd) +
+          ggplot2::geom_label(x = log(0.15),
+                              y = labelY,
+                              alpha = 1,
+                              hjust = "left",
+                              ggplot2::aes(label = meanLabel),
+                              size = 5,
+                              data = dd) +
+          ggplot2::scale_x_continuous("Hazard ratio",
+                                      limits = log(c(0.1, 10)),
+                                      breaks = log(breaks),
+                                      labels = breaks) +
+          ggplot2::scale_y_continuous("Standard Error", limits = c(0, 2)) +
+          ggplot2::facet_grid(yGroup ~ Group) +
+          ggplot2::theme(panel.grid.minor = ggplot2::element_blank(),
+                         panel.background = ggplot2::element_blank(),
+                         panel.grid.major = ggplot2::element_blank(),
+                         axis.ticks = ggplot2::element_blank(),
+                         axis.text.y = themeRA,
+                         axis.text.x = theme,
+                         axis.title = theme,
+                         legend.key = ggplot2::element_blank(),
+                         strip.text.x = theme,
+                         strip.text.y = theme,
+                         strip.background = ggplot2::element_blank(),
+                         legend.position = "none")
+
+  return(plot)
+}
+
+getAllControls <- function() {
+  pathToCsv <- system.file("settings", "NegativeControls.csv", package = "Covid19IncidenceRasInhibitors")
+  allControls <- read.csv(pathToCsv)
+  allControls$oldOutcomeId <- allControls$outcomeId
+  allControls$targetEffectSize <- rep(1, nrow(allControls))
+  return(allControls)
+}
+
+getControlResults <- function(tId, cId, aId, dId, negativeControlOutcomeIds, results) {
+  results <- results %>% filter(targetId == tId, comparatorId == cId, 
+                                analysisId == aId, databaseId == dId, 
+                                outcomeId %in% negativeControlOutcomeIds) %>%
+    mutate(effectSize = 1)
+  return(results)
+}
+
+negativeControlOutcomeIds <- unique(getAllControls()$outcomeId)
+```
+
+
+```{r, echo=FALSE}
 plotCovariateBalanceScatterPlot <- function(balance, beforeLabel = "Before stratification", afterLabel = "After stratification") {
   limits <- c(min(c(balance$absBeforeMatchingStdDiff, balance$absAfterMatchingStdDiff),
                   na.rm = TRUE),
@@ -721,7 +880,7 @@ plotPs <- function(ps, targetName, comparatorName) {
   return(plot)
 }
 
-makeSideBySideBalancePlots <- function(databaseId, covariate,
+makeSideBySideBalancePlots <- function(databaseId, covariate, cmResults,
                                        targetId, comparatorId,
                                        thisOutcomeId,
                                        studyFolder) {
@@ -759,11 +918,21 @@ makeSideBySideBalancePlots <- function(databaseId, covariate,
   # 
   # psMatch <- plotPs(psMatch, 
   #                   cohorts %>% filter(cohortId == targetId) %>% select(shinyName) %>% pull(),
-  #                   cohorts %>% filter(cohortId == comparatorId) %>% select(shinyName) %>% pull())    
+  #                   cohorts %>% filter(cohortId == comparatorId) %>% select(shinyName) %>% pull())   
+  
+controlsStrat <- getControlResults(targetId, comparatorId, 5, databaseId, negativeControlOutcomeIds,
+                                   cmResults)
+
+controlsMatch <- getControlResults(targetId, comparatorId, 6, databaseId, negativeControlOutcomeIds,
+                                   cmResults)
+
+errorStrat <- plotScatter(controlsStrat)
+errorMatch <- plotScatter(controlsMatch)
   
   return(list(plotStrat = plotStrat, plotMatch  = plotMatch,
               psStrat = psStrat, 
               # psMatch = psMatch,
+              errorStrat = errorStrat, errorMatch = errorMatch,
               targetId = targetId, comparatorId = comparatorId, 
               targetName = targetName, comparatorName = comparatorName,
               outcomeId = thisOutcomeId,
@@ -774,24 +943,29 @@ saveSideBySidePlots <- function(plot) {
   file <- sprintf("sideBySide_%d_%d_%d_%s.pdf", plot$targetId, plot$comparatorId, plot$outcomeId, 
                   plot$databaseId)
   invisible(save_plot(file,
-            plot_grid(plot$plotStrat, plot$plotMatch, plot$psStrat),
-            ncol = 2, base_asp = 0.5, base_height = 8))
+            plot_grid(
+              plot$psStrat, plot$plotStrat, plot$plotMatch, plot$errorStrat, plot$errorMatch),
+            ncol = 1, base_asp = 0.5, base_height = 8))
   return(list(file = file, targetName = plot$targetName,
               comparatorName = plot$comparatorName,
               databaseName = databaseId))
 }
 ```
 
-### SIDIAP
+## SIDIAP
 
 ```{r, echo=FALSE, results="asis", warning=FALSE, message=FALSE, cache=TRUE}
 
 sidiapCovariate <- readRDS(file.path(studyFolder, "SIDIAP", "shinyData", paste0("covariate_", "SIDIAP", ".rds")))
 colnames(sidiapCovariate) <- SqlRender::snakeCaseToCamelCase(colnames(sidiapCovariate))
 
+sidiapResults <- readRDS(file.path(studyFolder, "SIDIAP", "shinyData", paste0("cohort_method_result_", "SIDIAP", ".rds")))
+colnames(sidiapResults) <- SqlRender::snakeCaseToCamelCase(colnames(sidiapResults))
+
 devNull <- lapply(tcs, function(tc) {
   invisible(info <- saveSideBySidePlots(
-    makeSideBySideBalancePlots("SIDIAP", sidiapCovariate, tc$targetId, tc$comparatorId, covidNarrowId,
+    makeSideBySideBalancePlots("SIDIAP", sidiapCovariate, sidiapResults,
+                               tc$targetId, tc$comparatorId, covidNarrowId,
                                studyFolder)
   ))
   
@@ -804,18 +978,31 @@ devNull <- lapply(tcs, function(tc) {
 })
 ```
 
+
+```{r}
+
+
+
+
+
+
+```
 \clearpage
 
-### CUIMC
+## CUIMC
 
 ```{r, echo=FALSE, results="asis", warning=FALSE, message=FALSE, cache=TRUE}
 
 cuimcCovariate <- readRDS(file.path(studyFolder, "CUIMC", "shinyData", paste0("covariate_", "CUIMC", ".rds")))
 colnames(cuimcCovariate) <- SqlRender::snakeCaseToCamelCase(colnames(cuimcCovariate))
 
+cuimcResults <- readRDS(file.path(studyFolder, "CUIMC", "shinyData", paste0("cohort_method_result_", "CUIMC", ".rds")))
+colnames(cuimcResults) <- SqlRender::snakeCaseToCamelCase(colnames(cuimcResults))
+
 devNull <- lapply(tcs, function(tc) {
   invisible(info <- saveSideBySidePlots(
-    makeSideBySideBalancePlots("CUIMC", cuimcCovariate, tc$targetId, tc$comparatorId, covidNarrowId,
+    makeSideBySideBalancePlots("CUIMC", cuimcCovariate, cuimcResults,
+                               tc$targetId, tc$comparatorId, covidNarrowId,
                                studyFolder)
   ))
   
@@ -831,6 +1018,8 @@ devNull <- lapply(tcs, function(tc) {
 \clearpage
 
 # Systematic error distributions
+
+
 
 # Effect estimates
 
