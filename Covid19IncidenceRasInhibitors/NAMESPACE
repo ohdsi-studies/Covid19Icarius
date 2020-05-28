@@ -2,6 +2,7 @@
 
 export(createCohorts)
 export(doMetaAnalysis)
+export(doNegativeControlCalibration)
 export(execute)
 export(exportResults)
 export(generateDiagnostics)

@@ -15,17 +15,70 @@
 # limitations under the License.
 
 #' @export
+doNegativeControlCalibration <- function(studyFolder,
+                           databaseIds,
+                           analysisIds,
+                           maxCores) {
+
+  outcomesOfInterest <- getOutcomesOfInterest()
+  negativeControlOutcome <- getAllControls() %>% filter(targetEffectSize == 1)
+
+for(databaseId in databaseIds){
+  singleCohortMethodResult<-readRDS(file.path(studyFolder,"shinyData",sprintf("cohort_method_result_%s.rds",databaseId)))
+  colnames(singleCohortMethodResult)<-SqlRender::snakeCaseToCamelCase(colnames(singleCohortMethodResult))
+  tcos <- unique(singleCohortMethodResult[, c("targetId", "comparatorId", "outcomeId")])
+  tcos <- tcos[tcos$outcomeId %in%  outcomesOfInterest, ]
+  tcs<-unique(tcos[,c("targetId","comparatorId")])
+
+  for (analysisId in unique(analysisIds)){
+    for (i in seq(nrow(tcs))){
+      tc<- tcs[i,]
+      index<-singleCohortMethodResult$targetId==tc$targetId&
+        singleCohortMethodResult$comparatorId==tc$comparatorId&
+        singleCohortMethodResult$analysisId==analysisId&
+        singleCohortMethodResult$databaseId==databaseId&
+        !is.na(singleCohortMethodResult$logRr) &
+        !is.na(singleCohortMethodResult$seLogRr)
+
+      if(sum(index, na.rm=T)==0) next
+      negativeData<-singleCohortMethodResult[index &
+                                               singleCohortMethodResult$outcomeId %in% unique(negativeControlOutcome$outcomeId),]
+      null<-EmpiricalCalibration::fitNull(negativeData$logRr,
+                                          negativeData$seLogRr)
+
+      model<-EmpiricalCalibration::convertNullToErrorModel(null)
+
+      calibratedCi<-EmpiricalCalibration::calibrateConfidenceInterval(logRr=singleCohortMethodResult[index,]$logRr,
+                                                                      seLogRr=singleCohortMethodResult[index,]$seLogRr,
+                                                                      model=model,
+                                                                      ciWidth = 0.95)
+
+      singleCohortMethodResult[index,]$calibratedLogRr<-calibratedCi$logRr
+      singleCohortMethodResult[index,]$calibratedSeLogRr<-calibratedCi$seLogRr
+      singleCohortMethodResult[index,]$calibratedCi95Lb<-exp(calibratedCi$logLb95Rr)
+      singleCohortMethodResult[index,]$calibratedCi95Ub<-exp(calibratedCi$logUb95Rr)
+      singleCohortMethodResult[index,]$calibratedRr<-exp(calibratedCi$logRr)
+
+    }
+  }
+  colnames(singleCohortMethodResult)<-SqlRender::camelCaseToSnakeCase(colnames(singleCohortMethodResult))
+  saveRDS(singleCohortMethodResult,file.path(studyFolder,"shinyData",sprintf("cohort_method_result_%s.rds",databaseId)))
+}
+}
+
+
+#' @export
 doMetaAnalysis <- function(studyFolder,
                            outputFolders,
                            maOutputFolder,
                            maxCores) {
-  
+
   ParallelLogger::logInfo("Performing meta-analysis")
   shinyDataFolder <- file.path(maOutputFolder, "shinyData")
   if (!file.exists(shinyDataFolder)) {
     dir.create(shinyDataFolder, recursive = TRUE)
   }
-  
+
   # get main results
   loadResults <- function(outputFolder) {  # outputFolder <- outputFolders[13]
     database <- basename(outputFolder)
@@ -37,22 +90,22 @@ doMetaAnalysis <- function(studyFolder,
   }
   allResults <- lapply(outputFolders, loadResults)
   allResults <- do.call(rbind, allResults)
-  
+
   # # drop bad TAR in OptumEHR and poor death capture
-  # drops <- 
+  # drops <-
   #   (allResults$databaseId == "OptumEHR" & allResults$analysisId == 1) | # panther on-treatment
   #   (allResults$databaseId %in% c("CCAE", "DAGermany", "JMDC", "MDCD", "MDCR", "OptumEHR", "OpenClaims", "AmbEMR") & allResults$outcomeId %in% c(18, 19)) | # death, cv death
   #   (allResults$databaseId %in% c("AmbEMR", "CPRD", "DAGermany", "IMRD", "SIDIAP") & allResults$outcomeId %in% c(22, 13, 20, 21, 17, 8, 11)) # databases with no IP
   # allResults <- allResults[!drops, ]
-  # 
-  # # blind estimates that don't pass diagnostics 
-  # blinds <- (allResults$databaseId == "CPRD" & allResults$targetId == 137) | 
+  #
+  # # blind estimates that don't pass diagnostics
+  # blinds <- (allResults$databaseId == "CPRD" & allResults$targetId == 137) |
   #   (allResults$databaseId == "JMDC" & allResults$targetId == 2) |
-  #   (allResults$databaseId == "DAGermany" & allResults$targetId == 137) | 
+  #   (allResults$databaseId == "DAGermany" & allResults$targetId == 137) |
   #   (allResults$databaseId == "IMRD" & allResults$targetId == 137) |
   #   (allResults$databaseId == "SIDIAP" & allResults$targetId %in% c(137, 2)) |
   #   (allResults$databaseId == "IPCI" & allResults$targetId %in% c(137, 2))
-  # 
+  #
   # allResults$rr[blinds] <- NA
   # allResults$ci95Lb[blinds] <- NA
   # allResults$ci95Ub[blinds] <- NA
@@ -65,20 +118,20 @@ doMetaAnalysis <- function(studyFolder,
   # allResults$calibratedLogRr[blinds] <- NA
   # allResults$calibratedSeLogRr[blinds] <- NA
   # allResults$calibratedP[blinds] <- NA
-  
+
   # controls
   allControls <- lapply(outputFolders, getAllControls)
   allControls <- do.call(rbind, allControls)
   allControls <- allControls[, c("targetId", "comparatorId", "outcomeId", "targetEffectSize")]
   allControls <- allControls[!duplicated(allControls), ]
-  
+
   ncIds <- allControls$outcomeId[allControls$targetEffectSize == 1]
   allResults$type[allResults$outcomeId %in% ncIds] <- "Negative control"
   allResults$type[is.na(allResults$type)] <- "Outcome of interest"
-  
+
   groups <- split(allResults, paste(allResults$targetId, allResults$comparatorId, allResults$analysisId), drop = TRUE)
   cluster <- ParallelLogger::makeCluster(min(maxCores, 12))
-  results <- ParallelLogger::clusterApply(cluster, 
+  results <- ParallelLogger::clusterApply(cluster,
                                           groups,
                                           computeGroupMetaAnalysis,
                                           shinyDataFolder = shinyDataFolder,
@@ -86,13 +139,13 @@ doMetaAnalysis <- function(studyFolder,
   ParallelLogger::stopCluster(cluster)
   results <- do.call(rbind, results)
   colnames(results) <- SqlRender::camelCaseToSnakeCase(colnames(results))
-  
+
   fileName <- file.path(maOutputFolder, "cohort_method_results_Meta-analysis.csv")
   write.csv(results, fileName, row.names = FALSE, na = "")
   fileName <- file.path(shinyDataFolder, "cohort_method_result_Meta-analysis.rds")
   results <- subset(results, select = -c(type, mdrr))
   saveRDS(results, fileName)
-  
+
   database <- data.frame(database_id = "Meta-analysis",
                          database_name = "Meta-analysis",
                          description = "Meta-analysis",
@@ -105,7 +158,7 @@ doMetaAnalysis <- function(studyFolder,
 computeGroupMetaAnalysis <- function(group,
                                      shinyDataFolder,
                                      allControls) {
-  
+
   # group <- groups[["137 143 1"]]
   analysisId <- group$analysisId[1]
   targetId <- group$targetId[1]
@@ -113,9 +166,9 @@ computeGroupMetaAnalysis <- function(group,
   ParallelLogger::logInfo("Performing meta-analysis for target ", targetId, ", comparator ", comparatorId, ", analysis", analysisId)
   outcomeGroups <- split(group, group$outcomeId, drop = TRUE)
   outcomeGroupResults <- lapply(outcomeGroups, computeSingleMetaAnalysis)
-  
+
   groupResults <- do.call(rbind, outcomeGroupResults)
-  
+
   ncs <- groupResults[groupResults$type == "Negative control", ]
   ncs <- ncs[!is.na(ncs$seLogRr), ]
   if (nrow(ncs) > 5) {
@@ -148,7 +201,7 @@ computeSingleMetaAnalysis <- function(outcomeGroup) {
   # outcomeGroup <- outcomeGroups[[1]]
   maRow <- outcomeGroup[1, ]
   outcomeGroup <- outcomeGroup[!is.na(outcomeGroup$seLogRr), ] # drops rows with zero events in T or C
-  
+
   if (nrow(outcomeGroup) == 0) {
     maRow$targetSubjects <- 0
     maRow$comparatorSubjects <- 0
