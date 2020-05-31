@@ -114,11 +114,12 @@ primaryAnalysisId <- 5 # Full stratified PS
 
 sidiapDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/SIDIAP"
 cuimcDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/CUIMC"
+vaDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/VA-OMOP"
 
 studyFolder <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors"
 
-dataFolder <- file.path(sidiapDir, "shinyData")
-databaseId <- "SIDIAP"
+# dataFolder <- file.path(sidiapDir, "shinyData")
+# databaseId <- "SIDIAP"
 
 makeSampleSizeTable <- function(databaseId, 
                                 dataFolder,
@@ -197,32 +198,40 @@ makeSampleSizeTable <- function(databaseId,
 tableNarrow <- rbind(
   makeSampleSizeTable(databaseId = "SIDIAP", dataFolder = file.path(sidiapDir, "shinyData"), 
                       databaseOrder = 1, thisOutcomeId = covidNarrowId),
+  makeSampleSizeTable(databaseId = "VA-OMOP", dataFolder = file.path(vaDir, "shinyData"), 
+                      databaseOrder = 2, thisOutcomeId = covidNarrowId),  
   makeSampleSizeTable(databaseId = "CUIMC", dataFolder = file.path(cuimcDir, "shinyData"), 
-                      databaseOrder = 2, thisOutcomeId = covidNarrowId)
+                      databaseOrder = 3, thisOutcomeId = covidNarrowId)
   ) %>% arrange(order, databaseOrder) %>% 
   mutate(targetId = "", comparatorId = "") %>% select(-order, -databaseOrder)
 
 tableBroad <- rbind(
   makeSampleSizeTable(databaseId = "SIDIAP", dataFolder = file.path(sidiapDir, "shinyData"), 
                       databaseOrder = 1, thisOutcomeId = covidBroadId),
+  makeSampleSizeTable(databaseId = "VA-OMOP", dataFolder = file.path(vaDir, "shinyData"), 
+                      databaseOrder = 2, thisOutcomeId = covidBroadId),  
   makeSampleSizeTable(databaseId = "CUIMC", dataFolder = file.path(cuimcDir, "shinyData"), 
-                      databaseOrder = 2, thisOutcomeId = covidBroadId)
+                      databaseOrder = 3, thisOutcomeId = covidBroadId)
   ) %>% arrange(order, databaseOrder) %>% 
   mutate(targetId = "", comparatorId = "") %>% select(-order, -databaseOrder)
 
 tablePna <- rbind(
   makeSampleSizeTable(databaseId = "SIDIAP", dataFolder = file.path(sidiapDir, "shinyData"), 
                       databaseOrder = 1, thisOutcomeId = pnaId),
+  makeSampleSizeTable(databaseId = "VA-OMOP", dataFolder = file.path(vaDir, "shinyData"), 
+                      databaseOrder = 2, thisOutcomeId = pnaId),  
   makeSampleSizeTable(databaseId = "CUIMC", dataFolder = file.path(cuimcDir, "shinyData"), 
-                      databaseOrder = 2, thisOutcomeId = pnaId)
+                      databaseOrder = 3, thisOutcomeId = pnaId)
   ) %>% arrange(order, databaseOrder) %>% 
   mutate(targetId = "", comparatorId = "") %>% select(-order, -databaseOrder)
 
 tableAdverse <- rbind(
   makeSampleSizeTable(databaseId = "SIDIAP", dataFolder = file.path(sidiapDir, "shinyData"), 
                       databaseOrder = 1, thisOutcomeId = adverseId),
+  makeSampleSizeTable(databaseId = "VA-OMOP", dataFolder = file.path(vaDir, "shinyData"), 
+                      databaseOrder = 2, thisOutcomeId = adverseId),  
   makeSampleSizeTable(databaseId = "CUIMC", dataFolder = file.path(cuimcDir, "shinyData"), 
-                      databaseOrder = 2, thisOutcomeId = adverseId)
+                      databaseOrder = 3, thisOutcomeId = adverseId)
   ) %>% arrange(order, databaseOrder) %>% 
   mutate(targetId = "", comparatorId = "") %>% select(-order, -databaseOrder)
 ```
@@ -261,7 +270,7 @@ print(xtable(tableNarrow, format = "latex"),
       hline.after = NULL,
       only.contents = TRUE,
       add.to.row = list(
-        pos = as.list(c(0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38)),
+        pos = as.list(c(0:19) * 3),
         command = c(
           "                       \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
@@ -335,7 +344,7 @@ print(xtable(tableBroad, format = "latex"),
       hline.after = NULL,
       only.contents = TRUE,
       add.to.row = list(
-        pos = as.list(c(0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38)),
+        pos = as.list(c(0:19) * 3),
         command = c(
           "                       \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
@@ -375,11 +384,11 @@ print(xtable(tableBroad, format = "latex"),
 
 \clearpage
 
-## Intensive services
+## Pneumonia
 
 \rowcolors{2}{gray!6}{white}
 \begin{longtable}{p{-2em}p{-2em}rrrrrrrr}
- \caption{Population size, total exposure time and intensive services (events) for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
+ \caption{Population size, total exposure time and pneumonia (events) for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
   \\
     \hiderowcolors
     \toprule
@@ -403,13 +412,13 @@ print(xtable(tableBroad, format = "latex"),
 \endhead
     \showrowcolors
 ```{r, echo=FALSE, results="asis"}
-print(xtable(tablePna, format = "latex"),
+print(xtable(tableAdverse, format = "latex"),
       include.rownames = FALSE,
       include.colnames = FALSE,
       hline.after = NULL,
       only.contents = TRUE,
       add.to.row = list(
-        pos = as.list(c(0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38)),
+        pos = as.list(c(0:19) * 3),
         command = c(
           "                       \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
@@ -449,11 +458,11 @@ print(xtable(tablePna, format = "latex"),
 
 \clearpage
 
-## Pneumonia
+## Pneumonia, acute respiratory distress syndrome, acute kidney injury or sepsis (PAAS)
 
 \rowcolors{2}{gray!6}{white}
 \begin{longtable}{p{-2em}p{-2em}rrrrrrrr}
- \caption{Population size, total exposure time and pneumonia (events) for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
+ \caption{Population size, total exposure time and PAAS (events) for ACEI, ARB and CCB/THZ monotherapy and in-combination user target (T) and comparator (C) cohorts.}
   \\
     \hiderowcolors
     \toprule
@@ -477,13 +486,13 @@ print(xtable(tablePna, format = "latex"),
 \endhead
     \showrowcolors
 ```{r, echo=FALSE, results="asis"}
-print(xtable(tableAdverse, format = "latex"),
+print(xtable(tablePna, format = "latex"),
       include.rownames = FALSE,
       include.colnames = FALSE,
       hline.after = NULL,
       only.contents = TRUE,
       add.to.row = list(
-        pos = as.list(c(0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38)),
+        pos = as.list(c(0:19) * 3),
         command = c(
           "                       \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
@@ -521,8 +530,9 @@ print(xtable(tableAdverse, format = "latex"),
   \bottomrule
 \end{longtable}   
 
+\clearpage
 
-# Baseline patient characteristics and balance
+# Baseline patient characteristics
 
 ```{r, echo=FALSE}
 source(system.file("shiny", "EvidenceExplorer", "PlotsAndTables.R",
@@ -625,7 +635,6 @@ balance <- getCovariateBalance(NULL, targetId, comparatorId, databaseId = databa
 }
 ```
 
-## SIDIAP
 
 ```{r, echo=FALSE, results="asis", warning=FALSE}
 
@@ -660,13 +669,23 @@ makeAll <- function(db, dbDir) {
   makeCharacteristicsTable(arbMonoId, thzMonoId,   databaseId = db, dataFolder = file.path(dbDir, "shinyData"))
   makeCharacteristicsTable(arbComboId, thzComboId, databaseId = db, dataFolder = file.path(dbDir, "shinyData"))
 }
+```
 
+## SIDIAP
+
+```{r, echo=FALSE, results="asis", warning=FALSE, cache=TRUE}
 makeAll("SIDIAP", sidiapDir)
+```
+
+## VA-OMOP
+
+```{r, echo=FALSE, results="asis", warning=FALSE, cache=TRUE}
+makeAll("VA-OMOP", vaDir)
 ```
 
 ## CUIMC
 
-```{r, echo=FALSE, results="asis", warning=FALSE}
+```{r, echo=FALSE, results="asis", warning=FALSE, cache=TRUE}
 makeAll("CUIMC", cuimcDir)
 ```
 
@@ -930,6 +949,7 @@ errorMatch <- plotScatter(controlsMatch)
   return(list(plotStrat = plotStrat, plotMatch  = plotMatch,
               psStrat = psStrat, 
               # psMatch = psMatch,
+              balanceStrat = balanceStrat, balanceMatch = balanceMatch,
               errorStrat = errorStrat, errorMatch = errorMatch,
               targetId = targetId, comparatorId = comparatorId, 
               targetName = targetName, comparatorName = comparatorName,
@@ -951,6 +971,38 @@ saveSideBySidePlots <- function(plot) {
               comparatorName = plot$comparatorName,
               databaseName = plot$databaseId))
 }
+
+makeExtremeBalanceTable <- function(balance,
+                                    targetName, comparatorName, databaseId, designName,
+                                    length) {
+  originalNrow <- nrow(balance)
+  
+  balance <- balance %>% 
+    arrange(-absAfterMatchingStdDiff) %>% head(length) %>%
+    select(-covariateId, -analysisId, -absBeforeMatchingStdDiff, -absAfterMatchingStdDiff) %>%
+    mutate(beforeMatchingMeanTreated = sprintf("%2.1f", beforeMatchingMeanTreated * 100),
+           beforeMatchingMeanComparator = sprintf("%2.1f", beforeMatchingMeanComparator * 100),
+           afterMatchingMeanTreated = sprintf("%2.1f", afterMatchingMeanTreated * 100),
+           afterMatchingMeanComparator = sprintf("%2.1f", afterMatchingMeanComparator * 100))
+  
+  header <- readr::read_file("TableBalanceTop.tex")
+  header <- gsub(pattern = "CHARACTERISTIC", 
+                 paste0("Characteristic (total count = ", originalNrow, ")"),
+                 header)
+  header <- gsub(pattern = "DESIGN", designName, header)
+  header <- gsub(pattern = "DATASOURCE", databaseId, header)
+  header <- gsub(pattern = "TARGET", targetName, header)
+  header <- gsub(pattern = "COMPARATOR", comparatorName, header)
+  
+  cat(header)
+  print(xtable(balance, format = "latex"),
+        include.rownames = FALSE,
+        include.colnames = FALSE,
+        hline.after = NULL,
+        only.contents = TRUE)
+  footer <- readr::read_file("TableBalanceBottom.tex")
+  cat(footer)
+}
 ```
 
 ## SIDIAP
@@ -964,8 +1016,58 @@ sidiapResults <- readRDS(file.path(studyFolder, "SIDIAP", "shinyData", paste0("c
 colnames(sidiapResults) <- SqlRender::snakeCaseToCamelCase(colnames(sidiapResults))
 
 devNull <- lapply(tcs, function(tc) {
+  balance <- makeSideBySideBalancePlots("SIDIAP", sidiapCovariate, sidiapResults,
+                               tc$targetId, tc$comparatorId, covidNarrowId,
+                               studyFolder)
+  
+  invisible(info <- saveSideBySidePlots(balance))
+  
+  figure <- readr::read_file("BalanceFig.tex")
+  figure <- sub(pattern = "TARGET", replacement = info$targetName, x = figure)
+  figure <- sub(pattern = "COMPARATOR", replacement = info$comparatorName, x = figure)
+  figure <- sub(pattern = "DATASOURCE", replacement = info$databaseName, x = figure)
+  figure <- sub(pattern = "FILENAME", replacement = info$file, x = figure)
+  cat(figure)
+  
+  makeExtremeBalanceTable(balance$balanceStrat, balance$targetName, balance$comparatorName, 
+                          "SIDIAP", "stratification", length = 10)
+  
+  makeExtremeBalanceTable(balance$balanceMatch, balance$targetName, balance$comparatorName, 
+                          "SIDIAP", "matching", length = 10)
+  
+  cat("\\clearpage")
+  
+})
+```
+
+```{r, echo=FALSE, results="asis"}
+# tmp <- makeSideBySideBalancePlots("SIDIAP", sidiapCovariate, sidiapResults,
+#                                aceArbMonoId, ccbThzMonoId, covidNarrowId,
+#                                studyFolder)
+# 
+# 
+# 
+# makeExtremeBalanceTable(tmp$balanceStrat, tmp$targetName, tmp$comparatorName, "SIDIAP", "stratification", length = 10)
+# 
+
+```
+
+
+\clearpage
+
+## VA-OMOP
+
+```{r, echo=FALSE, results="asis", warning=FALSE, message=FALSE, cache=TRUE}
+
+vaCovariate <- readRDS(file.path(studyFolder, "VA-OMOP", "shinyData", paste0("covariate_", "VA-OMOP", ".rds")))
+colnames(vaCovariate) <- SqlRender::snakeCaseToCamelCase(colnames(vaCovariate))
+
+vaResults <- readRDS(file.path(studyFolder, "VA-OMOP", "shinyData", paste0("cohort_method_result_", "VA-OMOP", ".rds")))
+colnames(vaResults) <- SqlRender::snakeCaseToCamelCase(colnames(vaResults))
+
+devNull <- lapply(tcs, function(tc) {
   invisible(info <- saveSideBySidePlots(
-    makeSideBySideBalancePlots("SIDIAP", sidiapCovariate, sidiapResults,
+    makeSideBySideBalancePlots("VA-OMOP", vaCovariate, vaResults,
                                tc$targetId, tc$comparatorId, covidNarrowId,
                                studyFolder)
   ))
@@ -979,15 +1081,6 @@ devNull <- lapply(tcs, function(tc) {
 })
 ```
 
-
-```{r}
-
-
-
-
-
-
-```
 \clearpage
 
 ## CUIMC
@@ -1018,7 +1111,6 @@ devNull <- lapply(tcs, function(tc) {
 
 \clearpage
 
-
 # Effect estimates
 
 ```{r setupOutcomeTables, echo=FALSE}
@@ -1043,8 +1135,6 @@ makeEffectTable <- function(outcomeName, designName, databaseName, table) {
 
 ## PS Stratification
 
-### SIDIAP
-
 ```{r, echo=FALSE}
 databaseId <- "SIDIAP"
 
@@ -1066,6 +1156,25 @@ sidiapTable <- do.call(
              calibratedRr, calibratedCi, calibratedP)
   }))
 
+databaseId <- "VA-OMOP"
+
+outcomesOfInterest <- Covid19IncidenceRasInhibitors:::getOutcomesOfInterest()
+cmResults <- readRDS(file.path(studyFolder, databaseId, "shinyData", sprintf("cohort_method_result_%s.rds", databaseId)))
+colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
+cmResults <- cmResults %>% select(-i2) %>% na.omit()
+
+vaTable <- do.call(
+  "rbind",
+  lapply(tcs, function(tc) {
+    cmResults %>% filter(targetId == tc$targetId, comparatorId == tc$comparatorId) %>%
+      left_join(prettyNames, by = c("targetId" = "cohortId")) %>% rename(targetName = cohortName) %>%
+      left_join(prettyNames, by = c("comparatorId" = "cohortId")) %>% rename(comparatorName = cohortName) %>%
+      mutate(ci = sprintf("(%1.2f - %1.2f)", ci95Lb, ci95Ub),
+             calibratedCi = sprintf("(%1.2f - %1.2f)", calibratedCi95Lb, calibratedCi95Ub)) %>%
+      select(targetName, comparatorName, outcomeId, analysisId,
+             rr, ci, p, 
+             calibratedRr, calibratedCi, calibratedP)
+  }))
 
 databaseId <- "CUIMC"
 
@@ -1088,6 +1197,8 @@ cuimcTable <- do.call(
   }))
 ```
 
+### SIDIAP
+
 ```{r, echo=FALSE, results="asis"}
 makeEffectTable("COVID-19 diagnosis", "stratified", "SIDIAP", 
                 sidiapTable %>% filter(outcomeId == covidNarrowId, analysisId == primaryAnalysisId))
@@ -1095,12 +1206,29 @@ makeEffectTable("COVID-19 diagnosis", "stratified", "SIDIAP",
 makeEffectTable("COVID-19 hospitalization", "stratifed", "SIDIAP", 
                 sidiapTable %>% filter(outcomeId == covidBroadId, analysisId == primaryAnalysisId))
 
-makeEffectTable("intensive services", "stratifed", "SIDIAP", 
-                sidiapTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId))
-
 makeEffectTable("pneumonia", "stratifed", "SIDIAP", 
                 sidiapTable %>% filter(outcomeId == pnaId, analysisId == primaryAnalysisId))
+
+makeEffectTable("PAAS", "stratifed", "SIDIAP", 
+                sidiapTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId))
 ```
+
+### VA-OMOP
+
+```{r, echo=FALSE, results="asis"}
+makeEffectTable("COVID-19 diagnosis", "stratified", "VA-OMOP", 
+                vaTable %>% filter(outcomeId == covidNarrowId, analysisId == primaryAnalysisId))
+  
+makeEffectTable("COVID-19 hospitalization", "stratifed", "VA-OMOP", 
+                vaTable %>% filter(outcomeId == covidBroadId, analysisId == primaryAnalysisId))
+
+makeEffectTable("pneumonia", "stratifed", "VA-OMOP", 
+                vaTable %>% filter(outcomeId == pnaId, analysisId == primaryAnalysisId))
+
+makeEffectTable("PAAS", "stratifed", "VA-OMOP", 
+                vaTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId))
+```
+
 
 ### CUIMC
 
@@ -1111,11 +1239,11 @@ makeEffectTable("COVID-19 diagnosis", "stratified", "CUIMC",
 makeEffectTable("COVID-19 hospitalization", "stratifed", "CUIMC", 
                 cuimcTable %>% filter(outcomeId == covidBroadId, analysisId == primaryAnalysisId))
 
-makeEffectTable("intensive services", "stratifed", "CUIMC", 
-                cuimcTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId))
-
 makeEffectTable("pneumonia", "stratifed", "CUIMC", 
                 cuimcTable %>% filter(outcomeId == pnaId, analysisId == primaryAnalysisId))
+
+makeEffectTable("PAAS", "stratifed", "CUIMC", 
+                cuimcTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId))
 ```
 
 ## PS Matching
@@ -1129,11 +1257,27 @@ makeEffectTable("COVID-19 diagnosis", "matched", "SIDIAP",
 makeEffectTable("COVID-19 hospitalization", "matched", "SIDIAP", 
                 sidiapTable %>% filter(outcomeId == covidBroadId, analysisId == 6))
 
-makeEffectTable("intensive services", "matched", "SIDIAP", 
-                sidiapTable %>% filter(outcomeId == adverseId, analysisId == 6))
-
 makeEffectTable("pneumonia", "matched", "SIDIAP", 
                 sidiapTable %>% filter(outcomeId == pnaId, analysisId == 6))
+
+makeEffectTable("PAAS", "matched", "SIDIAP", 
+                sidiapTable %>% filter(outcomeId == adverseId, analysisId == 6))
+```
+
+### VA-OMOP
+
+```{r, echo=FALSE, results="asis"}
+makeEffectTable("COVID-19 diagnosis", "matched", "VA-OMOP", 
+                vaTable %>% filter(outcomeId == covidNarrowId, analysisId == 6))
+  
+makeEffectTable("COVID-19 hospitalization", "matched", "VA-OMOP", 
+                vaTable %>% filter(outcomeId == covidBroadId, analysisId == 6))
+
+makeEffectTable("pneumonia", "matched", "VA-OMOP", 
+                vaTable %>% filter(outcomeId == pnaId, analysisId == 6))
+
+makeEffectTable("PAAS", "matched", "VA-OMOP", 
+                vaTable %>% filter(outcomeId == adverseId, analysisId == 6))
 ```
 
 ### CUIMC
@@ -1145,13 +1289,12 @@ makeEffectTable("COVID-19 diagnosis", "matched", "CUIMC",
 makeEffectTable("COVID-19 hospitalization", "matched", "CUIMC", 
                 cuimcTable %>% filter(outcomeId == covidBroadId, analysisId == 6))
 
-makeEffectTable("intensive services", "matched", "CUIMC", 
-                cuimcTable %>% filter(outcomeId == adverseId, analysisId == 6))
-
 makeEffectTable("pneumonia", "matched", "CUIMC", 
                 cuimcTable %>% filter(outcomeId == pnaId, analysisId == 6))
-```
 
+makeEffectTable("PAAS", "matched", "CUIMC", 
+                cuimcTable %>% filter(outcomeId == adverseId, analysisId == 6))
+```
 
 # Cohort specifications
 
@@ -1161,6 +1304,6 @@ makeEffectTable("pneumonia", "matched", "CUIMC",
 
 ## COVID-19 hospitalization
 
-## Intensive services
-
 ## Pneumonia
+
+## PAAS
