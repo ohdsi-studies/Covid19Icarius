@@ -68,14 +68,14 @@ exportResults <- function(outputFolder,
                     databaseId = databaseId,
                     minCellCount = minCellCount,
                     maxCores = maxCores)
-  
+
   exportProfiles(outputFolder = outputFolder,
                  exportFolder = exportFolder,
                  databaseId = databaseId,
                  minCellCount = minCellCount,
                  maxCores = maxCores)
-  
-  
+
+
 
   # Add all to zip file -------------------------------------------------------------------------------
   ParallelLogger::logInfo("Adding results to zip file")
@@ -701,14 +701,14 @@ exportProfiles <- function(outputFolder,
       }
       ids <- gsub("^.*_a", "", ids)
       analysisId <- as.numeric(gsub(".rds", "", ids))
-      
+
       profile <- readRDS(files[i])
       profile$targetId <- targetId
       profile$comparatorId <- comparatorId
       profile$outcomeId <- outcomeId
       profile$analysisId <- analysisId
       profile$databaseId <- databaseId
-  
+
       colnames(profile) <- SqlRender::camelCaseToSnakeCase(colnames(profile))
       write.table(x = profile,
                   file = fileName,
@@ -864,9 +864,9 @@ exportDiagnostics <- function(outputFolder,
       balance$targetSizeAfter <- round(balance$targetSizeAfter, 0)
       balance$comparatorSizeAfter <- round(balance$comparatorSizeAfter, 0)
 
-      balance <- balance[balance$targetMeanBefore != 0 & balance$comparatorMeanBefore != 0 & balance$targetMeanAfter !=
-                           0 & balance$comparatorMeanAfter != 0 & balance$stdDiffBefore != 0 & balance$stdDiffAfter !=
-                           0, ]
+      # balance <- balance[balance$targetMeanBefore != 0 & balance$comparatorMeanBefore != 0 & balance$targetMeanAfter !=
+      #                      0 & balance$comparatorMeanAfter != 0 & balance$stdDiffBefore != 0 & balance$stdDiffAfter !=
+      #                      0, ]
       balance <- balance[!is.na(balance$targetId), ]
       colnames(balance) <- SqlRender::camelCaseToSnakeCase(colnames(balance))
       write.table(x = balance,
