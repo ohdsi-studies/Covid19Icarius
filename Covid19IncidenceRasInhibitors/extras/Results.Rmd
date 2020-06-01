@@ -478,7 +478,12 @@ cmResults <- readRDS(file.path(studyFolder, databaseId, "shinyData", sprintf("co
 colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
 cmResultsCuimc <- cmResults %>% filter(outcomeId %in% outcomesOfInterest, analysisId %in% c(5,6))
 
-cmResults <- rbind(cmResultsSidiap, cmResultsVa, cmResultsCuimc)
+databaseId <- "Meta-analysis"
+cmResults <- readRDS(file.path(studyFolder, databaseId, "shinyData", sprintf("cohort_method_result_%s.rds", databaseId)))
+colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
+cmResultsMa <- cmResults %>% filter(outcomeId %in% outcomesOfInterest, analysisId %in% c(5,6))
+
+cmResults <- rbind(cmResultsSidiap, cmResultsVa, cmResultsCuimc, cmResultsMa)
 
 table <- do.call(
   "rbind",
@@ -487,7 +492,7 @@ table <- do.call(
       mutate(ci = sprintf("(%1.2f - %1.2f)", ci95Lb, ci95Ub),
              calibratedCi = sprintf("(%1.2f - %1.2f)", calibratedCi95Lb, calibratedCi95Ub)) %>%
       select(databaseId, targetId, comparatorId, outcomeId, analysisId,
-             calibratedRr, calibratedCi, calibratedP, calibratedCi95Lb, calibratedCi95Ub) %>%
+             calibratedRr, calibratedCi, calibratedP, calibratedCi95Lb, calibratedCi95Ub, i2) %>%
       left_join(prettyNames, by = c("targetId" = "cohortId")) %>% rename(targetName = cohortName) %>%
       left_join(prettyNames, by = c("comparatorId" = "cohortId")) %>% rename(comparatorName = cohortName) %>%
       select(-targetId, -comparatorId) %>%
@@ -596,7 +601,20 @@ balance<-
   select(-targetId, -comparatorId) %>%
   select(targetName, comparatorName, everything())  
 
+  # Add meta-analysis
+  meta <- balance %>% filter(databaseId == "SIDIAP") %>% mutate(databaseId = "Meta-analysis",
+                                                                imbalanced = 0)
+  balance <- rbind(balance, meta) # Comment out to remove meta-analysis
+
 table <- inner_join(table, balance, by = c("targetName", "comparatorName", "databaseId", "analysisId"))
+
+knitr::kable(table %>% filter(outcomeId == covidNarrowId, databaseId == "Meta-analysis") %>%
+               arrange(analysisId) %>%
+               filter(!is.na(is)) %>% select(targetName, comparatorName, analysisId, databaseId, i2), 
+             format = "latex",
+             booktabs = TRUE)
+
+table <- table %>% select(-i2)
 
 ```
 
@@ -622,6 +640,9 @@ wideTable <- inner_join(table5, table6, by = c("databaseId", "targetName", "comp
     & & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$} \\
     \midrule \showrowcolors
 ```{r, echo=FALSE, results="asis"}
+
+numDb <- length(unique(wideTable$databaseId))
+
 print(xtable(wideTable %>% filter(outcomeId == covidNarrowId) %>% 
                select(-outcomeId, -stratImbalanced, -matchCalRr, -matchCalCi, -matchCalP, -matchImbalanced) %>%
                mutate(targetName = "", comparatorName = ""), 
@@ -631,7 +652,7 @@ print(xtable(wideTable %>% filter(outcomeId == covidNarrowId) %>%
       hline.after = NULL,
       only.contents = TRUE,
  add.to.row = list(
-        pos = as.list(c(0:7) * 3),
+        pos = as.list(c(0:7) * numDb),
         command = c(
           "                       \\multicolumn{6}{l}{ACE/ARB vs CCB/THZ} \\\\ & \\multicolumn{5}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{5}{l}{+ Combination} \\\\",
@@ -705,7 +726,7 @@ print(xtable(annotatedWideTable %>% filter(outcomeId == covidNarrowId) %>%
       hline.after = NULL,
       only.contents = TRUE,
  add.to.row = list(
-        pos = as.list(c(0:7) * 3),
+        pos = as.list(c(0:7) * numDb),
         command = c(
           "                       \\multicolumn{9}{l}{ACE/ARB vs CCB/THZ} \\\\ & \\multicolumn{8}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
@@ -729,8 +750,8 @@ print(xtable(annotatedWideTable %>% filter(outcomeId == covidNarrowId) %>%
 ```{r, echo=FALSE, warning=FALSE}
 
 design <- data.frame(
-  databaseId = c("SIDIAP", "VA-OMOP", "CUIMC"),
-  point = c(20, 20, 18)
+  databaseId = c("SIDIAP", "VA-OMOP", "CUIMC", "Meta-analysis"),
+  point = c(20, 20, 18, 20)
 )
 
 poorBalance <- "grey70"
@@ -759,7 +780,7 @@ if (do56) {
 
 pdf(file = "SixEffect.pdf", height = 8, width = 6)
 
-dbs <- 3
+dbs <- numDb
 
 map <- function(index) {
   floor(index / dbs) + 2 * floor(index / (2 * dbs)) + 3 + index

@@ -1040,18 +1040,6 @@ devNull <- lapply(tcs, function(tc) {
 })
 ```
 
-```{r, echo=FALSE, results="asis"}
-# tmp <- makeSideBySideBalancePlots("SIDIAP", sidiapCovariate, sidiapResults,
-#                                aceArbMonoId, ccbThzMonoId, covidNarrowId,
-#                                studyFolder)
-# 
-# 
-# 
-# makeExtremeBalanceTable(tmp$balanceStrat, tmp$targetName, tmp$comparatorName, "SIDIAP", "stratification", length = 10)
-# 
-
-```
-
 
 \clearpage
 
@@ -1066,11 +1054,11 @@ vaResults <- readRDS(file.path(studyFolder, "VA-OMOP", "shinyData", paste0("coho
 colnames(vaResults) <- SqlRender::snakeCaseToCamelCase(colnames(vaResults))
 
 devNull <- lapply(tcs, function(tc) {
-  invisible(info <- saveSideBySidePlots(
-    makeSideBySideBalancePlots("VA-OMOP", vaCovariate, vaResults,
+  balance <- makeSideBySideBalancePlots("VA-OMOP", vaCovariate, vaResults,
                                tc$targetId, tc$comparatorId, covidNarrowId,
                                studyFolder)
-  ))
+  
+  invisible(info <- saveSideBySidePlots(balance))
   
   figure <- readr::read_file("BalanceFig.tex")
   figure <- sub(pattern = "TARGET", replacement = info$targetName, x = figure)
@@ -1078,6 +1066,14 @@ devNull <- lapply(tcs, function(tc) {
   figure <- sub(pattern = "DATASOURCE", replacement = info$databaseName, x = figure)
   figure <- sub(pattern = "FILENAME", replacement = info$file, x = figure)
   cat(figure)
+  
+  makeExtremeBalanceTable(balance$balanceStrat, balance$targetName, balance$comparatorName, 
+                          "VA-OMOP", "stratification", length = 10)
+  
+  makeExtremeBalanceTable(balance$balanceMatch, balance$targetName, balance$comparatorName, 
+                          "VA-OMOP", "matching", length = 10)
+  
+  cat("\\clearpage")  
 })
 ```
 
@@ -1094,11 +1090,11 @@ cuimcResults <- readRDS(file.path(studyFolder, "CUIMC", "shinyData", paste0("coh
 colnames(cuimcResults) <- SqlRender::snakeCaseToCamelCase(colnames(cuimcResults))
 
 devNull <- lapply(tcs, function(tc) {
-  invisible(info <- saveSideBySidePlots(
-    makeSideBySideBalancePlots("CUIMC", cuimcCovariate, cuimcResults,
+  balance <- makeSideBySideBalancePlots("CUIMC", cuimcCovariate, cuimcResults,
                                tc$targetId, tc$comparatorId, covidNarrowId,
                                studyFolder)
-  ))
+  
+  invisible(info <- saveSideBySidePlots(balance))
   
   figure <- readr::read_file("BalanceFig.tex")
   figure <- sub(pattern = "TARGET", replacement = info$targetName, x = figure)
@@ -1106,6 +1102,14 @@ devNull <- lapply(tcs, function(tc) {
   figure <- sub(pattern = "DATASOURCE", replacement = info$databaseName, x = figure)
   figure <- sub(pattern = "FILENAME", replacement = info$file, x = figure)
   cat(figure)
+  
+  makeExtremeBalanceTable(balance$balanceStrat, balance$targetName, balance$comparatorName, 
+                          "CUIMC", "stratification", length = 10)
+  
+  makeExtremeBalanceTable(balance$balanceMatch, balance$targetName, balance$comparatorName, 
+                          "CUIMC", "matching", length = 10)
+  
+  cat("\\clearpage")  
 })
 ```
 
