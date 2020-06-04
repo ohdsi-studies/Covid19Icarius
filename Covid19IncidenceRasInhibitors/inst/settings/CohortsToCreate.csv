@@ -1,10 +1,10 @@
 atlasId,atlasName,cohortId,name,shinyName,shinyOrder
 137,"[COVID ACE ID32 v1] Prevalent users of ACE inhibitors (including non-monotherapy), with hypertension",137,COVID_ACE_ID32,"ACE +combo",11
 138,"[COVID ACE ID36 v1] Prevalent users of ARBs (including non-monotherapy), with hypertension",138,COVID_ACE_ID36,"ARB +combo",12
-123,[COVID ID25 V1] Hospitalizations with pneumonia,123,COVID_ID25,"Pneumonia",1
-110,"[COVID ID4 v1] Persons hospitalized with COVID-19, broad, no prior observation required",110,COVID_ID4,"COVID-19 broad",2
-139,"[COVID ID30 V1] Episodes of COVID-19, narrow",139,COVID_ID30,"COVID-19 narrow",3
-122,[COVID ID26 V1] Hospitalizations with pneumonia or ARDS or sepsis or AKI,122,COVID_ID26,"Adverse event",4
+123,[COVID ID25 V1] Hospitalizations with pneumonia,123,COVID_ID25,"Pneumonia",3
+110,"[COVID ID4 v1] Persons hospitalized with COVID-19, broad, no prior observation required",110,COVID_ID4,"COVID-19 hospitalization",2
+139,"[COVID ID30 V1] Episodes of COVID-19, narrow",139,COVID_ID30,"COVID-19 diagnosis",1
+122,[COVID ID26 V1] Hospitalizations with pneumonia or ARDS or sepsis or AKI,122,COVID_ID26,"PAAS event",4
 91,[LEGEND HTN] Total cardiovascular disease events,91,LEGEND_HTN_Total_cardiovascular_disease_events,"MACE",5
 140,"[COVID ACE ID39 v1] Prevalent users of thiazide/thiazide-like diuretics (including non-monotherapy), with hypertension",140,COVID_ACE_ID39,"THZ +combo",15
 141,"[COVID ACE ID38 v1] Prevalent users of dCCBs (including non-monotherapy), with hypertension",141,COVID_ACE_ID38,"CCB +combo",14

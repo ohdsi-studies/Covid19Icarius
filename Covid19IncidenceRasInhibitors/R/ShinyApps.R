@@ -75,7 +75,7 @@ prepareForEvidenceExplorer <- function(resultsZipFile, dataFolder, prettyLabels 
   plyr::l_ply(files, processFile, .progress = "text")
 
   if (prettyLabels) {
-    # Relabel exposure_of_interest.csv
+    # Relabel exposure_of_interest.rds
     exposureFile <- file.path(dataFolder, sprintf("exposure_of_interest_%s.rds", databaseId))
     exposureOfInterest <- readRDS(file = exposureFile)
     cohortFile <- system.file("settings",
@@ -87,6 +87,21 @@ prepareForEvidenceExplorer <- function(resultsZipFile, dataFolder, prettyLabels 
     tmp <- exposureOfInterest %>% dplyr::left_join(cohorts, by = "exposure_id") %>%
       dplyr::arrange(shiny_order) %>% dplyr::mutate(exposure_name = shiny_name)
     saveRDS(tmp, exposureFile)
+    
+    # Relabel outcome_of_interest.rds
+    outcomeFile <- file.path(dataFolder, sprintf("outcome_of_interest_%s.rds", databaseId))
+    outcomeOfInterest <- readRDS(file = outcomeFile)
+    cohortFile <- system.file("settings",
+                              "CohortsToCreate.csv",
+                              package = "Covid19IncidenceRasInhibitors")
+    cohorts <- read.csv(cohortFile)[, c("cohortId", "shinyName", "shinyOrder")]
+    cohorts$outcomeId <- cohorts$cohortId
+    colnames(cohorts) <- SqlRender::camelCaseToSnakeCase(colnames(cohorts))
+    tmp <- outcomeOfInterest %>% dplyr::left_join(cohorts, by = "outcome_id") %>%
+      dplyr::arrange(shiny_order) %>% dplyr::mutate(outcome_name = shiny_name) %>%
+      select(-shiny_name, -shiny_order) %>%
+      filter(outcome_id != 91) # Remove MACE
+    saveRDS(tmp, outcomeFile)    
   }
 }
 
