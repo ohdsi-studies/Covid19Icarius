@@ -1119,8 +1119,16 @@ devNull <- lapply(tcs, function(tc) {
 
 ```{r setupOutcomeTables, echo=FALSE}
 
-makeEffectTable <- function(outcomeName, designName, databaseName, table) {
-  header <- readr::read_file("SupTabEffectTop.tex")
+makeEffectTable <- function(outcomeName, designName, databaseName, table,
+                            texTop = "SupTabEffectTop.tex",
+                            texBottom = "SupTabEffectBottom.tex") {
+  
+  table <- table %>% mutate(p = ifelse(p < 0.01, 
+                                       "< 0.01", sprintf("%1.2f", p)),
+                            calibratedP = ifelse(calibratedP < 0.01, 
+                                                 "< 0.01", sprintf("%1.2f", calibratedP)))
+  
+  header <- readr::read_file(texTop)
   header <- sub(pattern = "OUTCOME", replacement = outcomeName, x = header)
   header <- sub(pattern = "DESIGN", replacement = designName, x = header)
   header <- sub(pattern = "DATASOURCE", replacement = databaseName, x = header)
@@ -1132,7 +1140,7 @@ makeEffectTable <- function(outcomeName, designName, databaseName, table) {
         hline.after = NULL,
         only.contents = TRUE,
         sanitize.text.function = identity)
-  footer <- readr::read_file("SupTabEffectBottom.tex")
+  footer <- readr::read_file(texBottom)
   cat(footer)
 }
 ```
@@ -1199,6 +1207,26 @@ cuimcTable <- do.call(
              rr, ci, p, 
              calibratedRr, calibratedCi, calibratedP)
   }))
+
+databaseId <- "Meta-analysis"
+
+outcomesOfInterest <- Covid19IncidenceRasInhibitors:::getOutcomesOfInterest()
+cmResults <- readRDS(file.path(studyFolder, databaseId, "shinyData", sprintf("cohort_method_result_%s.rds", databaseId))) 
+colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
+cmResults <- cmResults %>% na.omit()
+
+maTable <- do.call(
+  "rbind",
+  lapply(tcs, function(tc) {
+    cmResults %>% filter(targetId == tc$targetId, comparatorId == tc$comparatorId) %>%
+      left_join(prettyNames, by = c("targetId" = "cohortId")) %>% rename(targetName = cohortName) %>%
+      left_join(prettyNames, by = c("comparatorId" = "cohortId")) %>% rename(comparatorName = cohortName) %>%
+      mutate(ci = sprintf("(%1.2f - %1.2f)", ci95Lb, ci95Ub),
+             calibratedCi = sprintf("(%1.2f - %1.2f)", calibratedCi95Lb, calibratedCi95Ub)) %>%
+      select(targetName, comparatorName, outcomeId, analysisId,
+             rr, ci, p, 
+             calibratedRr, calibratedCi, calibratedP, i2) %>% mutate(i2 = sprintf("%1.2f", i2))
+  }))
 ```
 
 ### SIDIAP
@@ -1250,6 +1278,28 @@ makeEffectTable("PAAS", "stratifed", "CUIMC",
                 cuimcTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId))
 ```
 
+### Meta-analysis
+
+These meta-analytic estimates are based on all data source estimates, not just those that pass diagnostics
+
+```{r, echo=FALSE, results="asis"}
+makeEffectTable("COVID-19 diagnosis", "stratified", "Meta-analysis", 
+                maTable %>% filter(outcomeId == covidNarrowId, analysisId == primaryAnalysisId),
+                texTop = "SupTabEffectMaTop.tex")
+  
+makeEffectTable("COVID-19 hospitalization", "stratifed", "Meta-analysis", 
+                maTable %>% filter(outcomeId == covidBroadId, analysisId == primaryAnalysisId),
+                texTop = "SupTabEffectMaTop.tex")
+
+makeEffectTable("pneumonia", "stratifed", "Meta-analysis", 
+                maTable %>% filter(outcomeId == pnaId, analysisId == primaryAnalysisId),
+                texTop = "SupTabEffectMaTop.tex")
+
+makeEffectTable("PAAS", "stratifed", "Meta-analysis", 
+                maTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId),
+                texTop = "SupTabEffectMaTop.tex")
+```
+
 ## PS Matching
 
 ### SIDIAP
@@ -1298,6 +1348,26 @@ makeEffectTable("pneumonia", "matched", "CUIMC",
 
 makeEffectTable("PAAS", "matched", "CUIMC", 
                 cuimcTable %>% filter(outcomeId == adverseId, analysisId == 6))
+```
+
+### Meta-analysis
+
+```{r, echo=FALSE, results="asis"}
+makeEffectTable("COVID-19 diagnosis", "matched", "Meta-analysis", 
+                maTable %>% filter(outcomeId == covidNarrowId, analysisId == 6),
+                texTop = "SupTabEffectMaTop.tex")
+  
+makeEffectTable("COVID-19 hospitalization", "matched", "Meta-analysis", 
+                maTable %>% filter(outcomeId == covidBroadId, analysisId == 6),
+                texTop = "SupTabEffectMaTop.tex")
+
+makeEffectTable("pneumonia", "matched", "Meta-analysis", 
+                maTable %>% filter(outcomeId == pnaId, analysisId == 6),
+                texTop = "SupTabEffectMaTop.tex")
+
+makeEffectTable("PAAS", "matched", "Meta-analysis", 
+                maTable %>% filter(outcomeId == adverseId, analysisId == 6),
+                texTop = "SupTabEffectMaTop.tex")
 ```
 
 # Cohort specifications

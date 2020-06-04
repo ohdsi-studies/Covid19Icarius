@@ -71,6 +71,8 @@ for(databaseId in databaseIds){
 doMetaAnalysis <- function(studyFolder,
                            outputFolders,
                            maOutputFolder,
+                           maName = "Meta-analysis",
+                           useImbalance = FALSE,
                            maxCores) {
 
   ParallelLogger::logInfo("Performing meta-analysis")
@@ -98,26 +100,38 @@ doMetaAnalysis <- function(studyFolder,
   #   (allResults$databaseId %in% c("AmbEMR", "CPRD", "DAGermany", "IMRD", "SIDIAP") & allResults$outcomeId %in% c(22, 13, 20, 21, 17, 8, 11)) # databases with no IP
   # allResults <- allResults[!drops, ]
   #
-  # # blind estimates that don't pass diagnostics
-  # blinds <- (allResults$databaseId == "CPRD" & allResults$targetId == 137) |
-  #   (allResults$databaseId == "JMDC" & allResults$targetId == 2) |
-  #   (allResults$databaseId == "DAGermany" & allResults$targetId == 137) |
-  #   (allResults$databaseId == "IMRD" & allResults$targetId == 137) |
-  #   (allResults$databaseId == "SIDIAP" & allResults$targetId %in% c(137, 2)) |
-  #   (allResults$databaseId == "IPCI" & allResults$targetId %in% c(137, 2))
-  #
-  # allResults$rr[blinds] <- NA
-  # allResults$ci95Lb[blinds] <- NA
-  # allResults$ci95Ub[blinds] <- NA
-  # allResults$logRr[blinds] <- NA
-  # allResults$seLogRr[blinds] <- NA
-  # allResults$p[blinds] <- NA
-  # allResults$calibratedRr[blinds] <- NA
-  # allResults$calibratedCi95Lb[blinds] <- NA
-  # allResults$calibratedCi95Ub[blinds] <- NA
-  # allResults$calibratedLogRr[blinds] <- NA
-  # allResults$calibratedSeLogRr[blinds] <- NA
-  # allResults$calibratedP[blinds] <- NA
+  # blind estimates that don't pass diagnostics
+  
+  if (useImbalance) {
+    
+    aceMonoId <- 143
+    arbMonoId <- 144
+    
+    arbComboId <- 138
+    ccbThzComboId <- 149
+    
+    blinds <- 
+      (allResults$databaseId == "CUIMC" & allResults$analysisId == 5 &
+         !(allResults$targetId == aceMonoId & allResults$comparatorId == arbMonoId)) |
+      (allResults$databaseId == "CUIMC" & allResults$analysisId == 6 &
+         (allResults$targetId == aceMonoId & allResults$comparatorId == arbMonoId)) |
+      (allResults$databaseId == "VA-OMOP" & allResults$analysisId == 5 &
+         (allResults$targetId == arbComboId & allResults$comparatorId == ccbThzComboId))
+  
+    allResults$rr[blinds] <- NA
+    allResults$ci95Lb[blinds] <- NA
+    allResults$ci95Ub[blinds] <- NA
+    allResults$logRr[blinds] <- NA
+    allResults$seLogRr[blinds] <- NA
+    allResults$p[blinds] <- NA
+    allResults$calibratedRr[blinds] <- NA
+    allResults$calibratedCi95Lb[blinds] <- NA
+    allResults$calibratedCi95Ub[blinds] <- NA
+    allResults$calibratedLogRr[blinds] <- NA
+    allResults$calibratedSeLogRr[blinds] <- NA
+    allResults$calibratedP[blinds] <- NA
+    
+  }
 
   # controls
   allControls <- lapply(outputFolders, getAllControls)
@@ -138,20 +152,22 @@ doMetaAnalysis <- function(studyFolder,
                                           allControls = allControls)
   ParallelLogger::stopCluster(cluster)
   results <- do.call(rbind, results)
+  
+  results <- results %>% mutate(databaseId = maName)
   colnames(results) <- SqlRender::camelCaseToSnakeCase(colnames(results))
 
-  fileName <- file.path(maOutputFolder, "cohort_method_results_Meta-analysis.csv")
+  fileName <- file.path(maOutputFolder, paste0("cohort_method_results_", maName, ".csv"))
   write.csv(results, fileName, row.names = FALSE, na = "")
-  fileName <- file.path(shinyDataFolder, "cohort_method_result_Meta-analysis.rds")
+  fileName <- file.path(shinyDataFolder, paste0("cohort_method_result_", maName, ".rds"))
   results <- subset(results, select = -c(type, mdrr))
   saveRDS(results, fileName)
 
-  database <- data.frame(database_id = "Meta-analysis",
-                         database_name = "Meta-analysis",
-                         description = "Meta-analysis",
+  database <- data.frame(database_id = maName,
+                         database_name = maName,
+                         description = maName,
                          is_meta_analysis = 1,
                          stringsAsFactors = FALSE)
-  fileName <- file.path(shinyDataFolder, "database_Meta-analysis.rds")
+  fileName <- file.path(shinyDataFolder, paste0("database_", maName, ".rds"))
   saveRDS(database, fileName)
 }
 
@@ -229,22 +245,31 @@ computeSingleMetaAnalysis <- function(outcomeGroup) {
     meta <- meta::metagen(outcomeGroup$logRr, outcomeGroup$seLogRr, sm = "RR", hakn = FALSE)
     s <- summary(meta)
     maRow$i2 <- s$I2$TE
-    if (maRow$i2 < .40) {
-      rnd <- s$random
-      maRow$rr <- exp(rnd$TE)
-      maRow$ci95Lb <- exp(rnd$lower)
-      maRow$ci95Ub <- exp(rnd$upper)
-      maRow$p <- rnd$p
-      maRow$logRr <- rnd$TE
-      maRow$seLogRr <- rnd$seTE
-    } else {
-      maRow$rr <- NA
-      maRow$ci95Lb <- NA
-      maRow$ci95Ub <- NA
-      maRow$p <- NA
-      maRow$logRr <- NA
-      maRow$seLogRr <- NA
-    }
+    
+    rnd <- s$random
+    maRow$rr <- exp(rnd$TE)
+    maRow$ci95Lb <- exp(rnd$lower)
+    maRow$ci95Ub <- exp(rnd$upper)
+    maRow$p <- rnd$p
+    maRow$logRr <- rnd$TE
+    maRow$seLogRr <- rnd$seTE
+
+    # if (maRow$i2 < .40) {
+    #   rnd <- s$random
+    #   maRow$rr <- exp(rnd$TE)
+    #   maRow$ci95Lb <- exp(rnd$lower)
+    #   maRow$ci95Ub <- exp(rnd$upper)
+    #   maRow$p <- rnd$p
+    #   maRow$logRr <- rnd$TE
+    #   maRow$seLogRr <- rnd$seTE
+    # } else {
+    #   maRow$rr <- NA
+    #   maRow$ci95Lb <- NA
+    #   maRow$ci95Ub <- NA
+    #   maRow$p <- NA
+    #   maRow$logRr <- NA
+    #   maRow$seLogRr <- NA
+    # }
   }
   if (is.na(maRow$logRr)) {
     maRow$mdrr <- NA
@@ -259,7 +284,7 @@ computeSingleMetaAnalysis <- function(outcomeGroup) {
     maRow$mdrr <- exp(sqrt((zBeta + z1MinAlpha)^2/(totalEvents * pA * pB)))
   }
   maRow$databaseId <- "Meta-analysis"
-  # maRow$sources <- paste(outcomeGroup$databaseId[order(outcomeGroup$databaseId)], collapse = ", ")
+  maRow$sources <- paste(outcomeGroup$databaseId[order(outcomeGroup$databaseId)], collapse = ", ")
   return(maRow)
 }
 

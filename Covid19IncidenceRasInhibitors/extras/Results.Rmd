@@ -197,12 +197,12 @@ print(xtable(table, format = "latex"),
         command = c(
           "                       \\multicolumn{9}{l}{ACE/ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ACE vs ARB} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
-          "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ACE vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
-          "                        & \\multicolumn{8}{l}{+ Combination} \\\\"
+          "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ACE vs ARB} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{8}{l}{+ Combination} \\\\"          
           )
       ),
       sanitize.text.function = identity)
@@ -312,7 +312,7 @@ blend <- function(databaseIds,
   harmonizeRace <- function(table) {
     
     aggregate <- function(x) {
-      sprintf(" %1.2f", sum(as.numeric(x), na.rm = TRUE))
+      sprintf(" %2.1f", sum(as.numeric(x), na.rm = TRUE))
     }
     
     # Combine Asians
@@ -335,6 +335,30 @@ blend <- function(databaseIds,
     # Recode Pacific Islander
     table$id <- as.character(table$id)
     table$id[table$id == "    race = Other Pacific Islander"] <- "    race = Native Hawaiian or Other Pacific Islander"
+    
+    # Combine other and unknown
+    combinedMisc <- c("    race = Unknown", "    race = Other Race")
+    misc <- table %>% filter(id %in% combinedMisc)
+    b <- aggregate(misc$b)
+    c <- aggregate(misc$c)
+    e <- aggregate(misc$e)
+    f <- aggregate(misc$f)
+    
+    miscKeep <- table$id == "    race = Unknown"
+    table$b[miscKeep] <- b
+    table$c[miscKeep] <- c
+    table$e[miscKeep] <- e
+    table$f[miscKeep] <- f
+    
+    table <- table %>% filter(!(id %in% combinedMisc[-1]))
+    
+    # Remove first native Hawaiian
+    index <- table$id == "    race = Native Hawaiian or Other Pacific Islander"
+    if (sum(index) > 1) {
+      index[which(index)[2]] <- FALSE
+      table <- table[!index, ]
+    }
+    
     return(table)
   }
   
@@ -382,7 +406,7 @@ sidiapTc <- tableSidiap %>% head(1) %>% select(targetSubjects, comparatorSubject
 vaTc <- tableVa %>% head(1) %>% select(targetSubjects, comparatorSubjects)
 cuimcTc <- tableCuimc %>% head(1) %>% select(targetSubjects, comparatorSubjects)
 
-  scale <- 0.7
+  scale <- 0.8
   header <- readr::read_file("Table1TopTriple.tex")
 
   targetName <- cohorts %>% filter(cohortId == targetId) %>% select(shinyName) %>% pull
@@ -478,10 +502,12 @@ cmResults <- readRDS(file.path(studyFolder, databaseId, "shinyData", sprintf("co
 colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
 cmResultsCuimc <- cmResults %>% filter(outcomeId %in% outcomesOfInterest, analysisId %in% c(5,6))
 
-databaseId <- "Meta-analysis"
+databaseId <- "Meta-analysis-main"
 cmResults <- readRDS(file.path(studyFolder, databaseId, "shinyData", sprintf("cohort_method_result_%s.rds", databaseId)))
 colnames(cmResults) <- SqlRender::snakeCaseToCamelCase(colnames(cmResults))
 cmResultsMa <- cmResults %>% filter(outcomeId %in% outcomesOfInterest, analysisId %in% c(5,6))
+cmResultsMaWithSources <- cmResultsMa
+cmResultsMa <- cmResultsMa %>% select(-sources)
 
 cmResults <- rbind(cmResultsSidiap, cmResultsVa, cmResultsCuimc, cmResultsMa)
 
@@ -489,8 +515,15 @@ table <- do.call(
   "rbind",
   lapply(tcs, function(tc) {
     out <- cmResults %>% filter(targetId == tc$targetId, comparatorId == tc$comparatorId) %>%
-      mutate(ci = sprintf("(%1.2f - %1.2f)", ci95Lb, ci95Ub),
-             calibratedCi = sprintf("(%1.2f - %1.2f)", calibratedCi95Lb, calibratedCi95Ub)) %>%
+      mutate(ci = ifelse(ci95Ub > 10,
+                         sprintf("(%1.2f - %2.1f)", ci95Lb, ci95Ub),
+                         sprintf("(%1.2f - %1.2f)", ci95Lb, ci95Ub)), 
+             calibratedCi = ifelse(calibratedCi95Ub > 10,
+                         sprintf("(%1.2f - %2.1f)", calibratedCi95Lb, calibratedCi95Ub),
+                         sprintf("(%1.2f - %1.2f)", calibratedCi95Lb, calibratedCi95Ub))) %>% 
+               # 
+               # 
+               # sprintf("(%1.2f - %1.2f)", calibratedCi95Lb, calibratedCi95Ub)) %>%
       select(databaseId, targetId, comparatorId, outcomeId, analysisId,
              calibratedRr, calibratedCi, calibratedP, calibratedCi95Lb, calibratedCi95Ub, i2) %>%
       left_join(prettyNames, by = c("targetId" = "cohortId")) %>% rename(targetName = cohortName) %>%
@@ -502,43 +535,6 @@ table <- do.call(
 ```
 
 ```{r, echo=FALSE, cache=TRUE}
-getCovariateBalance <- function(connection,
-                                targetId,
-                                comparatorId,
-                                databaseId,
-                                analysisId,
-                                covariate,
-                                dataFolder,
-                                outcomeId = NULL) {
-  file <- sprintf("covariate_balance_t%s_c%s_%s.rds", targetId, comparatorId, databaseId)
-  balance <- readRDS(file.path(dataFolder, file))
-  colnames(balance) <- SqlRender::snakeCaseToCamelCase(colnames(balance))
-  balance <- balance[balance$analysisId == analysisId & balance$outcomeId == outcomeId, ]
-  balance <- merge(balance, covariate[covariate$databaseId == databaseId & covariate$analysisId == analysisId, 
-                                      c("covariateId", "covariateAnalysisId", "covariateName")])
-  balance <- balance[ c("covariateId",
-                        "covariateName",
-                        "covariateAnalysisId", 
-                        "targetMeanBefore", 
-                        "comparatorMeanBefore", 
-                        "stdDiffBefore", 
-                        "targetMeanAfter", 
-                        "comparatorMeanAfter",
-                        "stdDiffAfter")]
-  colnames(balance) <- c("covariateId",
-                         "covariateName",
-                         "analysisId",
-                         "beforeMatchingMeanTreated",
-                         "beforeMatchingMeanComparator",
-                         "beforeMatchingStdDiff",
-                         "afterMatchingMeanTreated",
-                         "afterMatchingMeanComparator",
-                         "afterMatchingStdDiff")
-  balance$absBeforeMatchingStdDiff <- abs(balance$beforeMatchingStdDiff)
-  balance$absAfterMatchingStdDiff <- abs(balance$afterMatchingStdDiff)
-  return(balance)
-}
-
 sidiapCovariate <- readRdsCamelCase(file.path(sidiapDir, "shinyData", "covariate_SIDIAP.rds"))
 cuimcCovariate <- readRdsCamelCase(file.path(cuimcDir, "shinyData", "covariate_CUIMC.rds"))
 vaCovariate <- readRdsCamelCase(file.path(vaDir, "shinyData", "covariate_VA-OMOP.rds"))
@@ -551,7 +547,7 @@ getBalanceDiagnostic <- function(targetId, comparatorId, databaseId, analysisId,
                                  covariate = covariate, dataFolder = dataFolder)
   data.frame(databaseId = databaseId, analysisId = analysisId,
              targetId = targetId, comparatorId = comparatorId,
-             imbalanced = sum(balance$absAfterMatchingStdDiff > 0.1))
+             imbalanced = sum(balance$absAfterMatchingStdDiff > 0.1, na.rm = TRUE))
 }
 
 balance<- 
@@ -602,19 +598,31 @@ balance<-
   select(targetName, comparatorName, everything())  
 
   # Add meta-analysis
-  meta <- balance %>% filter(databaseId == "SIDIAP") %>% mutate(databaseId = "Meta-analysis",
-                                                                imbalanced = 0)
+  meta <- table %>% filter(databaseId == "Meta-analysis-main", outcomeId == covidNarrowId) %>% 
+    mutate(imbalanced = i2 > 0.40) %>%
+    select(targetName, comparatorName, databaseId, analysisId, imbalanced)
   balance <- rbind(balance, meta) # Comment out to remove meta-analysis
 
 table <- inner_join(table, balance, by = c("targetName", "comparatorName", "databaseId", "analysisId"))
+```
 
-knitr::kable(table %>% filter(outcomeId == covidNarrowId, databaseId == "Meta-analysis") %>%
+# Info about meta-analysis
+
+```{r, echo=FALSE}
+meta <- cmResultsMaWithSources %>%
+  left_join(prettyNames, by = c("targetId" = "cohortId")) %>% rename(targetName = cohortName) %>%
+  left_join(prettyNames, by = c("comparatorId" = "cohortId")) %>% rename(comparatorName = cohortName) %>%
+  select(-targetId, -comparatorId) %>%
+  select(targetName, comparatorName, everything())   
+
+knitr::kable(meta %>% filter(outcomeId == covidNarrowId, databaseId == "Meta-analysis-main") %>%
                arrange(analysisId) %>%
-               filter(!is.na(is)) %>% select(targetName, comparatorName, analysisId, databaseId, i2), 
+               filter(!is.na(is)) %>% select(targetName, comparatorName, analysisId, databaseId, i2, sources), 
              format = "latex",
              booktabs = TRUE)
 
-table <- table %>% select(-i2)
+table <- table %>% select(-i2) %>% 
+  mutate(databaseId = ifelse(databaseId == "Meta-analysis-main", "Meta-analysis", databaseId))
 
 ```
 
@@ -644,6 +652,7 @@ wideTable <- inner_join(table5, table6, by = c("databaseId", "targetName", "comp
 numDb <- length(unique(wideTable$databaseId))
 
 print(xtable(wideTable %>% filter(outcomeId == covidNarrowId) %>% 
+               #mutate(calibratedRr = ifself(is.na(calibratedRr), "--", calibratedRr)) %>%
                select(-outcomeId, -stratImbalanced, -matchCalRr, -matchCalCi, -matchCalP, -matchImbalanced) %>%
                mutate(targetName = "", comparatorName = ""), 
              format = "latex"),
@@ -676,13 +685,13 @@ print(xtable(wideTable %>% filter(outcomeId == covidNarrowId) %>%
  \caption{Relative risk of COVID-19 diagnosis for ACE inhibitors, ARB, CCB and THZ prevalent-users. We report calibrated hazard ratios (HRs) and their 95\% confidence intervals (CIs) across data sources. Grayed out entries do not pass study diagnostics.}
   \rowcolors{2}{gray!6}{white}
   \centering{
-  \begin{tabular}{p{-2em}p{-2em}lrrrrrr}
+  \begin{tabular}{p{-2em}p{-2em}lrrrc@{}rrr}
     \hiderowcolors
     \toprule
-    & & & \multicolumn{3}{c}{PS-stratified} & \multicolumn{3}{c}{PS-matched} \\
-     \cmidrule(lr){4-6} \cmidrule(lr){7-9}
+    & & & \multicolumn{3}{c}{PS-stratified} & &  \multicolumn{3}{c}{PS-matched} \\
+     \cmidrule(lr){4-6} \cmidrule(lr){8-10}
      & 
-    & & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$}
+    & & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$} &
       & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$} \\
     \midrule \showrowcolors
 ```{r, echo=FALSE, results="asis"}
@@ -691,7 +700,9 @@ print(xtable(wideTable %>% filter(outcomeId == covidNarrowId) %>%
 
 toString <- function(x) {
   ifelse(sapply(x, is.numeric),
-         sprintf("%1.2f", x),
+         ifelse(x > 10,
+                sprintf("%2.1f", x),
+                sprintf("%1.2f", x)),
          x)
 }
 
@@ -717,6 +728,21 @@ annotatedWideTable <- wideTable %>%
          matchCalCi = matchAnnotate(matchCalCi),
          matchCalP = matchAnnotate(matchCalP))
 
+stratIndex <- annotatedWideTable$stratCalRr == "NA"
+annotatedWideTable$stratCalRr[stratIndex] <- "\\multicolumn{1}{c}{--}"
+annotatedWideTable$stratCalCi[stratIndex] <- "\\multicolumn{1}{c}{--}"
+annotatedWideTable$stratCalP[stratIndex] <- "\\multicolumn{1}{c}{--}"
+
+matchIndex <- annotatedWideTable$matchCalRr == "NA"
+annotatedWideTable$matchCalRr[matchIndex] <- "\\multicolumn{1}{c}{--}"
+annotatedWideTable$matchCalCi[matchIndex] <- "\\multicolumn{1}{c}{--}"
+annotatedWideTable$matchCalP[matchIndex] <- "\\multicolumn{1}{c}{--}"
+
+annotatedWideTable <- annotatedWideTable %>% mutate(gap = "") %>%
+  select(targetName, comparatorName, databaseId, outcomeId, stratCalRr, stratCalCi, stratCalP, stratImbalanced,
+         gap, 
+         matchCalRr, matchCalCi, matchCalP, matchImbalanced)
+
 print(xtable(annotatedWideTable %>% filter(outcomeId == covidNarrowId) %>% 
                select(-outcomeId, -stratImbalanced, -matchImbalanced) %>%
                mutate(targetName = "", comparatorName = ""), 
@@ -728,14 +754,59 @@ print(xtable(annotatedWideTable %>% filter(outcomeId == covidNarrowId) %>%
  add.to.row = list(
         pos = as.list(c(0:7) * numDb),
         command = c(
-          "                       \\multicolumn{9}{l}{ACE/ARB vs CCB/THZ} \\\\ & \\multicolumn{8}{l}{Monotherapy}  \\\\",
-          "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ACE vs CCB/THZ} \\\\ & \\multicolumn{8}{l}{Monotherapy}  \\\\",
-          "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ARB vs CCB/THZ} \\\\ & \\multicolumn{8}{l}{Monotherapy}  \\\\",
-          "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ACE vs ARB} \\\\ & \\multicolumn{8}{l}{Monotherapy}  \\\\",
-          "                        & \\multicolumn{8}{l}{+ Combination} \\\\"          
+          "                       \\multicolumn{10}{l}{ACE/ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ACE vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ACE vs ARB} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{9}{l}{+ Combination} \\\\"          
+          )
+      ),      
+      sanitize.text.function = identity)
+```
+  \bottomrule
+  \end{tabular}
+  }
+\end{table}
+
+\clearpage
+
+\definecolor{light-gray}{gray}{0.50}
+\begin{table}[H]
+ \caption{Relative risk of COVID-19 hospitalization for ACE inhibitors, ARB, CCB and THZ prevalent-users. We report calibrated hazard ratios (HRs) and their 95\% confidence intervals (CIs) across data sources. Grayed out entries do not pass study diagnostics.}
+  \rowcolors{2}{gray!6}{white}
+  \centering{
+  \begin{tabular}{p{-2em}p{-2em}lrrrc@{}rrr}
+    \hiderowcolors
+    \toprule
+    & & & \multicolumn{3}{c}{PS-stratified} & &  \multicolumn{3}{c}{PS-matched} \\
+     \cmidrule(lr){4-6} \cmidrule(lr){8-10}
+     & 
+    & & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$} &
+      & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$} \\
+    \midrule \showrowcolors
+```{r, echo=FALSE, results="asis"}
+print(xtable(annotatedWideTable %>% filter(outcomeId == covidBroadId) %>% 
+               select(-outcomeId, -stratImbalanced, -matchImbalanced) %>%
+               mutate(targetName = "", comparatorName = ""), 
+             format = "latex"),
+      include.rownames = FALSE,
+      include.colnames = FALSE,
+      hline.after = NULL,
+      only.contents = TRUE,
+ add.to.row = list(
+        pos = as.list(c(0:7) * numDb),
+        command = c(
+          "                       \\multicolumn{10}{l}{ACE/ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ACE vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ACE vs ARB} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{9}{l}{+ Combination} \\\\"          
           )
       ),      
       sanitize.text.function = identity)
@@ -778,7 +849,7 @@ if (do56) {
   delta6 <- -0.25
 }
 
-pdf(file = "SixEffect.pdf", height = 8, width = 6)
+pdf(file = "SixEffect.pdf", height = 10, width = 6)
 
 dbs <- numDb
 
@@ -828,7 +899,7 @@ text(x = 6.025, y = ymax - 0.5, labels = "PS-matched",
      pos = 4, cex = textCex, adj = 0.5)
 
 points(x = 8, y = ymax - 0.5, pch = 22, bg = poorBalance, col = poorBalance)
-text(x = 8.025, y = ymax - 0.5, labels = "fails study diagnostics", 
+text(x = 8.025, y = ymax - 0.5, labels = "Fails study diagnostics", 
      pos = 4, cex = textCex, adj = 0.5)
 
 scale <- function(x) {
@@ -978,6 +1049,7 @@ invisible(dev.off())
     Outcomes are COVID-19 diagnosis, COVID-19 hospitalization (+Hospital), patients hospitalized with pneumonia (PNA) and patients hospitalized with pneunomia, acute respiratory distree syndrome, acute kidney injury or sepsis (PAAS). 
     We plot calibrated hazard ratios (circles) and their 95% confidence intervals (wiskers) for both monotherapy and in-combination cohort definitions,
     labeled by propensity score (PS) adjustment method (black/white), across data sources.  Grayed out entries do not pass study diagnostics.}
+    \vspace*{-0.25in}
   \centerline{
     \includegraphics[width=0.95\textwidth]{SixEffect}
   }
