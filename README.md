@@ -1,4 +1,4 @@
-OHDSI COVID-19 Studyathon: Association of angiotensin converting enzyme (ACE) inhibitors and angiotensin II receptor blockers (ARB) on coronavirus disease (COVID-19) incidence and complications
+OHDSI COVID-19 Studyathon: International coronavirus disease (COVID) - angiotensin converting enzyme (ACE) Receptor Inhibition Utilization and Safety (ICARIUS) studies: susceptibility and severity
 ==============================
 
 <img src="https://img.shields.io/badge/Study%20Status-Design%20Finalized-brightgreen.svg" alt="Study Status: Design Finalized"> 
@@ -10,7 +10,7 @@ OHDSI COVID-19 Studyathon: Association of angiotensin converting enzyme (ACE) in
 - Study lead forums tag: **[msuchard](https://forums.ohdsi.org/u/msuchard),  [SCYou](https://forums.ohdsi.org/u/scyou/), [Conovermitch](https://forums.ohdsi.org/u/Conovermitch)**
 - Study start date: **March 26, 2020**
 - Study end date: **-**
-- Protocol: **[Word Doc](https://github.com/ohdsi-studies/Covid19EstimationRasInhibitors/blob/master/Documents/COVID19_ACE_ARB_Protocol_Version_1_0.docx)**
+- Protocol: **[Word Doc](https://github.com/ohdsi-studies/Covid19Icarius/blob/master/Documents/COVID19_ACE_ARB_Protocol_Version_1_0.docx)**
 - Publications: **-**
 - Results explorer: **[Shiny app](https://data.ohdsi.org/Covid19EstimationAceInhibitors/)**
 
@@ -31,9 +31,9 @@ See [this video](https://youtu.be/K9_0s2Rchbo) for instructions on how to set up
 
 How to run
 ==========
-1. This study consists of two analyses: [Incidence](https://github.com/ohdsi-studies/Covid19EstimationRasInhibitors/tree/master/Covid19IncidenceRasInhibitors) and [Complications](https://github.com/ohdsi-studies/Covid19EstimationRasInhibitors/tree/master/Covid19ComplicationsRasInhibitors)
+1. This study consists of two analyses: [Susceptibility](https://github.com/ohdsi-studies/Covid19Icarius/tree/master/Covid19IncidenceRasInhibitors) and [Severity](https://github.com/ohdsi-studies/Covid19Icarius/tree/master/Covid19ComplicationsRasInhibitors)
 
-2. You will ultimately build two separate libraries for these analysis: Covid19IncidenceRasInhibitors (the Incidence study) and COVID5ACESeverity (the Complications study). Each Analysis folder has specific instructions on how to install the study library.
+2. You will ultimately build two separate libraries for these analysis: `Covid19IncidenceRasInhibitors` (the Susceptibility study) and `Covid19ComplicationsRasInhibitors` (the Severity study). Each Analysis folder has specific instructions on how to install the study library.
  
  *Note: If you encounter errors in devtools pulling the study packages, you may find it easier to download the repo zip locally and uploading it through your RStudio console. Instructions to upload packages are provided in [The Book of OHDSI](https://ohdsi.github.io/TheBookOfOhdsi/PopulationLevelEstimation.html#running-the-study-package).*
 
@@ -44,7 +44,7 @@ How to run
 	userName <- "study-data-site-covid19"
 	OhdsiSharing::sftpUploadFile(privateKeyFileName = keyFileName,
                              userName = userName,
-                             remoteFolder = "Covid19EstimationRasInhibitors",
+                             remoteFolder = "Covid19Icarius",
                              fileName = "<directory location of outputFolder/export>")
   ```
   
@@ -72,4 +72,4 @@ max_parallel_workers = 8
 
 License
 =======
-The Covid19IncidenceRasInhibitors (the Incidence study) and COVID5ACESeverity (the Complications study) packages are licensed under Apache License 2.0
+The `Covid19IncidenceRasInhibitors` (the Susceptibility study) and `Covid19ComplicationsRasInhibitors` (the Severity study) packages are licensed under Apache License 2.0
