@@ -10,7 +10,7 @@ OHDSI COVID-19 Studyathon: International coronavirus disease (COVID) - angiotens
 - Study lead forums tag: **[msuchard](https://forums.ohdsi.org/u/msuchard),  [SCYou](https://forums.ohdsi.org/u/scyou/), [Conovermitch](https://forums.ohdsi.org/u/Conovermitch)**
 - Study start date: **March 26, 2020**
 - Study end date: **-**
-- Protocol: **[Word Doc](https://github.com/ohdsi-studies/Covid19Icarius/blob/master/Documents/COVID19_ACE_ARB_Protocol_Version_1_0.docx)**
+- Protocol: **[PDF](https://github.com/ohdsi-studies/Covid19Icarius/blob/master/Documents/COVID19_ACE_ARB_Protocol_Version_1_2.pdf)**
 - Publications: **-**
 - Results explorer: **[Shiny app](https://data.ohdsi.org/Covid19EstimationAceInhibitors/)**
 
