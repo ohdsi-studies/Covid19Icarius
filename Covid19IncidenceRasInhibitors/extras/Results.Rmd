@@ -83,11 +83,11 @@ thzMonoId <- cohorts %>% filter(shinyName == "THZ mono") %>% select(cohortId) %>
 ccbComboId <- cohorts %>% filter(shinyName == "CCB +combo") %>% select(cohortId) %>% pull()
 thzComboId <- cohorts %>% filter(shinyName == "THZ +combo") %>% select(cohortId) %>% pull()
 
-covidNarrowId <- cohorts %>% filter(shinyName == "COVID-19 narrow") %>% select(cohortId) %>% pull()
-covidBroadId <- cohorts %>% filter(shinyName == "COVID-19 broad") %>% select(cohortId) %>% pull()
+covidNarrowId <- cohorts %>% filter(shinyName == "COVID-19 diagnosis") %>% select(cohortId) %>% pull()
+covidBroadId <- cohorts %>% filter(shinyName == "COVID-19 hospitalization") %>% select(cohortId) %>% pull()
 
 pnaId <- cohorts %>% filter(shinyName == "Pneumonia") %>% select(cohortId) %>% pull()
-adverseId <- cohorts %>% filter(shinyName == "Adverse event") %>% select(cohortId) %>% pull()
+adverseId <- cohorts %>% filter(shinyName == "PAAS event") %>% select(cohortId) %>% pull()
 
 prettyNames <- data.frame(
   cohortId = c(aceMonoId, arbMonoId, aceArbMonoId, ccbMonoId, thzMonoId, ccbThzMonoId,
@@ -103,10 +103,10 @@ primaryAnalysisId <- 5 # Full stratified PS
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
-sidiapDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/SIDIAP"
-cuimcDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/CUIMC"
-vaDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/VA-OMOP"
-studyFolder <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors"
+sidiapDir <- "/Users/msuchard/Dropbox/Projects/Covid19Icarius/SIDIAP"
+cuimcDir <- "/Users/msuchard/Dropbox/Projects/Covid19Icarius/CUIMC"
+vaDir <- "/Users/msuchard/Dropbox/Projects/Covid19Icarius/VA-OMOP"
+studyFolder <- "/Users/msuchard/Dropbox/Projects/Covid19Icarius"
 
 dataFolder <- file.path(sidiapDir, "shinyData")
 databaseId <- "SIDIAP"
@@ -212,6 +212,51 @@ print(xtable(table, format = "latex"),
   }
 \end{table}   
 
+```{r, echo=FALSE}
+countText <- function(targetName = "ACE/ARB (c)",
+                      comparatorName = "CCB/THZ (c)") {
+  
+  tS <- do.call("rbind",
+                lapply(list(tableSidiap, tableVa, tableCuimc), function(tab) {
+                  tab %>% filter(targetId == targetName, comparatorId == comparatorName) %>%
+                    mutate(targetSubjects = as.numeric(sub(",", "", targetSubjects)),
+                           comparatorSubjects = as.numeric(sub(",", "", comparatorSubjects)),
+                           targetYears = as.numeric(sub(",", "", targetYears)),
+                           comparatorYears = as.numeric(sub(",", "", comparatorYears)),
+                           targetOutcomes = as.numeric(sub(",", "", targetOutcomes)),
+                           comparatorOutcomes = as.numeric(sub(",", "", comparatorOutcomes))
+                    )
+                }))
+  
+  cat(sum(tS$targetSubjects), "\n")
+  cat(sum(tS$comparatorSubjects), "\n")
+  cat("\n")
+  cat(sum(tS$targetYears), "\n")
+  cat(sum(tS$comparatorYears), "\n")
+  cat("\n")
+  cat(sum(tS$targetOutcomes) / sum(tS$targetYears) * 1000, "\n")
+  cat(sum(tS$comparatorOutcomes) / sum(tS$comparatorYears) * 1000, "\n")
+}
+```
+
+```{r, echo=TRUE}
+countText(targetName = "ACE/ARB (c)", comparatorName = "CCB/THZ (c)")
+
+countText(targetName = "ACE (c)", comparatorName = "CCB/THZ (c)")
+
+countText(targetName = "ARB (c)", comparatorName = "CCB/THZ (c)")
+
+countText(targetName = "ACE (c)", comparatorName = "ARB (c)")
+
+
+countText(targetName = "ACE/ARB (m)", comparatorName = "CCB/THZ (m)")
+
+countText(targetName = "ACE (m)", comparatorName = "CCB/THZ (m)")
+
+countText(targetName = "ARB (m)", comparatorName = "CCB/THZ (m)")
+
+countText(targetName = "ACE (m)", comparatorName = "ARB (m)")
+```
 
 ```{r, echo=FALSE}
 source(system.file("shiny", "EvidenceExplorer", "PlotsAndTables.R",
@@ -376,6 +421,7 @@ blend <- function(databaseIds,
 }
 
 tmp <- blend(aceArbMonoId, ccbThzMonoId,
+             #aceArbComboId, ccbThzComboId,
              databaseIds = c("SIDIAP", "VA-OMOP", "CUIMC"),
              dataFolders = c(dataFolder = file.path(sidiapDir, "shinyData"),
                              dataFolder = file.path(vaDir, "shinyData"),
@@ -789,6 +835,50 @@ print(xtable(annotatedWideTable %>% filter(outcomeId == covidNarrowId) %>%
     \midrule \showrowcolors
 ```{r, echo=FALSE, results="asis"}
 print(xtable(annotatedWideTable %>% filter(outcomeId == covidBroadId) %>% 
+               select(-outcomeId, -stratImbalanced, -matchImbalanced) %>%
+               mutate(targetName = "", comparatorName = ""), 
+             format = "latex"),
+      include.rownames = FALSE,
+      include.colnames = FALSE,
+      hline.after = NULL,
+      only.contents = TRUE,
+ add.to.row = list(
+        pos = as.list(c(0:7) * numDb),
+        command = c(
+          "                       \\multicolumn{10}{l}{ACE/ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ACE vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ACE vs ARB} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                        & \\multicolumn{9}{l}{+ Combination} \\\\"          
+          )
+      ),      
+      sanitize.text.function = identity)
+```
+  \bottomrule
+  \end{tabular}
+  }
+\end{table}
+
+\clearpage
+
+\begin{table}[H]
+ \caption{Relative risk of pneumonia for ACE inhibitors, ARB, CCB and THZ prevalent-users. We report calibrated hazard ratios (HRs) and their 95\% confidence intervals (CIs) across data sources. Grayed out entries do not pass study diagnostics.}
+  \rowcolors{2}{gray!6}{white}
+  \centering{
+  \begin{tabular}{p{-2em}p{-2em}lrrrc@{}rrr}
+    \hiderowcolors
+    \toprule
+    & & & \multicolumn{3}{c}{PS-stratified} & &  \multicolumn{3}{c}{PS-matched} \\
+     \cmidrule(lr){4-6} \cmidrule(lr){8-10}
+     & 
+    & & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$} &
+      & \multicolumn{1}{c}{HR} & \multicolumn{1}{c}{95\% CI} & \multicolumn{1}{c}{$p$} \\
+    \midrule \showrowcolors
+```{r, echo=FALSE, results="asis"}
+print(xtable(annotatedWideTable %>% filter(outcomeId == pnaId) %>% 
                select(-outcomeId, -stratImbalanced, -matchImbalanced) %>%
                mutate(targetName = "", comparatorName = ""), 
              format = "latex"),

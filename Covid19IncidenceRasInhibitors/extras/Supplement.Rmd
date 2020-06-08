@@ -49,6 +49,12 @@ library(tidyr)
 library(xtable)
 library(gridExtra)
 library(cowplot)
+
+readRdsCamelCase <- function(file) {
+  result <- readRDS(file)
+  colnames(result) <- SqlRender::snakeCaseToCamelCase(colnames(result))
+  return(result)
+}
 ```
 
 \centerline{{\Huge Supplementary Material}}
@@ -90,11 +96,11 @@ thzMonoId <- cohorts %>% filter(shinyName == "THZ mono") %>% select(cohortId) %>
 ccbComboId <- cohorts %>% filter(shinyName == "CCB +combo") %>% select(cohortId) %>% pull()
 thzComboId <- cohorts %>% filter(shinyName == "THZ +combo") %>% select(cohortId) %>% pull()
 
-covidNarrowId <- cohorts %>% filter(shinyName == "COVID-19 narrow") %>% select(cohortId) %>% pull()
-covidBroadId <- cohorts %>% filter(shinyName == "COVID-19 broad") %>% select(cohortId) %>% pull()
+covidNarrowId <- cohorts %>% filter(shinyName == "COVID-19 diagnosis") %>% select(cohortId) %>% pull()
+covidBroadId <- cohorts %>% filter(shinyName == "COVID-19 hospitalization") %>% select(cohortId) %>% pull()
 
 pnaId <- cohorts %>% filter(shinyName == "Pneumonia") %>% select(cohortId) %>% pull()
-adverseId <- cohorts %>% filter(shinyName == "Adverse event") %>% select(cohortId) %>% pull()
+adverseId <- cohorts %>% filter(shinyName == "PAAS event") %>% select(cohortId) %>% pull()
 
 prettyNames <- data.frame(
   cohortId = c(aceMonoId, arbMonoId, aceArbMonoId, ccbMonoId, thzMonoId, ccbThzMonoId,
@@ -112,11 +118,11 @@ primaryAnalysisId <- 5 # Full stratified PS
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
-sidiapDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/SIDIAP"
-cuimcDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/CUIMC"
-vaDir <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors/VA-OMOP"
+sidiapDir <- "/Users/msuchard/Dropbox/Projects/Covid19Icarius/SIDIAP"
+cuimcDir <- "/Users/msuchard/Dropbox/Projects/Covid19Icarius/CUIMC"
+vaDir <- "/Users/msuchard/Dropbox/Projects/Covid19Icarius/VA-OMOP"
 
-studyFolder <- "/Users/msuchard/Dropbox/Projects/Covid19EstimationRasInhibitors"
+studyFolder <- "/Users/msuchard/Dropbox/Projects/Covid19Icarius"
 
 # dataFolder <- file.path(sidiapDir, "shinyData")
 # databaseId <- "SIDIAP"
@@ -1117,16 +1123,113 @@ devNull <- lapply(tcs, function(tc) {
 
 # Effect estimates
 
+```{r, echo=FALSE, cache=TRUE}
+sidiapCovariate <- readRdsCamelCase(file.path(sidiapDir, "shinyData", "covariate_SIDIAP.rds"))
+cuimcCovariate <- readRdsCamelCase(file.path(cuimcDir, "shinyData", "covariate_CUIMC.rds"))
+vaCovariate <- readRdsCamelCase(file.path(vaDir, "shinyData", "covariate_VA-OMOP.rds"))
+
+getBalanceDiagnostic <- function(targetId, comparatorId, databaseId, analysisId, outcomeId, covariate, dataFolder) {
+  balance <- getCovariateBalance(NULL, 
+                                 targetId, comparatorId, 
+                                 databaseId = databaseId, analysisId = analysisId, 
+                                 outcomeId = outcomeId, 
+                                 covariate = covariate, dataFolder = dataFolder)
+  data.frame(databaseId = databaseId, analysisId = analysisId,
+             targetId = targetId, comparatorId = comparatorId,
+             imbalanced = sum(balance$absAfterMatchingStdDiff > 0.1, na.rm = TRUE))
+}
+
+imbalance <- 
+  rbind(
+    # SIDIAP 
+    do.call(
+      "rbind",
+      lapply(tcs, function(tc) {
+        getBalanceDiagnostic(tc$targetId, tc$comparatorId, "SIDIAP", 5, covidNarrowId, sidiapCovariate,
+                             file.path(sidiapDir, "shinyData"))
+      })),
+    do.call(
+      "rbind",
+      lapply(tcs, function(tc) {
+        getBalanceDiagnostic(tc$targetId, tc$comparatorId, "SIDIAP", 6, covidNarrowId, sidiapCovariate,
+                             file.path(sidiapDir, "shinyData"))
+      })),
+    # VA
+    do.call(
+      "rbind",
+      lapply(tcs, function(tc) {
+        getBalanceDiagnostic(tc$targetId, tc$comparatorId, "VA-OMOP", 5, covidNarrowId, vaCovariate,
+                             file.path(vaDir, "shinyData"))
+      })),
+    do.call(
+      "rbind",
+      lapply(tcs, function(tc) {
+        getBalanceDiagnostic(tc$targetId, tc$comparatorId, "VA-OMOP", 6, covidNarrowId, vaCovariate,
+                             file.path(vaDir, "shinyData"))
+      })),    
+    # CUIMC
+    do.call(
+      "rbind",
+      lapply(tcs, function(tc) {
+        getBalanceDiagnostic(tc$targetId, tc$comparatorId, "CUIMC", 5, covidNarrowId, cuimcCovariate,
+                             file.path(cuimcDir, "shinyData"))
+      })),
+    do.call(
+      "rbind",
+      lapply(tcs, function(tc) {
+        getBalanceDiagnostic(tc$targetId, tc$comparatorId, "CUIMC", 6, covidNarrowId, cuimcCovariate,
+                             file.path(cuimcDir, "shinyData"))
+      }))    
+  ) %>% 
+  left_join(prettyNames, by = c("targetId" = "cohortId")) %>% rename(targetName = cohortName) %>%
+  left_join(prettyNames, by = c("comparatorId" = "cohortId")) %>% rename(comparatorName = cohortName) %>%
+  select(-targetId, -comparatorId) %>%
+  select(targetName, comparatorName, everything())  
+
+  # Add meta-analysis
+  # meta <- table %>% filter(databaseId == "Meta-analysis-main", outcomeId == covidNarrowId) %>% 
+  #   mutate(imbalanced = i2 > 0.40) %>%
+  #   select(targetName, comparatorName, databaseId, analysisId, imbalanced)
+  # imbalance <- rbind(imbalance, meta) # Comment out to remove meta-analysis
+```
+
 ```{r setupOutcomeTables, echo=FALSE}
 
 makeEffectTable <- function(outcomeName, designName, databaseName, table,
                             texTop = "SupTabEffectTop.tex",
-                            texBottom = "SupTabEffectBottom.tex") {
+                            texBottom = "SupTabEffectBottom.tex",
+                            imbalance = NULL) {
   
   table <- table %>% mutate(p = ifelse(p < 0.01, 
                                        "< 0.01", sprintf("%1.2f", p)),
                             calibratedP = ifelse(calibratedP < 0.01, 
                                                  "< 0.01", sprintf("%1.2f", calibratedP)))
+  
+  if (!is.null(imbalance)) {
+    table <- table %>% inner_join(imbalance, by = c("targetName", "comparatorName", "analysisId"))
+    
+    toString <- function(x) {
+      ifelse(sapply(x, is.numeric),
+             ifelse(x > 10,
+                    sprintf("%2.1f", x),
+                    sprintf("%1.2f", x)),
+             x)
+    }
+    
+    annotate <- function(x) {
+      str <- toString(x)
+      ifelse(table$imbalanced > 0,
+             paste0("{\\color{light-gray}", str, "}"),
+             str)
+    } 
+    
+    table <- table %>% mutate(rr = annotate(rr),
+                              ci = annotate(ci),
+                              p = annotate(p),
+                              calibratedRr = annotate(calibratedRr),
+                              calibratedCi = annotate(calibratedCi),
+                              calibratedP = annotate(calibratedP)) %>% select(-databaseId, -imbalanced)
+  }
   
   header <- readr::read_file(texTop)
   header <- sub(pattern = "OUTCOME", replacement = outcomeName, x = header)
@@ -1231,52 +1334,59 @@ maTable <- do.call(
 
 ### SIDIAP
 
+\definecolor{light-gray}{gray}{0.50}
+
 ```{r, echo=FALSE, results="asis"}
 makeEffectTable("COVID-19 diagnosis", "stratified", "SIDIAP", 
-                sidiapTable %>% filter(outcomeId == covidNarrowId, analysisId == primaryAnalysisId))
+                sidiapTable %>% filter(outcomeId == covidNarrowId, analysisId == primaryAnalysisId), imbalance = imbalance %>% filter(databaseId == "SIDIAP"))
   
 makeEffectTable("COVID-19 hospitalization", "stratifed", "SIDIAP", 
-                sidiapTable %>% filter(outcomeId == covidBroadId, analysisId == primaryAnalysisId))
+                sidiapTable %>% filter(outcomeId == covidBroadId, analysisId == primaryAnalysisId), imbalance = imbalance %>% filter(databaseId == "SIDIAP"))
 
 makeEffectTable("pneumonia", "stratifed", "SIDIAP", 
-                sidiapTable %>% filter(outcomeId == pnaId, analysisId == primaryAnalysisId))
+                sidiapTable %>% filter(outcomeId == pnaId, analysisId == primaryAnalysisId), imbalance = imbalance %>% filter(databaseId == "SIDIAP"))
 
 makeEffectTable("PAAS", "stratifed", "SIDIAP", 
-                sidiapTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId))
+                sidiapTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId), imbalance = imbalance %>% filter(databaseId == "SIDIAP"))
 ```
+
+\clearpage
 
 ### VA-OMOP
 
 ```{r, echo=FALSE, results="asis"}
 makeEffectTable("COVID-19 diagnosis", "stratified", "VA-OMOP", 
-                vaTable %>% filter(outcomeId == covidNarrowId, analysisId == primaryAnalysisId))
+                vaTable %>% filter(outcomeId == covidNarrowId, analysisId == primaryAnalysisId), imbalance = imbalance %>% filter(databaseId == "VA-OMOP"))
   
 makeEffectTable("COVID-19 hospitalization", "stratifed", "VA-OMOP", 
-                vaTable %>% filter(outcomeId == covidBroadId, analysisId == primaryAnalysisId))
+                vaTable %>% filter(outcomeId == covidBroadId, analysisId == primaryAnalysisId), imbalance = imbalance %>% filter(databaseId == "VA-OMOP"))
 
 makeEffectTable("pneumonia", "stratifed", "VA-OMOP", 
-                vaTable %>% filter(outcomeId == pnaId, analysisId == primaryAnalysisId))
+                vaTable %>% filter(outcomeId == pnaId, analysisId == primaryAnalysisId), imbalance = imbalance %>% filter(databaseId == "VA-OMOP"))
 
 makeEffectTable("PAAS", "stratifed", "VA-OMOP", 
-                vaTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId))
+                vaTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId), imbalance = imbalance %>% filter(databaseId == "VA-OMOP"))
 ```
 
+\clearpage
 
 ### CUIMC
 
 ```{r, echo=FALSE, results="asis"}
 makeEffectTable("COVID-19 diagnosis", "stratified", "CUIMC", 
-                cuimcTable %>% filter(outcomeId == covidNarrowId, analysisId == primaryAnalysisId))
+                cuimcTable %>% filter(outcomeId == covidNarrowId, analysisId == primaryAnalysisId), imbalance = imbalance %>% filter(databaseId == "CUIMC"))
   
 makeEffectTable("COVID-19 hospitalization", "stratifed", "CUIMC", 
-                cuimcTable %>% filter(outcomeId == covidBroadId, analysisId == primaryAnalysisId))
+                cuimcTable %>% filter(outcomeId == covidBroadId, analysisId == primaryAnalysisId), imbalance = imbalance %>% filter(databaseId == "CUIMC"))
 
 makeEffectTable("pneumonia", "stratifed", "CUIMC", 
-                cuimcTable %>% filter(outcomeId == pnaId, analysisId == primaryAnalysisId))
+                cuimcTable %>% filter(outcomeId == pnaId, analysisId == primaryAnalysisId), imbalance = imbalance %>% filter(databaseId == "CUIMC"))
 
 makeEffectTable("PAAS", "stratifed", "CUIMC", 
-                cuimcTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId))
+                cuimcTable %>% filter(outcomeId == adverseId, analysisId == primaryAnalysisId), imbalance = imbalance %>% filter(databaseId == "CUIMC"))
 ```
+
+\clearpage
 
 ### Meta-analysis
 
@@ -1306,51 +1416,59 @@ makeEffectTable("PAAS", "stratifed", "Meta-analysis",
 
 ```{r, echo=FALSE, results="asis"}
 makeEffectTable("COVID-19 diagnosis", "matched", "SIDIAP", 
-                sidiapTable %>% filter(outcomeId == covidNarrowId, analysisId == 6))
+                sidiapTable %>% filter(outcomeId == covidNarrowId, analysisId == 6), imbalance = imbalance %>% filter(databaseId == "SIDIAP"))
   
 makeEffectTable("COVID-19 hospitalization", "matched", "SIDIAP", 
-                sidiapTable %>% filter(outcomeId == covidBroadId, analysisId == 6))
+                sidiapTable %>% filter(outcomeId == covidBroadId, analysisId == 6), imbalance = imbalance %>% filter(databaseId == "SIDIAP"))
 
 makeEffectTable("pneumonia", "matched", "SIDIAP", 
-                sidiapTable %>% filter(outcomeId == pnaId, analysisId == 6))
+                sidiapTable %>% filter(outcomeId == pnaId, analysisId == 6), imbalance = imbalance %>% filter(databaseId == "SIDIAP"))
 
 makeEffectTable("PAAS", "matched", "SIDIAP", 
-                sidiapTable %>% filter(outcomeId == adverseId, analysisId == 6))
+                sidiapTable %>% filter(outcomeId == adverseId, analysisId == 6), imbalance = imbalance %>% filter(databaseId == "SIDIAP"))
 ```
+
+\clearpage
 
 ### VA-OMOP
 
 ```{r, echo=FALSE, results="asis"}
 makeEffectTable("COVID-19 diagnosis", "matched", "VA-OMOP", 
-                vaTable %>% filter(outcomeId == covidNarrowId, analysisId == 6))
+                vaTable %>% filter(outcomeId == covidNarrowId, analysisId == 6), imbalance = imbalance %>% filter(databaseId == "VA-OMOP"))
   
 makeEffectTable("COVID-19 hospitalization", "matched", "VA-OMOP", 
-                vaTable %>% filter(outcomeId == covidBroadId, analysisId == 6))
+                vaTable %>% filter(outcomeId == covidBroadId, analysisId == 6), imbalance = imbalance %>% filter(databaseId == "VA-OMOP"))
 
 makeEffectTable("pneumonia", "matched", "VA-OMOP", 
-                vaTable %>% filter(outcomeId == pnaId, analysisId == 6))
+                vaTable %>% filter(outcomeId == pnaId, analysisId == 6), imbalance = imbalance %>% filter(databaseId == "VA-OMOP"))
 
 makeEffectTable("PAAS", "matched", "VA-OMOP", 
-                vaTable %>% filter(outcomeId == adverseId, analysisId == 6))
+                vaTable %>% filter(outcomeId == adverseId, analysisId == 6), imbalance = imbalance %>% filter(databaseId == "VA-OMOP"))
 ```
+
+\clearpage
 
 ### CUIMC
 
 ```{r, echo=FALSE, results="asis"}
 makeEffectTable("COVID-19 diagnosis", "matched", "CUIMC", 
-                cuimcTable %>% filter(outcomeId == covidNarrowId, analysisId == 6))
+                cuimcTable %>% filter(outcomeId == covidNarrowId, analysisId == 6), imbalance = imbalance %>% filter(databaseId == "CUIMC"))
   
 makeEffectTable("COVID-19 hospitalization", "matched", "CUIMC", 
-                cuimcTable %>% filter(outcomeId == covidBroadId, analysisId == 6))
+                cuimcTable %>% filter(outcomeId == covidBroadId, analysisId == 6), imbalance = imbalance %>% filter(databaseId == "CUIMC"))
 
 makeEffectTable("pneumonia", "matched", "CUIMC", 
-                cuimcTable %>% filter(outcomeId == pnaId, analysisId == 6))
+                cuimcTable %>% filter(outcomeId == pnaId, analysisId == 6), imbalance = imbalance %>% filter(databaseId == "CUIMC"))
 
 makeEffectTable("PAAS", "matched", "CUIMC", 
-                cuimcTable %>% filter(outcomeId == adverseId, analysisId == 6))
+                cuimcTable %>% filter(outcomeId == adverseId, analysisId == 6), imbalance = imbalance %>% filter(databaseId == "CUIMC"))
 ```
 
+\clearpage
+
 ### Meta-analysis
+
+These meta-analytic estimates are based on all data source estimates, not just those that pass diagnostics
 
 ```{r, echo=FALSE, results="asis"}
 makeEffectTable("COVID-19 diagnosis", "matched", "Meta-analysis", 
@@ -1370,14 +1488,14 @@ makeEffectTable("PAAS", "matched", "Meta-analysis",
                 texTop = "SupTabEffectMaTop.tex")
 ```
 
-# Cohort specifications
+<!-- # Cohort specifications -->
 
-## Antihypertensives
+<!-- ## Antihypertensives -->
 
-## COVID-19 diagnosis
+<!-- ## COVID-19 diagnosis -->
 
-## COVID-19 hospitalization
+<!-- ## COVID-19 hospitalization -->
 
-## Pneumonia
+<!-- ## Pneumonia -->
 
-## PAAS
+<!-- ## PAAS -->
