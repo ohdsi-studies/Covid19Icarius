@@ -1,8 +1,9 @@
 atlasId,atlasName,cohortId,name,shinyName,shinyOrder
 148,"[COVID ACE ID41 v1] Prevalent users of ACE inhibitors (including non-monotherapy), hospitalized with COVID-19, history of hypertension",148,COVID_ACE_ID41,"ACE +combo hospitalized",31
 149,"[COVID ACE ID42 v1] Prevalent users of ARBs (including non-monotherapy), hospitalized with COVID-19, history of hypertension",149,COVID_ACE_ID42,"ARB +combo hospitalized",32
-121,[COVID ID27 V1] Hospitalizations with pneumonia or ARDS or sepsis or AKI requiring intensive services or resulting in death in 30d,121,COVID_ID27,"Intensive services",1
-91,[LEGEND HTN] Total cardiovascular disease events,91,LEGEND_HTN_Total_cardiovascular_disease_events,"MACE",2
+121,"[COVID ID27 V1] Hospitalizations with pneumonia or ARDS or sepsis or AKI requiring intensive services or resulting in death in 30d",121,COVID_ID27,"Intensive services",1
+122,"[COVID ID27 V2] Hospitalizations with pneumonia or ARDS or sepsis or AKI requiring intensive services or resulting in death in 30d",122,COVID_ID27v2,"Intensive services or death",2
+91,"[LEGEND HTN] Total cardiovascular disease events",91,LEGEND_HTN_Total_cardiovascular_disease_events,"MACE",3
 151,"[COVID ACE ID43 v1] Prevalent users of thiazide/thiazide-like duretics (including non-monotherapy), hospitalized with COVID-19, history of hypertension",151,COVID_ACE_ID43,"THZ +combo hospitalized",35
 152,"[COVID ACE ID44 v1] Prevalent users of dCCBs (including non-monotherapy), hospitalized with COVID-19, history of hypertension",152,COVID_ACE_ID44,"CCB +comb hospitalized",34
 153,"[COVID ACE ID45 v1] Prevalent users of ACE inhibitors or ARBs (including non-monotherapy), hospitalized with COVID-19, history of hypertension",153,COVID_ACE_ID45,"ACE/ARB +combo hospitalized",33
