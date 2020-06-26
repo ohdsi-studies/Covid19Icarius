@@ -1,0 +1,789 @@
+{
+  "ExpressionLimit": {"Type": "First"},
+  "CollapseSettings": {
+    "CollapseType": "ERA",
+    "EraPad": 0
+  },
+  "CensorWindow": {
+    "StartDate": null,
+    "EndDate": null
+  },
+  "ConceptSets": [
+    {
+      "expression": {"items": [{
+        "isExcluded": false,
+        "concept": {
+          "INVALID_REASON_CAPTION": "Valid",
+          "CONCEPT_ID": 37310282,
+          "STANDARD_CONCEPT": "N",
+          "CONCEPT_CODE": "1240581000000104",
+          "VOCABULARY_ID": "SNOMED",
+          "CONCEPT_NAME": "2019 novel coronavirus detected",
+          "DOMAIN_ID": "Measurement",
+          "STANDARD_CONCEPT_CAPTION": "Non-Standard",
+          "CONCEPT_CLASS_ID": "Clinical Finding",
+          "INVALID_REASON": "V"
+        },
+        "includeMapped": false,
+        "includeDescendants": true
+      }]},
+      "name": "SARS-CoV-2 positive test measurement pre-coordinated",
+      "id": 1
+    },
+    {
+      "expression": {"items": [
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 756055,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "OMOP4873969",
+            "VOCABULARY_ID": "OMOP Extension",
+            "CONCEPT_NAME": "Measurement of Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)",
+            "DOMAIN_ID": "Measurement",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": true,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 37310281,
+            "STANDARD_CONCEPT": "N",
+            "CONCEPT_CODE": "1240591000000102",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "2019 novel coronavirus not detected",
+            "DOMAIN_ID": "Measurement",
+            "STANDARD_CONCEPT_CAPTION": "Non-Standard",
+            "CONCEPT_CLASS_ID": "Clinical Finding",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        }
+      ]},
+      "name": "SARS-CoV-2 test measurement",
+      "id": 2
+    },
+    {
+      "expression": {"items": [
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 37311061,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "840539006",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Disease caused by 2019-nCoV",
+            "DOMAIN_ID": "Condition",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Clinical Finding",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 4100065,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "27619001",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Disease due to Coronaviridae",
+            "DOMAIN_ID": "Condition",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Clinical Finding",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 439676,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "186747009",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Coronavirus infection",
+            "DOMAIN_ID": "Condition",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Clinical Finding",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 37311060,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "840544004",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Suspected disease caused by 2019-nCoV",
+            "DOMAIN_ID": "Observation",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Context-dependent",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        }
+      ]},
+      "name": "COVID-19 conditions",
+      "id": 4
+    },
+    {
+      "expression": {"items": [{
+        "isExcluded": false,
+        "concept": {
+          "INVALID_REASON_CAPTION": "Valid",
+          "CONCEPT_ID": 316866,
+          "STANDARD_CONCEPT": "S",
+          "CONCEPT_CODE": "38341003",
+          "VOCABULARY_ID": "SNOMED",
+          "CONCEPT_NAME": "Hypertensive disorder",
+          "DOMAIN_ID": "Condition",
+          "STANDARD_CONCEPT_CAPTION": "Standard",
+          "CONCEPT_CLASS_ID": "Clinical Finding",
+          "INVALID_REASON": "V"
+        },
+        "includeMapped": false,
+        "includeDescendants": true
+      }]},
+      "name": "[LEGEND]Hypertension",
+      "id": 12
+    },
+    {
+      "expression": {"items": [
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 40235485,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "1091643",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "azilsartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1351557,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "214354",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "candesartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1346686,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "83515",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "eprosartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1347384,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "83818",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "irbesartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1367500,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "52175",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "losartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 40226742,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "321064",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "olmesartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1317640,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "73494",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "telmisartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1308842,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "69749",
+            "VOCABULARY_ID": "RxNorm",
+            "CONCEPT_NAME": "valsartan",
+            "DOMAIN_ID": "Drug",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Ingredient",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        }
+      ]},
+      "name": "[ICARIUS] Angiotensin receptor blockers (ARBs)",
+      "id": 13
+    }
+  ],
+  "cdmVersionRange": ">=5.0.0",
+  "CensoringCriteria": [],
+  "QualifiedLimit": {"Type": "First"},
+  "InclusionRules": [
+    {
+      "expression": {
+        "CriteriaList": [],
+        "Type": "ALL",
+        "DemographicCriteriaList": [{
+          "Ethnicity": null,
+          "OccurrenceEndDate": null,
+          "Race": null,
+          "Gender": null,
+          "OccurrenceStartDate": null,
+          "Age": {
+            "Op": "gte",
+            "Extent": null,
+            "Value": 18
+          }
+        }],
+        "Groups": [],
+        "Count": null
+      },
+      "name": "age >=18",
+      "description": null
+    },
+    {
+      "expression": {
+        "CriteriaList": [{
+          "RestrictVisit": false,
+          "StartWindow": {
+            "UseEventEnd": false,
+            "Start": {
+              "Days": null,
+              "Coeff": -1
+            },
+            "End": {
+              "Days": 180,
+              "Coeff": -1
+            },
+            "UseIndexEnd": false
+          },
+          "IgnoreObservationPeriod": false,
+          "EndWindow": {
+            "UseEventEnd": true,
+            "Start": {
+              "Days": 0,
+              "Coeff": -1
+            },
+            "End": {
+              "Days": null,
+              "Coeff": 1
+            },
+            "UseIndexEnd": false
+          },
+          "Criteria": {"ObservationPeriod": {
+            "PeriodType": null,
+            "CorrelatedCriteria": null,
+            "AgeAtStart": null,
+            "UserDefinedPeriod": null,
+            "AgeAtEnd": null,
+            "First": null,
+            "PeriodEndDate": null,
+            "PeriodStartDate": null,
+            "PeriodLength": null
+          }},
+          "Occurrence": {
+            "Type": 2,
+            "IsDistinct": false,
+            "Count": 1
+          }
+        }],
+        "Type": "ALL",
+        "DemographicCriteriaList": [],
+        "Groups": [],
+        "Count": null
+      },
+      "name": "has >=180d of prior observation",
+      "description": null
+    },
+    {
+      "expression": {
+        "CriteriaList": [
+          {
+            "RestrictVisit": false,
+            "StartWindow": {
+              "UseEventEnd": false,
+              "Start": {
+                "Days": null,
+                "Coeff": -1
+              },
+              "End": {
+                "Days": 1,
+                "Coeff": -1
+              },
+              "UseIndexEnd": false
+            },
+            "IgnoreObservationPeriod": false,
+            "EndWindow": {
+              "UseEventEnd": true,
+              "Start": {
+                "Days": 30,
+                "Coeff": -1
+              },
+              "End": {
+                "Days": null,
+                "Coeff": 1
+              },
+              "UseIndexEnd": false
+            },
+            "Criteria": {"DrugEra": {
+              "EraStartDate": null,
+              "CorrelatedCriteria": null,
+              "OccurrenceCount": null,
+              "AgeAtStart": null,
+              "GapDays": null,
+              "CodesetId": 13,
+              "AgeAtEnd": null,
+              "First": null,
+              "Gender": null,
+              "EraLength": null,
+              "EraEndDate": null
+            }},
+            "Occurrence": {
+              "Type": 2,
+              "IsDistinct": false,
+              "Count": 1
+            }
+          },
+          {
+            "RestrictVisit": false,
+            "StartWindow": {
+              "UseEventEnd": false,
+              "Start": {
+                "Days": 60,
+                "Coeff": -1
+              },
+              "End": {
+                "Days": null,
+                "Coeff": 1
+              },
+              "UseIndexEnd": false
+            },
+            "IgnoreObservationPeriod": false,
+            "EndWindow": null,
+            "Criteria": {"DrugExposure": {
+              "OccurrenceEndDate": null,
+              "CorrelatedCriteria": null,
+              "DrugSourceConcept": null,
+              "CodesetId": 13,
+              "DrugTypeExclude": false,
+              "Quantity": null,
+              "DrugType": null,
+              "ProviderSpecialty": null,
+              "EffectiveDrugDose": null,
+              "Gender": null,
+              "DaysSupply": null,
+              "DoseUnit": null,
+              "VisitType": null,
+              "Refills": null,
+              "First": null,
+              "OccurrenceStartDate": null,
+              "RouteConcept": null,
+              "StopReason": null,
+              "LotNumber": null,
+              "Age": null
+            }},
+            "Occurrence": {
+              "Type": 2,
+              "IsDistinct": false,
+              "Count": 1
+            }
+          }
+        ],
+        "Type": "ANY",
+        "DemographicCriteriaList": [],
+        "Groups": [],
+        "Count": null
+      },
+      "name": "Has T/C drug drug era overlapping day -30 or a drug exposure in the last 60 days",
+      "description": null
+    },
+    {
+      "expression": {
+        "CriteriaList": [{
+          "RestrictVisit": false,
+          "StartWindow": {
+            "UseEventEnd": false,
+            "Start": {
+              "Days": null,
+              "Coeff": -1
+            },
+            "End": {
+              "Days": 1,
+              "Coeff": -1
+            },
+            "UseIndexEnd": false
+          },
+          "IgnoreObservationPeriod": false,
+          "EndWindow": null,
+          "Criteria": {"ConditionOccurrence": {
+            "OccurrenceEndDate": null,
+            "CorrelatedCriteria": null,
+            "ConditionTypeExclude": false,
+            "CodesetId": 12,
+            "ProviderSpecialty": null,
+            "Gender": null,
+            "VisitType": null,
+            "First": null,
+            "OccurrenceStartDate": null,
+            "ConditionType": null,
+            "ConditionSourceConcept": null,
+            "StopReason": null,
+            "Age": null
+          }},
+          "Occurrence": {
+            "Type": 2,
+            "IsDistinct": false,
+            "Count": 1
+          }
+        }],
+        "Type": "ALL",
+        "DemographicCriteriaList": [],
+        "Groups": [],
+        "Count": null
+      },
+      "name": "Hypertension diagnosis anytime before start-date",
+      "description": null
+    }
+  ],
+  "PrimaryCriteria": {
+    "CriteriaList": [
+      {"Measurement": {
+        "Operator": null,
+        "RangeHigh": null,
+        "MeasurementTypeExclude": false,
+        "ValueAsConcept": null,
+        "CorrelatedCriteria": null,
+        "RangeHighRatio": null,
+        "CodesetId": 1,
+        "ProviderSpecialty": null,
+        "Gender": null,
+        "Unit": null,
+        "RangeLowRatio": null,
+        "MeasurementType": null,
+        "MeasurementSourceConcept": null,
+        "VisitType": null,
+        "ValueAsNumber": null,
+        "First": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
+        "RangeLow": null,
+        "Abnormal": null,
+        "Age": null
+      }},
+      {"Measurement": {
+        "Operator": null,
+        "RangeHigh": null,
+        "MeasurementTypeExclude": false,
+        "ValueAsConcept": [
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 4126681,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "260373001",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Detected",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 45877985,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "LA11882-0",
+            "VOCABULARY_ID": "LOINC",
+            "CONCEPT_NAME": "Detected",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 9191,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "10828004",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Positive",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 45884084,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "LA6576-8",
+            "VOCABULARY_ID": "LOINC",
+            "CONCEPT_NAME": "Positive",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 4181412,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "52101004",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Present",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 45879438,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "LA9633-4",
+            "VOCABULARY_ID": "LOINC",
+            "CONCEPT_NAME": "Present",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          }
+        ],
+        "CorrelatedCriteria": null,
+        "RangeHighRatio": null,
+        "CodesetId": 2,
+        "ProviderSpecialty": null,
+        "Gender": null,
+        "Unit": null,
+        "RangeLowRatio": null,
+        "MeasurementType": null,
+        "MeasurementSourceConcept": null,
+        "VisitType": null,
+        "ValueAsNumber": null,
+        "First": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
+        "RangeLow": null,
+        "Abnormal": null,
+        "Age": null
+      }},
+      {"Observation": {
+        "ValueAsConcept": [
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 4126681,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "260373001",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Detected",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 45877985,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "LA11882-0",
+            "VOCABULARY_ID": "LOINC",
+            "CONCEPT_NAME": "Detected",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 9191,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "10828004",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Positive",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 45884084,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "LA6576-8",
+            "VOCABULARY_ID": "LOINC",
+            "CONCEPT_NAME": "Positive",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 4181412,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "52101004",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Present",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 45879438,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "LA9633-4",
+            "VOCABULARY_ID": "LOINC",
+            "CONCEPT_NAME": "Present",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          }
+        ],
+        "ObservationType": null,
+        "CorrelatedCriteria": null,
+        "ObservationTypeExclude": false,
+        "ValueAsString": null,
+        "CodesetId": 2,
+        "ProviderSpecialty": null,
+        "Gender": null,
+        "Unit": null,
+        "ObservationSourceConcept": null,
+        "VisitType": null,
+        "ValueAsNumber": null,
+        "Qualifier": null,
+        "First": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
+        "Age": null
+      }},
+      {"ConditionOccurrence": {
+        "OccurrenceEndDate": null,
+        "CorrelatedCriteria": null,
+        "ConditionTypeExclude": false,
+        "CodesetId": 4,
+        "ProviderSpecialty": null,
+        "Gender": null,
+        "VisitType": null,
+        "First": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
+        "ConditionType": null,
+        "ConditionSourceConcept": null,
+        "StopReason": null,
+        "Age": null
+      }}
+    ],
+    "PrimaryCriteriaLimit": {"Type": "First"},
+    "ObservationWindow": {
+      "PostDays": 0,
+      "PriorDays": 0
+    }
+  }
+}

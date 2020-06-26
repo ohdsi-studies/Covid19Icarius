@@ -328,6 +328,74 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 43530674,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "142851000119103",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Spontaneous cerebellar hemorrhage",
+            "DOMAIN_ID": "Condition",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Clinical Finding",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": false
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 43530727,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "291571000119106",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Spontaneous cerebral hemorrhage",
+            "DOMAIN_ID": "Condition",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Clinical Finding",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": false
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 42535425,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "291531000119108",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Spontaneous hemorrhage of cerebral hemisphere",
+            "DOMAIN_ID": "Condition",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Clinical Finding",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": false
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 4148906,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "270907008",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Spontaneous subarachnoid hemorrhage",
+            "DOMAIN_ID": "Condition",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Clinical Finding",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": false
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
             "CONCEPT_ID": 432923,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "21454007",

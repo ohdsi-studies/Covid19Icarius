@@ -2,7 +2,7 @@
   "ExpressionLimit": {"Type": "All"},
   "CollapseSettings": {
     "CollapseType": "ERA",
-    "EraPad": 30
+    "EraPad": 90
   },
   "CensorWindow": {
     "StartDate": null,
@@ -810,6 +810,199 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 4338595,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "232969009",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Cardiac support using extracorporeal membrane oxygenation circuitry",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": false
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2787821,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "5A05221",
+            "VOCABULARY_ID": "ICD10PCS",
+            "CONCEPT_NAME": "Extracorporeal Hyperbaric Oxygenation, Continuous",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "ICD10PCS",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": false
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 46257590,
+            "STANDARD_CONCEPT": "C",
+            "CONCEPT_CODE": "1021846",
+            "VOCABULARY_ID": "CPT4",
+            "CONCEPT_NAME": "Extracorporeal Membrane Oxygenation or Extracorporeal Life Support Services and Procedures",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Classification",
+            "CONCEPT_CLASS_ID": "CPT4 Hierarchy",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1531632,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "5A1522F",
+            "VOCABULARY_ID": "ICD10PCS",
+            "CONCEPT_NAME": "Extracorporeal Oxygenation, Membrane, Central",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "ICD10PCS",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": false
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1531631,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "5A1522G",
+            "VOCABULARY_ID": "ICD10PCS",
+            "CONCEPT_NAME": "Extracorporeal Oxygenation, Membrane, Peripheral Veno-arterial",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "ICD10PCS",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": false
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 1531630,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "5A1522H",
+            "VOCABULARY_ID": "ICD10PCS",
+            "CONCEPT_NAME": "Extracorporeal Oxygenation, Membrane, Peripheral Veno-venous",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "ICD10PCS",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": false
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2787820,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "5A0512C",
+            "VOCABULARY_ID": "ICD10PCS",
+            "CONCEPT_NAME": "Extracorporeal Supersaturated Oxygenation, Intermittent",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "ICD10PCS",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": false
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 44515640,
+            "STANDARD_CONCEPT": "N",
+            "CONCEPT_CODE": "X58.1",
+            "VOCABULARY_ID": "OPCS4",
+            "CONCEPT_NAME": "Extracorporeal membrane oxygenation",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Non-Standard",
+            "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 4052536,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "233573008",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Extracorporeal membrane oxygenation",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2002247,
+            "STANDARD_CONCEPT": "N",
+            "CONCEPT_CODE": "39.65",
+            "VOCABULARY_ID": "ICD9Proc",
+            "CONCEPT_NAME": "Extracorporeal membrane oxygenation [ECMO]",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Non-Standard",
+            "CONCEPT_CLASS_ID": "4-dig billing code",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 44811010,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "862791000000106",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Fluoroscopy guided percutaneous insertion of cannula for extracorporeal membrane oxygenation",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": false
+        }
+      ]},
+      "name": "[Covid19 v2] Extracorporeal membrane oxygenation (ECMO) procedure",
+      "id": 9
+    },
+    {
+      "expression": {"items": [
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
             "CONCEPT_ID": 4230167,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "40617009",
@@ -844,7 +1037,7 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 40481547,
+            "CONCEPT_ID": 40481550,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "444932008",
             "VOCABULARY_ID": "SNOMED",
@@ -1031,75 +1224,7 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 2745440,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "0BH13EZ",
-            "VOCABULARY_ID": "ICD10PCS",
-            "CONCEPT_NAME": "Insertion of Endotracheal Airway into Trachea, Percutaneous Approach",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "ICD10PCS",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 2745444,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "0BH17EZ",
-            "VOCABULARY_ID": "ICD10PCS",
-            "CONCEPT_NAME": "Insertion of Endotracheal Airway into Trachea, Via Natural or Artificial Opening",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "ICD10PCS",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 2745447,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "0BH18EZ",
-            "VOCABULARY_ID": "ICD10PCS",
-            "CONCEPT_NAME": "Insertion of Endotracheal Airway into Trachea, Via Natural or Artificial Opening Endoscopic",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "ICD10PCS",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 4013354,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "112798008",
-            "VOCABULARY_ID": "SNOMED",
-            "CONCEPT_NAME": "Insertion of endotracheal tube",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Procedure",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 37116689,
+            "CONCEPT_ID": 37116690,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "733496000",
             "VOCABULARY_ID": "SNOMED",
@@ -1116,7 +1241,7 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 40487536,
+            "CONCEPT_ID": 40487540,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "447996002",
             "VOCABULARY_ID": "SNOMED",
@@ -1150,7 +1275,7 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 37206832,
+            "CONCEPT_ID": 37206830,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "787180006",
             "VOCABULARY_ID": "SNOMED",
@@ -1201,7 +1326,7 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 44509482,
+            "CONCEPT_ID": 44509480,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "E85.8",
             "VOCABULARY_ID": "OPCS4",
@@ -1209,6 +1334,23 @@
             "DOMAIN_ID": "Procedure",
             "STANDARD_CONCEPT_CAPTION": "Standard",
             "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2108681,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "4168F",
+            "VOCABULARY_ID": "CPT4",
+            "CONCEPT_NAME": "Patient receiving care in the intensive care unit (ICU) and receiving mechanical ventilation, 24 hours or less (CRIT)",
+            "DOMAIN_ID": "Observation",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "CPT4",
             "INVALID_REASON": "V"
           },
           "includeMapped": false,
@@ -1235,7 +1377,7 @@
           "isExcluded": true,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 44808555,
+            "CONCEPT_ID": 44808560,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "859311000000101",
             "VOCABULARY_ID": "SNOMED",
@@ -1243,6 +1385,57 @@
             "DOMAIN_ID": "Procedure",
             "STANDARD_CONCEPT_CAPTION": "Standard",
             "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2788037,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "5A1945Z",
+            "VOCABULARY_ID": "ICD10PCS",
+            "CONCEPT_NAME": "Respiratory Ventilation, 24-96 Consecutive Hours",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "ICD10PCS",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2788038,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "5A1955Z",
+            "VOCABULARY_ID": "ICD10PCS",
+            "CONCEPT_NAME": "Respiratory Ventilation, Greater than 96 Consecutive Hours",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "ICD10PCS",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2788036,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "5A1935Z",
+            "VOCABULARY_ID": "ICD10PCS",
+            "CONCEPT_NAME": "Respiratory Ventilation, Less than 24 Consecutive Hours",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "ICD10PCS",
             "INVALID_REASON": "V"
           },
           "includeMapped": false,
@@ -1277,6 +1470,57 @@
             "DOMAIN_ID": "Procedure",
             "STANDARD_CONCEPT_CAPTION": "Standard",
             "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 45887800,
+            "STANDARD_CONCEPT": "C",
+            "CONCEPT_CODE": "1014859",
+            "VOCABULARY_ID": "CPT4",
+            "CONCEPT_NAME": "Ventilation assist and management, initiation of pressure or volume preset ventilators for assisted or controlled breathing",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Classification",
+            "CONCEPT_CLASS_ID": "CPT4 Hierarchy",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 42738850,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "94656",
+            "VOCABULARY_ID": "CPT4",
+            "CONCEPT_NAME": "Ventilation assist and management, initiation of pressure or volume preset ventilators for assisted or controlled breathing; first day",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "CPT4",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 42738850,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "94657",
+            "VOCABULARY_ID": "CPT4",
+            "CONCEPT_NAME": "Ventilation assist and management, initiation of pressure or volume preset ventilators for assisted or controlled breathing; subsequent days",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "CPT4",
             "INVALID_REASON": "V"
           },
           "includeMapped": false,
@@ -1371,7 +1615,7 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 44791135,
+            "CONCEPT_ID": 44791140,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "231821000000109",
             "VOCABULARY_ID": "SNOMED",
@@ -1402,11 +1646,62 @@
           "includeDescendants": true
         }
       ]},
-      "name": "[covid19 v1] Mechanical ventilation",
-      "id": 6
+      "name": "[covid19 v2] Mechanical ventilation",
+      "id": 10
     },
     {
       "expression": {"items": [
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 4166281,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "274969000",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Anterior tracheostomy",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2106568,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "31611",
+            "VOCABULARY_ID": "CPT4",
+            "CONCEPT_NAME": "Construction of tracheoesophageal fistula and subsequent insertion of an alaryngeal speech prosthesis (eg, voice button, Blom-Singer prosthesis)",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "CPT4",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 4115488,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "287439000",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Emergency tracheostomy",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
         {
           "isExcluded": false,
           "concept": {
@@ -1416,6 +1711,40 @@
             "CONCEPT_CODE": "232685002",
             "VOCABULARY_ID": "SNOMED",
             "CONCEPT_NAME": "Insertion of tracheostomy tube",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 4168864,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "274970004",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Lateral tracheostomy",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 4199580,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "52536006",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Mediastinal tracheostomy",
             "DOMAIN_ID": "Procedure",
             "STANDARD_CONCEPT_CAPTION": "Standard",
             "CONCEPT_CLASS_ID": "Procedure",
@@ -1547,6 +1876,23 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 4065590,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "21619009",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Permanent tracheostomy",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
             "CONCEPT_ID": 2743216,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "0BP17FZ",
@@ -1598,6 +1944,23 @@
           "isExcluded": false,
           "concept": {
             "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2106569,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "31612",
+            "VOCABULARY_ID": "CPT4",
+            "CONCEPT_NAME": "Tracheal puncture, percutaneous with transtracheal aspiration and/or injection",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "CPT4",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
             "CONCEPT_ID": 4208093,
             "STANDARD_CONCEPT": "S",
             "CONCEPT_CODE": "55622001",
@@ -1606,6 +1969,91 @@
             "DOMAIN_ID": "Procedure",
             "STANDARD_CONCEPT_CAPTION": "Standard",
             "CONCEPT_CLASS_ID": "Procedure",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2106565,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "31605",
+            "VOCABULARY_ID": "CPT4",
+            "CONCEPT_NAME": "Tracheostomy, emergency procedure; cricothyroid membrane",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "CPT4",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2106567,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "31610",
+            "VOCABULARY_ID": "CPT4",
+            "CONCEPT_NAME": "Tracheostomy, fenestration procedure with skin flaps",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "CPT4",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2106562,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "31600",
+            "VOCABULARY_ID": "CPT4",
+            "CONCEPT_NAME": "Tracheostomy, planned (separate procedure)",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "CPT4",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 2106563,
+            "STANDARD_CONCEPT": "S",
+            "CONCEPT_CODE": "31601",
+            "VOCABULARY_ID": "CPT4",
+            "CONCEPT_NAME": "Tracheostomy, planned (separate procedure); younger than 2 years",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Standard",
+            "CONCEPT_CLASS_ID": "CPT4",
+            "INVALID_REASON": "V"
+          },
+          "includeMapped": false,
+          "includeDescendants": true
+        },
+        {
+          "isExcluded": false,
+          "concept": {
+            "INVALID_REASON_CAPTION": "Valid",
+            "CONCEPT_ID": 45887990,
+            "STANDARD_CONCEPT": "C",
+            "CONCEPT_CODE": "1014232",
+            "VOCABULARY_ID": "CPT4",
+            "CONCEPT_NAME": "Transoral approach to skull base, brain stem or upper spinal cord for biopsy, decompression or excision of lesion",
+            "DOMAIN_ID": "Procedure",
+            "STANDARD_CONCEPT_CAPTION": "Classification",
+            "CONCEPT_CLASS_ID": "CPT4 Hierarchy",
             "INVALID_REASON": "V"
           },
           "includeMapped": false,
@@ -1629,206 +2077,13 @@
           "includeDescendants": true
         }
       ]},
-      "name": "[COVID19 v1] tracheostomy",
-      "id": 7
-    },
-    {
-      "expression": {"items": [
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 4338595,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "232969009",
-            "VOCABULARY_ID": "SNOMED",
-            "CONCEPT_NAME": "Cardiac support using extracorporeal membrane oxygenation circuitry",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Procedure",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": false
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 2787821,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "5A05221",
-            "VOCABULARY_ID": "ICD10PCS",
-            "CONCEPT_NAME": "Extracorporeal Hyperbaric Oxygenation, Continuous",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "ICD10PCS",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": false
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 46257586,
-            "STANDARD_CONCEPT": "C",
-            "CONCEPT_CODE": "1021846",
-            "VOCABULARY_ID": "CPT4",
-            "CONCEPT_NAME": "Extracorporeal Membrane Oxygenation or Extracorporeal Life Support Services and Procedures",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Classification",
-            "CONCEPT_CLASS_ID": "CPT4 Hierarchy",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1531632,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "5A1522F",
-            "VOCABULARY_ID": "ICD10PCS",
-            "CONCEPT_NAME": "Extracorporeal Oxygenation, Membrane, Central",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "ICD10PCS",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": false
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1531631,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "5A1522G",
-            "VOCABULARY_ID": "ICD10PCS",
-            "CONCEPT_NAME": "Extracorporeal Oxygenation, Membrane, Peripheral Veno-arterial",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "ICD10PCS",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": false
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 1531630,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "5A1522H",
-            "VOCABULARY_ID": "ICD10PCS",
-            "CONCEPT_NAME": "Extracorporeal Oxygenation, Membrane, Peripheral Veno-venous",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "ICD10PCS",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": false
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 2787820,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "5A0512C",
-            "VOCABULARY_ID": "ICD10PCS",
-            "CONCEPT_NAME": "Extracorporeal Supersaturated Oxygenation, Intermittent",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "ICD10PCS",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": false
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 44515635,
-            "STANDARD_CONCEPT": "N",
-            "CONCEPT_CODE": "X58.1",
-            "VOCABULARY_ID": "OPCS4",
-            "CONCEPT_NAME": "Extracorporeal membrane oxygenation",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Non-Standard",
-            "CONCEPT_CLASS_ID": "Procedure",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 4052536,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "233573008",
-            "VOCABULARY_ID": "SNOMED",
-            "CONCEPT_NAME": "Extracorporeal membrane oxygenation",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Procedure",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 2002247,
-            "STANDARD_CONCEPT": "N",
-            "CONCEPT_CODE": "39.65",
-            "VOCABULARY_ID": "ICD9Proc",
-            "CONCEPT_NAME": "Extracorporeal membrane oxygenation [ECMO]",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Non-Standard",
-            "CONCEPT_CLASS_ID": "4-dig billing code",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 44811012,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "862791000000106",
-            "VOCABULARY_ID": "SNOMED",
-            "CONCEPT_NAME": "Fluoroscopy guided percutaneous insertion of cannula for extracorporeal membrane oxygenation",
-            "DOMAIN_ID": "Procedure",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Procedure",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": false
-        }
-      ]},
-      "name": "[Covid19 v1] Extracorporeal membrane oxygenation (ECMO) procedure",
-      "id": 8
+      "name": "[COVID19 v2] tracheostomy",
+      "id": 11
     }
   ],
   "EndStrategy": {"DateOffset": {
     "DateField": "EndDate",
-    "Offset": 1
+    "Offset": 0
   }},
   "cdmVersionRange": ">=5.0.0",
   "CensoringCriteria": [],
@@ -2129,7 +2384,7 @@
                       "Criteria": {"ProcedureOccurrence": {
                         "ProcedureType": null,
                         "CorrelatedCriteria": null,
-                        "CodesetId": 6,
+                        "CodesetId": 10,
                         "ProcedureSourceConcept": null,
                         "Quantity": null,
                         "ProviderSpecialty": null,
@@ -2178,7 +2433,7 @@
                         "OccurrenceEndDate": null,
                         "CorrelatedCriteria": null,
                         "ConditionTypeExclude": false,
-                        "CodesetId": 6,
+                        "CodesetId": 10,
                         "ProviderSpecialty": null,
                         "Gender": null,
                         "VisitType": null,
@@ -2228,7 +2483,7 @@
                         "CorrelatedCriteria": null,
                         "ObservationTypeExclude": false,
                         "ValueAsString": null,
-                        "CodesetId": 6,
+                        "CodesetId": 10,
                         "ProviderSpecialty": null,
                         "Gender": null,
                         "Unit": null,
@@ -2276,7 +2531,7 @@
                       "Criteria": {"ProcedureOccurrence": {
                         "ProcedureType": null,
                         "CorrelatedCriteria": null,
-                        "CodesetId": 7,
+                        "CodesetId": 11,
                         "ProcedureSourceConcept": null,
                         "Quantity": null,
                         "ProviderSpecialty": null,
@@ -2324,7 +2579,7 @@
                       "Criteria": {"ProcedureOccurrence": {
                         "ProcedureType": null,
                         "CorrelatedCriteria": null,
-                        "CodesetId": 8,
+                        "CodesetId": 9,
                         "ProcedureSourceConcept": null,
                         "Quantity": null,
                         "ProviderSpecialty": null,
@@ -2381,7 +2636,11 @@
         "PlaceOfService": null,
         "VisitType": null,
         "First": null,
-        "OccurrenceStartDate": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
         "Age": null
       }},
       {"Death": {
