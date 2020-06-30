@@ -42,11 +42,10 @@ createAnalysesDetails <- function(workFolder){
   fixedOutcomeVariance <- 4
   riskWindowEnd <- 30
   
-  covarSettingsWithHtnMeds <- FeatureExtraction::createDefaultCovariateSettings()
-  covarSettingsWithHtnMeds$mediumTermStartDays <- -90
-  covarSettingsWithHtnMeds$longTermStartDays <- -180
-  covarSettingsWithHtnMeds$longTermStartDays <- -180
-  covarSettingsWithHtnMeds$endDays  <- -1
+  # covarSettingsWithHtnMeds <- FeatureExtraction::createDefaultCovariateSettings()
+  # covarSettingsWithHtnMeds$mediumTermStartDays <- -90
+  # covarSettingsWithHtnMeds$longTermStartDays <- -180
+  # covarSettingsWithHtnMeds$endDays  <- -1
   
   covarSettingsWithoutHtnMeds <- FeatureExtraction::createDefaultCovariateSettings(
     excludedCovariateConceptIds = htnIngredientConceptIds,
@@ -56,13 +55,13 @@ createAnalysesDetails <- function(workFolder){
   covarSettingsWithoutHtnMeds$longTermStartDays <- -180
   covarSettingsWithoutHtnMeds$endDays  <- -1
   
-  getDbCmDataArgsWithHtnMeds <- CohortMethod::createGetDbCohortMethodDataArgs(
-    firstExposureOnly = firstExposureOnly,
-    studyStartDate = studyStartDate,
-    removeDuplicateSubjects = "remove all",
-    excludeDrugsFromCovariates = FALSE,
-    covariateSettings = covarSettingsWithHtnMeds
-  )
+  # getDbCmDataArgsWithHtnMeds <- CohortMethod::createGetDbCohortMethodDataArgs(
+  #   firstExposureOnly = firstExposureOnly,
+  #   studyStartDate = studyStartDate,
+  #   removeDuplicateSubjects = "remove all",
+  #   excludeDrugsFromCovariates = FALSE,
+  #   covariateSettings = covarSettingsWithHtnMeds
+  # )
   
   getDbCmDataArgsWithoutHtnMeds <- CohortMethod::createGetDbCohortMethodDataArgs(
     firstExposureOnly = firstExposureOnly,
@@ -135,7 +134,7 @@ createAnalysesDetails <- function(workFolder){
   
   cmAnalysis1 <- CohortMethod::createCmAnalysis(analysisId = 1,
                                                 description = "Crude/unadjusted",
-                                                getDbCohortMethodDataArgs = getDbCmDataArgsWithHtnMeds,
+                                                getDbCohortMethodDataArgs = getDbCmDataArgsWithoutHtnMeds,
                                                 createStudyPopArgs = createStudyPopArgs,
                                                 createPs = FALSE,
                                                 fitOutcomeModel = TRUE,
@@ -143,13 +142,13 @@ createAnalysesDetails <- function(workFolder){
   
   # Analysis 2 -- adjusted outcome
   
-  cmAnalysis2 <- CohortMethod::createCmAnalysis(analysisId = 2,
-                                                description = "Adjusted outcome",
-                                                getDbCohortMethodDataArgs = getDbCmDataArgsWithHtnMeds,
-                                                createStudyPopArgs = createStudyPopArgs,
-                                                createPs = FALSE,
-                                                fitOutcomeModel = TRUE,
-                                                fitOutcomeModelArgs = fitAdjustedOutcomeModelArgs)
+  # cmAnalysis2 <- CohortMethod::createCmAnalysis(analysisId = 2,
+  #                                               description = "Adjusted outcome",
+  #                                               getDbCohortMethodDataArgs = getDbCmDataArgsWithHtnMeds,
+  #                                               createStudyPopArgs = createStudyPopArgs,
+  #                                               createPs = FALSE,
+  #                                               fitOutcomeModel = TRUE,
+  #                                               fitOutcomeModelArgs = fitAdjustedOutcomeModelArgs)
   
   # Analysis 3 -- minimal PS stratification
   
@@ -203,7 +202,7 @@ createAnalysesDetails <- function(workFolder){
                                                 fitOutcomeModel = TRUE,
                                                 fitOutcomeModelArgs = fitPsOutcomeModelArgsConditioned)
   
-  cmAnalysisList <- list(cmAnalysis1,cmAnalysis2,cmAnalysis3,cmAnalysis4,cmAnalysis5,cmAnalysis6)
+  cmAnalysisList <- list(cmAnalysis1,cmAnalysis3,cmAnalysis4,cmAnalysis5,cmAnalysis6)
   
   CohortMethod::saveCmAnalysisList(cmAnalysisList, file.path(workFolder, "cmAnalysisList.json"))
 }
