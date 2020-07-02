@@ -1,7 +1,7 @@
 Package: Covid19ComplicationsRasInhibitors
 Type: Package
 Title: A Package Skeleton for Comparative Effectiveness Studies
-Version: 0.1.2
+Version: 0.2.0
 Author: Marc A. Suchard [aut, cre]
 Maintainer: Marc A. Suchard <msuchard@ucla.edu>
 Description: A skeleton package, to be used as a starting point when implementing comparative effect studies.
@@ -11,9 +11,9 @@ Depends:
 Imports:
     SqlRender (>= 1.6.3),
     EmpiricalCalibration (>= 2.0.0),
-    Cyclops,
+    Cyclops (>= 3.0.0),
     FeatureExtraction (>= 2.2.5),
-    CohortMethod (>= 3.1.2),
+    CohortMethod (>= 4.0.0),
     ggplot2,
     ff,
     ffbase,
