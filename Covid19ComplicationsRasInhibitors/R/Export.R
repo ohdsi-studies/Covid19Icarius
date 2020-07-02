@@ -1058,7 +1058,7 @@ prepareKm <- function(task,
   population <- readRDS(file.path(outputFolder,
                                   "cmOutput",
                                   popFile))
-  if (nrow(population) == 0) {
+  if (nrow(population) == 0  || length(unique(population$treatment)) != 2) {
     # Can happen when matching and treatment is predictable
     return(NULL)
   }
