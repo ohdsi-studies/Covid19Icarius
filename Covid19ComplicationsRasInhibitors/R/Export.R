@@ -897,7 +897,7 @@ exportDiagnostics <- function(outputFolder,
                             reference$sharedPsFile[idx][1])
     if (file.exists(psFileName)) {
       ps <- readRDS(psFileName)
-      if (min(ps$propensityScore) < max(ps$propensityScore)) {
+      if (abs(min(ps$propensityScore) - max(ps$propensityScore)) > 0.01) {
         ps <- CohortMethod:::computePreferenceScore(ps)
 
         pop1 <- ps$preferenceScore[ps$treatment == 1]
