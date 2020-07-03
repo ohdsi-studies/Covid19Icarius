@@ -91,13 +91,11 @@ execute <- function(connectionDetails,
                     makePlots = TRUE) {
   if (!file.exists(outputFolder))
     dir.create(outputFolder, recursive = TRUE)
-  if (!is.null(getOption("fftempdir")) && !file.exists(getOption("fftempdir"))) {
-    warning("fftempdir '", getOption("fftempdir"), "' not found. Attempting to create folder")
-    dir.create(getOption("fftempdir"), recursive = TRUE)
-  }
 
   ParallelLogger::addDefaultFileLogger(file.path(outputFolder, "log.txt"))
-  on.exit(ParallelLogger::unregisterLogger("DEFAULT"))
+  ParallelLogger::addDefaultErrorReportLogger(file.path(outputFolder, "errorReportR.txt"))
+  on.exit(ParallelLogger::unregisterLogger("DEFAULT_FILE_LOGGER", silent = TRUE))
+  on.exit(ParallelLogger::unregisterLogger("DEFAULT_ERRORREPORT_LOGGER", silent = TRUE), add = TRUE)
 
   if (createCohorts) {
     ParallelLogger::logInfo("Creating exposure and outcome cohorts")

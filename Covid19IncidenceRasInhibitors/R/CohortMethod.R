@@ -57,15 +57,6 @@ runCohortMethod <- function(connectionDetails,
   cmAnalysisList <- CohortMethod::loadCmAnalysisList(cmAnalysisListFile)
   tcosList <- createTcos(outputFolder = outputFolder)
   outcomesOfInterest <- getOutcomesOfInterest()
-  
-  # Remove TC pairs with 0-count cohorts
-  cohortCounts <- read.csv(paste0(outputFolder, "/CohortCounts.csv"))
-  nonZeroCount <- unlist(lapply(tcosList, function(tco) {
-    return(tco$targetId %in% cohortCounts$cohortDefinitionId &&
-             tco$comparatorId %in% cohortCounts$cohortDefinitionId)
-  }))
-  # tcosList <- tcosList[nonZeroCount]
-
   results <- CohortMethod::runCmAnalyses(connectionDetails = connectionDetails,
                                          cdmDatabaseSchema = cdmDatabaseSchema,
                                          exposureDatabaseSchema = cohortDatabaseSchema,
@@ -85,17 +76,17 @@ runCohortMethod <- function(connectionDetails,
                                          outcomeCvThreads = min(4, maxCores),
                                          refitPsForEveryOutcome = FALSE,
                                          outcomeIdsOfInterest = outcomesOfInterest)
-  
+
   ParallelLogger::logInfo("Summarizing results")
-  analysisSummary <- CohortMethod::summarizeAnalyses(referenceTable = results, 
+  analysisSummary <- CohortMethod::summarizeAnalyses(referenceTable = results,
                                                      outputFolder = cmOutputFolder)
   analysisSummary <- addCohortNames(analysisSummary, "targetId", "targetName")
   analysisSummary <- addCohortNames(analysisSummary, "comparatorId", "comparatorName")
   analysisSummary <- addCohortNames(analysisSummary, "outcomeId", "outcomeName")
   analysisSummary <- addAnalysisDescription(analysisSummary, "analysisId", "analysisDescription")
   write.csv(analysisSummary, file.path(outputFolder, "analysisSummary.csv"), row.names = FALSE)
-  
-  ParallelLogger::logInfo("Computing covariate balance") 
+
+  ParallelLogger::logInfo("Computing covariate balance")
   balanceFolder <- file.path(outputFolder, "balance")
   if (!file.exists(balanceFolder)) {
     dir.create(balanceFolder)
@@ -108,6 +99,34 @@ runCohortMethod <- function(connectionDetails,
     ParallelLogger::clusterApply(cluster, subset, computeCovariateBalance, cmOutputFolder = cmOutputFolder, balanceFolder = balanceFolder)
     ParallelLogger::stopCluster(cluster)
   }
+
+  ParallelLogger::logInfo("Extract log-likelihood profiles")
+  profileFolder <- file.path(outputFolder, "profile")
+  if (!file.exists(profileFolder)) {
+    dir.create(profileFolder)
+  }
+  subset <- results[results$outcomeId %in% outcomesOfInterest, ] # TODO Do we want negative controls?
+  subset <- subset[subset$outcomeModelFile != "", ]
+  if (nrow(subset) > 0) {
+    subset <- split(subset, seq(nrow(subset)))
+    cluster <- ParallelLogger::makeCluster(min(3, maxCores))
+    ParallelLogger::clusterApply(cluster, subset, extractProfile,
+                                 cmOutputFolder = cmOutputFolder,
+                                 profileFolder = profileFolder)
+    ParallelLogger::stopCluster(cluster)
+  }
+}
+
+extractProfile <- function(row, cmOutputFolder, profileFolder) {
+  outputFileName <- file.path(profileFolder,
+                              sprintf("prof_t%s_c%s_o%s_a%s.rds",
+                                      row$targetId, row$comparatorId, row$outcomeId,
+                                      row$analysisId))
+  outcomeFile <- file.path(cmOutputFolder, row$outcomeModelFile)
+  outcome <- readRDS(outcomeFile)
+  if (!is.null(outcome$logLikelihoodProfile)) {
+    saveRDS(outcome$logLikelihoodProfile, outputFileName)
+  }
 }
 
 computeCovariateBalance <- function(row, cmOutputFolder, balanceFolder) {
@@ -115,8 +134,8 @@ computeCovariateBalance <- function(row, cmOutputFolder, balanceFolder) {
                               sprintf("bal_t%s_c%s_o%s_a%s.rds", row$targetId, row$comparatorId, row$outcomeId, row$analysisId))
   if (!file.exists(outputFileName)) {
     ParallelLogger::logTrace("Creating covariate balance file ", outputFileName)
-    cohortMethodDataFolder <- file.path(cmOutputFolder, row$cohortMethodDataFolder)
-    cohortMethodData <- CohortMethod::loadCohortMethodData(cohortMethodDataFolder)
+    cohortMethodDataFile <- file.path(cmOutputFolder, row$cohortMethodDataFile)
+    cohortMethodData <- CohortMethod::loadCohortMethodData(cohortMethodDataFile)
     strataFile <- file.path(cmOutputFolder, row$strataFile)
     strata <- readRDS(strataFile)
     if (nrow(strata) > 0) {
@@ -181,7 +200,7 @@ createTcos <- function(outputFolder) {
 
 getOutcomesOfInterest <- function() {
   pathToCsv <- system.file("settings", "TcosOfInterest.csv", package = "Covid19IncidenceRasInhibitors")
-  tcosOfInterest <- read.csv(pathToCsv, stringsAsFactors = FALSE) 
+  tcosOfInterest <- read.csv(pathToCsv, stringsAsFactors = FALSE)
   outcomeIds <- as.character(tcosOfInterest$outcomeIds)
   outcomeIds <- do.call("c", (strsplit(outcomeIds, split = ";")))
   outcomeIds <- unique(as.numeric(outcomeIds))
