@@ -2304,9 +2304,9 @@
               "Age": null
             }},
             "Occurrence": {
-              "Type": 2,
+              "Type": 0,
               "IsDistinct": false,
-              "Count": 1
+              "Count": 0
             }
           },
           {
@@ -2348,9 +2348,9 @@
               "Age": null
             }},
             "Occurrence": {
-              "Type": 2,
+              "Type": 0,
               "IsDistinct": false,
-              "Count": 1
+              "Count": 0
             }
           },
           {
@@ -2392,9 +2392,9 @@
               "Age": null
             }},
             "Occurrence": {
-              "Type": 2,
+              "Type": 0,
               "IsDistinct": false,
-              "Count": 1
+              "Count": 0
             }
           },
           {
@@ -2436,9 +2436,9 @@
               "Age": null
             }},
             "Occurrence": {
-              "Type": 2,
+              "Type": 0,
               "IsDistinct": false,
-              "Count": 1
+              "Count": 0
             }
           },
           {
@@ -2480,9 +2480,9 @@
               "Age": null
             }},
             "Occurrence": {
-              "Type": 2,
+              "Type": 0,
               "IsDistinct": false,
-              "Count": 1
+              "Count": 0
             }
           }
         ],
