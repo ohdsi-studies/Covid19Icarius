@@ -130,7 +130,7 @@ createAnalysesDetails <- function(workFolder){
     maxRatio = 1 # TODO Allow for multiple matches
   )
   
-  # Analysis 1 -- crude/adjusted
+  # Analysis 1 -- crude/unadjusted
   
   cmAnalysis1 <- CohortMethod::createCmAnalysis(analysisId = 1,
                                                 description = "Crude/unadjusted",
