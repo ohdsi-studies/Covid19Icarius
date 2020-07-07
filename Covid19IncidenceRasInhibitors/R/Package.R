@@ -18,9 +18,14 @@
 
 #' Covid19IncidenceRasInhibitors
 #'
+#' An OHDSI R package to compare the relative risk of COVID-19 susceptibility for RAS inhibitor users
+#'
 #' @docType package
 #' @name Covid19IncidenceRasInhibitors
 #' @importFrom stats aggregate density pnorm qnorm quantile
 #' @importFrom utils read.csv write.csv install.packages menu setTxtProgressBar txtProgressBar write.table
 #' @import DatabaseConnector
+#' @importFrom dplyr pull collect bind_rows group_by summarise ungroup `%>%`
+#' @importFrom rlang .data
+#'
 NULL
