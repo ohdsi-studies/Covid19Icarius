@@ -4,3 +4,6 @@
 \name{Covid19ComplicationsRasInhibitors}
 \alias{Covid19ComplicationsRasInhibitors}
 \title{Covid19ComplicationsRasInhibitors}
+\description{
+An OHDSI R package to compare the relative risk of COVID-19 outcomes for RAS inhibitor users
+}
