@@ -1,8 +1,5 @@
 library(Covid19IncidenceRasInhibitors)
 
-# Optional: specify where the temporary files (used by the ff package) will be created:
-options(fftempdir = "s:/FFtemp")
-
 # Maximum number of cores to be used:
 maxCores <- parallel::detectCores()
 
