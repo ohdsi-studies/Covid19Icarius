@@ -145,46 +145,6 @@
       "id": 4
     },
     {
-      "expression": {"items": [
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 262,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "ERIP",
-            "VOCABULARY_ID": "Visit",
-            "CONCEPT_NAME": "Emergency Room and Inpatient Visit",
-            "DOMAIN_ID": "Visit",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Visit",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        },
-        {
-          "isExcluded": false,
-          "concept": {
-            "INVALID_REASON_CAPTION": "Valid",
-            "CONCEPT_ID": 9201,
-            "STANDARD_CONCEPT": "S",
-            "CONCEPT_CODE": "IP",
-            "VOCABULARY_ID": "Visit",
-            "CONCEPT_NAME": "Inpatient Visit",
-            "DOMAIN_ID": "Visit",
-            "STANDARD_CONCEPT_CAPTION": "Standard",
-            "CONCEPT_CLASS_ID": "Visit",
-            "INVALID_REASON": "V"
-          },
-          "includeMapped": false,
-          "includeDescendants": true
-        }
-      ]},
-      "name": "Inpatient Visit",
-      "id": 5
-    },
-    {
       "expression": {"items": [{
         "isExcluded": false,
         "concept": {
@@ -203,7 +163,7 @@
         "includeDescendants": true
       }]},
       "name": "[LEGEND]Hypertension",
-      "id": 13
+      "id": 12
     },
     {
       "expression": {"items": [
@@ -447,7 +407,7 @@
         }
       ]},
       "name": "[ICARIUS] Dihydropyridine calcium channel blockers (dCCB)",
-      "id": 15
+      "id": 14
     },
     {
       "expression": {"items": [
@@ -810,7 +770,7 @@
         }
       ]},
       "name": "[ICARIUS] ACE inhibitors",
-      "id": 16
+      "id": 15
     },
     {
       "expression": {"items": [
@@ -952,7 +912,7 @@
         }
       ]},
       "name": "[ICARIUS] Angiotensin receptor blockers (ARBs)",
-      "id": 17
+      "id": 16
     },
     {
       "expression": {"items": [
@@ -1009,7 +969,7 @@
         }
       ]},
       "name": "[ICARIUS] Non-dihydropyridine Calcium channel blockers (ndCCB)",
-      "id": 18
+      "id": 17
     },
     {
       "expression": {"items": [
@@ -1440,7 +1400,7 @@
         }
       ]},
       "name": "[ICARIUS] beta-blockers",
-      "id": 19
+      "id": 18
     },
     {
       "expression": {"items": [
@@ -1548,7 +1508,7 @@
         }
       ]},
       "name": "[ICARIUS] Thiazide or thiazide-like diuretics",
-      "id": 20
+      "id": 19
     },
     {
       "expression": {"items": [
@@ -1673,374 +1633,11 @@
         }
       ]},
       "name": "[ICARIUS] Diuretics",
-      "id": 21
+      "id": 20
     }
   ],
   "cdmVersionRange": ">=5.0.0",
   "CensoringCriteria": [],
-  "AdditionalCriteria": {
-    "CriteriaList": [
-      {
-        "RestrictVisit": false,
-        "StartWindow": {
-          "UseEventEnd": false,
-          "Start": {
-            "Days": 21,
-            "Coeff": -1
-          },
-          "End": {
-            "Days": null,
-            "Coeff": 1
-          },
-          "UseIndexEnd": false
-        },
-        "IgnoreObservationPeriod": false,
-        "EndWindow": {
-          "UseEventEnd": false,
-          "Start": {
-            "Days": null,
-            "Coeff": -1
-          },
-          "End": {
-            "Days": 0,
-            "Coeff": 1
-          },
-          "UseIndexEnd": true
-        },
-        "Criteria": {"Measurement": {
-          "Operator": null,
-          "RangeHigh": null,
-          "MeasurementTypeExclude": false,
-          "ValueAsConcept": null,
-          "CorrelatedCriteria": null,
-          "RangeHighRatio": null,
-          "CodesetId": 1,
-          "ProviderSpecialty": null,
-          "Gender": null,
-          "Unit": null,
-          "RangeLowRatio": null,
-          "MeasurementType": null,
-          "MeasurementSourceConcept": null,
-          "VisitType": null,
-          "ValueAsNumber": null,
-          "First": null,
-          "OccurrenceStartDate": null,
-          "RangeLow": null,
-          "Abnormal": null,
-          "Age": null
-        }},
-        "Occurrence": {
-          "Type": 2,
-          "IsDistinct": false,
-          "Count": 1
-        }
-      },
-      {
-        "RestrictVisit": false,
-        "StartWindow": {
-          "UseEventEnd": false,
-          "Start": {
-            "Days": 21,
-            "Coeff": -1
-          },
-          "End": {
-            "Days": null,
-            "Coeff": 1
-          },
-          "UseIndexEnd": false
-        },
-        "IgnoreObservationPeriod": false,
-        "EndWindow": {
-          "UseEventEnd": false,
-          "Start": {
-            "Days": null,
-            "Coeff": -1
-          },
-          "End": {
-            "Days": 0,
-            "Coeff": 1
-          },
-          "UseIndexEnd": true
-        },
-        "Criteria": {"Measurement": {
-          "Operator": null,
-          "RangeHigh": null,
-          "MeasurementTypeExclude": false,
-          "ValueAsConcept": [
-            {
-              "INVALID_REASON_CAPTION": "Unknown",
-              "CONCEPT_ID": 4126681,
-              "STANDARD_CONCEPT": null,
-              "CONCEPT_CODE": "260373001",
-              "VOCABULARY_ID": "SNOMED",
-              "CONCEPT_NAME": "Detected",
-              "DOMAIN_ID": "Meas Value",
-              "STANDARD_CONCEPT_CAPTION": "Unknown",
-              "CONCEPT_CLASS_ID": null,
-              "INVALID_REASON": null
-            },
-            {
-              "INVALID_REASON_CAPTION": "Unknown",
-              "CONCEPT_ID": 45877985,
-              "STANDARD_CONCEPT": null,
-              "CONCEPT_CODE": "LA11882-0",
-              "VOCABULARY_ID": "LOINC",
-              "CONCEPT_NAME": "Detected",
-              "DOMAIN_ID": "Meas Value",
-              "STANDARD_CONCEPT_CAPTION": "Unknown",
-              "CONCEPT_CLASS_ID": null,
-              "INVALID_REASON": null
-            },
-            {
-              "INVALID_REASON_CAPTION": "Unknown",
-              "CONCEPT_ID": 9191,
-              "STANDARD_CONCEPT": null,
-              "CONCEPT_CODE": "10828004",
-              "VOCABULARY_ID": "SNOMED",
-              "CONCEPT_NAME": "Positive",
-              "DOMAIN_ID": "Meas Value",
-              "STANDARD_CONCEPT_CAPTION": "Unknown",
-              "CONCEPT_CLASS_ID": null,
-              "INVALID_REASON": null
-            },
-            {
-              "INVALID_REASON_CAPTION": "Unknown",
-              "CONCEPT_ID": 45884084,
-              "STANDARD_CONCEPT": null,
-              "CONCEPT_CODE": "LA6576-8",
-              "VOCABULARY_ID": "LOINC",
-              "CONCEPT_NAME": "Positive",
-              "DOMAIN_ID": "Meas Value",
-              "STANDARD_CONCEPT_CAPTION": "Unknown",
-              "CONCEPT_CLASS_ID": null,
-              "INVALID_REASON": null
-            },
-            {
-              "INVALID_REASON_CAPTION": "Unknown",
-              "CONCEPT_ID": 4181412,
-              "STANDARD_CONCEPT": null,
-              "CONCEPT_CODE": "52101004",
-              "VOCABULARY_ID": "SNOMED",
-              "CONCEPT_NAME": "Present",
-              "DOMAIN_ID": "Meas Value",
-              "STANDARD_CONCEPT_CAPTION": "Unknown",
-              "CONCEPT_CLASS_ID": null,
-              "INVALID_REASON": null
-            },
-            {
-              "INVALID_REASON_CAPTION": "Unknown",
-              "CONCEPT_ID": 45879438,
-              "STANDARD_CONCEPT": null,
-              "CONCEPT_CODE": "LA9633-4",
-              "VOCABULARY_ID": "LOINC",
-              "CONCEPT_NAME": "Present",
-              "DOMAIN_ID": "Meas Value",
-              "STANDARD_CONCEPT_CAPTION": "Unknown",
-              "CONCEPT_CLASS_ID": null,
-              "INVALID_REASON": null
-            }
-          ],
-          "CorrelatedCriteria": null,
-          "RangeHighRatio": null,
-          "CodesetId": 2,
-          "ProviderSpecialty": null,
-          "Gender": null,
-          "Unit": null,
-          "RangeLowRatio": null,
-          "MeasurementType": null,
-          "MeasurementSourceConcept": null,
-          "VisitType": null,
-          "ValueAsNumber": null,
-          "First": null,
-          "OccurrenceStartDate": null,
-          "RangeLow": null,
-          "Abnormal": null,
-          "Age": null
-        }},
-        "Occurrence": {
-          "Type": 2,
-          "IsDistinct": false,
-          "Count": 1
-        }
-      },
-      {
-        "RestrictVisit": false,
-        "StartWindow": {
-          "UseEventEnd": false,
-          "Start": {
-            "Days": 21,
-            "Coeff": -1
-          },
-          "End": {
-            "Days": null,
-            "Coeff": 1
-          },
-          "UseIndexEnd": false
-        },
-        "IgnoreObservationPeriod": false,
-        "EndWindow": {
-          "UseEventEnd": false,
-          "Start": {
-            "Days": null,
-            "Coeff": -1
-          },
-          "End": {
-            "Days": 0,
-            "Coeff": 1
-          },
-          "UseIndexEnd": true
-        },
-        "Criteria": {"Observation": {
-          "ValueAsConcept": [
-            {
-              "INVALID_REASON_CAPTION": "Unknown",
-              "CONCEPT_ID": 4126681,
-              "STANDARD_CONCEPT": null,
-              "CONCEPT_CODE": "260373001",
-              "VOCABULARY_ID": "SNOMED",
-              "CONCEPT_NAME": "Detected",
-              "DOMAIN_ID": "Meas Value",
-              "STANDARD_CONCEPT_CAPTION": "Unknown",
-              "CONCEPT_CLASS_ID": null,
-              "INVALID_REASON": null
-            },
-            {
-              "INVALID_REASON_CAPTION": "Unknown",
-              "CONCEPT_ID": 45877985,
-              "STANDARD_CONCEPT": null,
-              "CONCEPT_CODE": "LA11882-0",
-              "VOCABULARY_ID": "LOINC",
-              "CONCEPT_NAME": "Detected",
-              "DOMAIN_ID": "Meas Value",
-              "STANDARD_CONCEPT_CAPTION": "Unknown",
-              "CONCEPT_CLASS_ID": null,
-              "INVALID_REASON": null
-            },
-            {
-              "INVALID_REASON_CAPTION": "Unknown",
-              "CONCEPT_ID": 9191,
-              "STANDARD_CONCEPT": null,
-              "CONCEPT_CODE": "10828004",
-              "VOCABULARY_ID": "SNOMED",
-              "CONCEPT_NAME": "Positive",
-              "DOMAIN_ID": "Meas Value",
-              "STANDARD_CONCEPT_CAPTION": "Unknown",
-              "CONCEPT_CLASS_ID": null,
-              "INVALID_REASON": null
-            },
-            {
-              "INVALID_REASON_CAPTION": "Unknown",
-              "CONCEPT_ID": 45884084,
-              "STANDARD_CONCEPT": null,
-              "CONCEPT_CODE": "LA6576-8",
-              "VOCABULARY_ID": "LOINC",
-              "CONCEPT_NAME": "Positive",
-              "DOMAIN_ID": "Meas Value",
-              "STANDARD_CONCEPT_CAPTION": "Unknown",
-              "CONCEPT_CLASS_ID": null,
-              "INVALID_REASON": null
-            },
-            {
-              "INVALID_REASON_CAPTION": "Unknown",
-              "CONCEPT_ID": 4181412,
-              "STANDARD_CONCEPT": null,
-              "CONCEPT_CODE": "52101004",
-              "VOCABULARY_ID": "SNOMED",
-              "CONCEPT_NAME": "Present",
-              "DOMAIN_ID": "Meas Value",
-              "STANDARD_CONCEPT_CAPTION": "Unknown",
-              "CONCEPT_CLASS_ID": null,
-              "INVALID_REASON": null
-            },
-            {
-              "INVALID_REASON_CAPTION": "Unknown",
-              "CONCEPT_ID": 45879438,
-              "STANDARD_CONCEPT": null,
-              "CONCEPT_CODE": "LA9633-4",
-              "VOCABULARY_ID": "LOINC",
-              "CONCEPT_NAME": "Present",
-              "DOMAIN_ID": "Meas Value",
-              "STANDARD_CONCEPT_CAPTION": "Unknown",
-              "CONCEPT_CLASS_ID": null,
-              "INVALID_REASON": null
-            }
-          ],
-          "ObservationType": null,
-          "CorrelatedCriteria": null,
-          "ObservationTypeExclude": false,
-          "ValueAsString": null,
-          "CodesetId": 2,
-          "ProviderSpecialty": null,
-          "Gender": null,
-          "Unit": null,
-          "ObservationSourceConcept": null,
-          "VisitType": null,
-          "ValueAsNumber": null,
-          "Qualifier": null,
-          "First": null,
-          "OccurrenceStartDate": null,
-          "Age": null
-        }},
-        "Occurrence": {
-          "Type": 2,
-          "IsDistinct": false,
-          "Count": 1
-        }
-      },
-      {
-        "RestrictVisit": false,
-        "StartWindow": {
-          "UseEventEnd": false,
-          "Start": {
-            "Days": 21,
-            "Coeff": -1
-          },
-          "End": {
-            "Days": null,
-            "Coeff": 1
-          },
-          "UseIndexEnd": false
-        },
-        "IgnoreObservationPeriod": false,
-        "EndWindow": {
-          "UseEventEnd": false,
-          "Start": {
-            "Days": null,
-            "Coeff": -1
-          },
-          "End": {
-            "Days": 0,
-            "Coeff": 1
-          },
-          "UseIndexEnd": true
-        },
-        "Criteria": {"ConditionOccurrence": {
-          "OccurrenceEndDate": null,
-          "CorrelatedCriteria": null,
-          "ConditionTypeExclude": false,
-          "CodesetId": 4,
-          "ProviderSpecialty": null,
-          "Gender": null,
-          "VisitType": null,
-          "First": null,
-          "OccurrenceStartDate": null,
-          "ConditionType": null,
-          "ConditionSourceConcept": null,
-          "StopReason": null,
-          "Age": null
-        }},
-        "Occurrence": {
-          "Type": 2,
-          "IsDistinct": false,
-          "Count": 1
-        }
-      }
-    ],
-    "Type": "ANY",
-    "DemographicCriteriaList": [],
-    "Groups": [],
-    "Count": null
-  },
   "QualifiedLimit": {"Type": "First"},
   "InclusionRules": [
     {
@@ -2155,7 +1752,7 @@
               "OccurrenceCount": null,
               "AgeAtStart": null,
               "GapDays": null,
-              "CodesetId": 15,
+              "CodesetId": 14,
               "AgeAtEnd": null,
               "First": null,
               "Gender": null,
@@ -2177,8 +1774,8 @@
                 "Coeff": -1
               },
               "End": {
-                "Days": 1,
-                "Coeff": -1
+                "Days": null,
+                "Coeff": 1
               },
               "UseIndexEnd": false
             },
@@ -2188,7 +1785,7 @@
               "OccurrenceEndDate": null,
               "CorrelatedCriteria": null,
               "DrugSourceConcept": null,
-              "CodesetId": 15,
+              "CodesetId": 14,
               "DrugTypeExclude": false,
               "Quantity": null,
               "DrugType": null,
@@ -2243,7 +1840,7 @@
             "OccurrenceEndDate": null,
             "CorrelatedCriteria": null,
             "ConditionTypeExclude": false,
-            "CodesetId": 13,
+            "CodesetId": 12,
             "ProviderSpecialty": null,
             "Gender": null,
             "VisitType": null,
@@ -2265,12 +1862,56 @@
         "Groups": [],
         "Count": null
       },
-      "name": "Hypertension diagnosis anytime before start-date.",
+      "name": "Hypertension diagnosis anytime before start-date",
       "description": null
     },
     {
       "expression": {
         "CriteriaList": [
+          {
+            "RestrictVisit": false,
+            "StartWindow": {
+              "UseEventEnd": false,
+              "Start": {
+                "Days": 180,
+                "Coeff": -1
+              },
+              "End": {
+                "Days": 1,
+                "Coeff": -1
+              },
+              "UseIndexEnd": false
+            },
+            "IgnoreObservationPeriod": false,
+            "EndWindow": null,
+            "Criteria": {"DrugExposure": {
+              "OccurrenceEndDate": null,
+              "CorrelatedCriteria": null,
+              "DrugSourceConcept": null,
+              "CodesetId": 15,
+              "DrugTypeExclude": false,
+              "Quantity": null,
+              "DrugType": null,
+              "ProviderSpecialty": null,
+              "EffectiveDrugDose": null,
+              "Gender": null,
+              "DaysSupply": null,
+              "DoseUnit": null,
+              "VisitType": null,
+              "Refills": null,
+              "First": null,
+              "OccurrenceStartDate": null,
+              "RouteConcept": null,
+              "StopReason": null,
+              "LotNumber": null,
+              "Age": null
+            }},
+            "Occurrence": {
+              "Type": 0,
+              "IsDistinct": false,
+              "Count": 0
+            }
+          },
           {
             "RestrictVisit": false,
             "StartWindow": {
@@ -2490,50 +2131,6 @@
               "IsDistinct": false,
               "Count": 0
             }
-          },
-          {
-            "RestrictVisit": false,
-            "StartWindow": {
-              "UseEventEnd": false,
-              "Start": {
-                "Days": 180,
-                "Coeff": -1
-              },
-              "End": {
-                "Days": 1,
-                "Coeff": -1
-              },
-              "UseIndexEnd": false
-            },
-            "IgnoreObservationPeriod": false,
-            "EndWindow": null,
-            "Criteria": {"DrugExposure": {
-              "OccurrenceEndDate": null,
-              "CorrelatedCriteria": null,
-              "DrugSourceConcept": null,
-              "CodesetId": 21,
-              "DrugTypeExclude": false,
-              "Quantity": null,
-              "DrugType": null,
-              "ProviderSpecialty": null,
-              "EffectiveDrugDose": null,
-              "Gender": null,
-              "DaysSupply": null,
-              "DoseUnit": null,
-              "VisitType": null,
-              "Refills": null,
-              "First": null,
-              "OccurrenceStartDate": null,
-              "RouteConcept": null,
-              "StopReason": null,
-              "LotNumber": null,
-              "Age": null
-            }},
-            "Occurrence": {
-              "Type": 0,
-              "IsDistinct": false,
-              "Count": 0
-            }
           }
         ],
         "Type": "ALL",
@@ -2546,27 +2143,248 @@
     }
   ],
   "PrimaryCriteria": {
-    "CriteriaList": [{"VisitOccurrence": {
-      "OccurrenceEndDate": null,
-      "VisitLength": null,
-      "CorrelatedCriteria": null,
-      "VisitSourceConcept": null,
-      "CodesetId": 5,
-      "VisitTypeExclude": false,
-      "ProviderSpecialty": null,
-      "Gender": null,
-      "PlaceOfServiceLocation": null,
-      "PlaceOfService": null,
-      "VisitType": null,
-      "First": null,
-      "OccurrenceStartDate": {
-        "Op": "gt",
-        "Extent": null,
-        "Value": "2019-12-01"
-      },
-      "Age": null
-    }}],
-    "PrimaryCriteriaLimit": {"Type": "All"},
+    "CriteriaList": [
+      {"Measurement": {
+        "Operator": null,
+        "RangeHigh": null,
+        "MeasurementTypeExclude": false,
+        "ValueAsConcept": null,
+        "CorrelatedCriteria": null,
+        "RangeHighRatio": null,
+        "CodesetId": 1,
+        "ProviderSpecialty": null,
+        "Gender": null,
+        "Unit": null,
+        "RangeLowRatio": null,
+        "MeasurementType": null,
+        "MeasurementSourceConcept": null,
+        "VisitType": null,
+        "ValueAsNumber": null,
+        "First": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
+        "RangeLow": null,
+        "Abnormal": null,
+        "Age": null
+      }},
+      {"Measurement": {
+        "Operator": null,
+        "RangeHigh": null,
+        "MeasurementTypeExclude": false,
+        "ValueAsConcept": [
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 4126681,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "260373001",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Detected",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 45877985,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "LA11882-0",
+            "VOCABULARY_ID": "LOINC",
+            "CONCEPT_NAME": "Detected",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 9191,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "10828004",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Positive",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 45884084,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "LA6576-8",
+            "VOCABULARY_ID": "LOINC",
+            "CONCEPT_NAME": "Positive",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 4181412,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "52101004",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Present",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 45879438,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "LA9633-4",
+            "VOCABULARY_ID": "LOINC",
+            "CONCEPT_NAME": "Present",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          }
+        ],
+        "CorrelatedCriteria": null,
+        "RangeHighRatio": null,
+        "CodesetId": 2,
+        "ProviderSpecialty": null,
+        "Gender": null,
+        "Unit": null,
+        "RangeLowRatio": null,
+        "MeasurementType": null,
+        "MeasurementSourceConcept": null,
+        "VisitType": null,
+        "ValueAsNumber": null,
+        "First": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
+        "RangeLow": null,
+        "Abnormal": null,
+        "Age": null
+      }},
+      {"Observation": {
+        "ValueAsConcept": [
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 4126681,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "260373001",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Detected",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 45877985,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "LA11882-0",
+            "VOCABULARY_ID": "LOINC",
+            "CONCEPT_NAME": "Detected",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 9191,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "10828004",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Positive",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 45884084,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "LA6576-8",
+            "VOCABULARY_ID": "LOINC",
+            "CONCEPT_NAME": "Positive",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 4181412,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "52101004",
+            "VOCABULARY_ID": "SNOMED",
+            "CONCEPT_NAME": "Present",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          },
+          {
+            "INVALID_REASON_CAPTION": "Unknown",
+            "CONCEPT_ID": 45879438,
+            "STANDARD_CONCEPT": null,
+            "CONCEPT_CODE": "LA9633-4",
+            "VOCABULARY_ID": "LOINC",
+            "CONCEPT_NAME": "Present",
+            "DOMAIN_ID": "Meas Value",
+            "STANDARD_CONCEPT_CAPTION": "Unknown",
+            "CONCEPT_CLASS_ID": null,
+            "INVALID_REASON": null
+          }
+        ],
+        "ObservationType": null,
+        "CorrelatedCriteria": null,
+        "ObservationTypeExclude": false,
+        "ValueAsString": null,
+        "CodesetId": 2,
+        "ProviderSpecialty": null,
+        "Gender": null,
+        "Unit": null,
+        "ObservationSourceConcept": null,
+        "VisitType": null,
+        "ValueAsNumber": null,
+        "Qualifier": null,
+        "First": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
+        "Age": null
+      }},
+      {"ConditionOccurrence": {
+        "OccurrenceEndDate": null,
+        "CorrelatedCriteria": null,
+        "ConditionTypeExclude": false,
+        "CodesetId": 4,
+        "ProviderSpecialty": null,
+        "Gender": null,
+        "VisitType": null,
+        "First": null,
+        "OccurrenceStartDate": {
+          "Op": "gt",
+          "Extent": null,
+          "Value": "2019-12-01"
+        },
+        "ConditionType": null,
+        "ConditionSourceConcept": null,
+        "StopReason": null,
+        "Age": null
+      }}
+    ],
+    "PrimaryCriteriaLimit": {"Type": "First"},
     "ObservationWindow": {
       "PostDays": 0,
       "PriorDays": 0
