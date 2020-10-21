@@ -1377,7 +1377,7 @@ saveAllBalancePlots(getAllBalancePlots(aceComboId, arbComboId, limits = c(0, 0.4
 International Covid-ACE Receptor Inhibition Utilization and Safety (ICARIUS) susceptibility study design schematic. We highlight eligibility criteria, exposure definitions, adjustment strategies, index date specification (horizontal black arrow) and outcome definitions and time-at-risk. Exposure involves prescriptions to drugs with RxNorm ingredients that map to the first-line antihypertensive angiotensin converting enzyme inhibitor (ACEi), angiotensin receptor blocker (ARB), dihydropyridine calcium channel blockers (CCB) and thiazide or thiazide-like diuretic (THZ) classes.  
   }
   \centerline{
-    \includegraphics[width=0.95\textwidth]{schematic}
+    \includegraphics[width=1.0\textwidth]{schematic}
   }
 \end{figure}
 
