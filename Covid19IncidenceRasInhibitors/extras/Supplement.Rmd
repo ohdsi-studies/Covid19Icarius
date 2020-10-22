@@ -278,34 +278,34 @@ print(xtable(tableNarrow, format = "latex"),
       add.to.row = list(
         pos = as.list(c(0:19) * 3),
         command = c(
-          "                       \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                       \\multicolumn{10}{l}{\\textbf{ACEI/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI/ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",     
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE/ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI/ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",            
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs ARB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs ARB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",          
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-                    "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+                    "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\"
           )
       ),
@@ -352,34 +352,34 @@ print(xtable(tableBroad, format = "latex"),
       add.to.row = list(
         pos = as.list(c(0:19) * 3),
         command = c(
-          "                       \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                       \\multicolumn{10}{l}{\\textbf{ACEI/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI/ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",     
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE/ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI/ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",            
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs ARB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs ARB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",          
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-                    "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+                    "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\"
           )
       ),
@@ -426,34 +426,34 @@ print(xtable(tableAdverse, format = "latex"),
       add.to.row = list(
         pos = as.list(c(0:19) * 3),
         command = c(
-          "                       \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                       \\multicolumn{10}{l}{\\textbf{ACEI/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI/ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",     
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE/ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI/ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",            
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs ARB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs ARB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",          
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-                    "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+                    "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\"
           )
       ),
@@ -500,34 +500,34 @@ print(xtable(tablePna, format = "latex"),
       add.to.row = list(
         pos = as.list(c(0:19) * 3),
         command = c(
-          "                       \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                       \\multicolumn{10}{l}{\\textbf{ACEI/ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE/ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI/ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",     
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE/ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI/ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",            
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs ARB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs ARB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ACE vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ACEI vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",          
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ARB vs CCB/THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ARB vs CCB}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\",
           
-                    "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{\\textbf{ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+                    "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{\\textbf{ARB vs THZ}} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{8}{l}{+ Combination} \\\\"
           )
       ),
@@ -616,6 +616,8 @@ balance <- getCovariateBalance(NULL, targetId, comparatorId, databaseId = databa
                replacement = paste0("Baseline patient characteristcs for ", targetName," (T) and ", comparatorName, " (C) prevalent-users in the ", databaseId, " data source"),
                x = header)
 
+  title <- sub(pattern = "ACE", replacement = "ACEI", x = title)
+  
   title <- sub("0.5\\\\textwidth", paste0(scale, "\\\\textwidth"), x = title)
   title <- sub("-0.5em", "+0.5em", x = title)
 
@@ -627,6 +629,22 @@ balance <- getCovariateBalance(NULL, targetId, comparatorId, databaseId = databa
   table <- prepareTable1(balance,pathToCsv = system.file("shiny", "EvidenceExplorer", "Table1Specs.csv", 
                                       package = "Covid19IncidenceRasInhibitors"))
   table <- table[3:nrow(table),]
+  
+  labels <- table[,1]
+  labels <- sub(pattern = "00-04", replacement = "100-104", labels)
+  #labels <- sub(pattern = "05-09", replacement = "105-109", labels)
+  
+  table[,1] <- labels
+  
+  multi <- which(labels == "    15-19")
+  if (length(multi) > 1) {
+    table <- table[-multi[-1],]
+  }
+  
+  superOld <- which(labels == "    05-09")
+  if (length(superOld) > 0) {
+    table <- table[-superOld,]
+  }
 
   print(xtable(table, format = "latex", align = c("l","l","r","r","r","r","r","r")),
         include.rownames = FALSE,

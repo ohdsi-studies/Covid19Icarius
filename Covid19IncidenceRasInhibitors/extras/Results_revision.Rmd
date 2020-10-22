@@ -172,7 +172,7 @@ table <- rbind(tableSidiap, tableCuimc, tableVa) %>% arrange(order, databaseOrde
 
 \begin{table}[H]
  \caption{
-Populations and COVID-19 diagnoses for angiotensin converting enzyme inhibitor (ACEi), angiotensin receptor blocker (ARB), calcium channel block (CCB) and thiazide or thiazide-like diuretics (THZ) monotherapy and in-combination user cohorts. For each target (T) and comparator (C) cohort, we report population size, total exposure time, outcome events and minimally detectable risk ratio (MDRR).%
+Populations and COVID-19 diagnoses for angiotensin converting enzyme inhibitor (ACEI), angiotensin receptor blocker (ARB), calcium channel block (CCB) and thiazide or thiazide-like diuretics (THZ) monotherapy and in-combination user cohorts. For each target (T) and comparator (C) cohort, we report population size, total exposure time, outcome events and minimally detectable risk ratio (MDRR).%
 }
   \rowcolors{2}{gray!6}{white}
   \centering{
@@ -196,13 +196,13 @@ print(xtable(table, format = "latex"),
       add.to.row = list(
         pos = as.list(c(0,1,2,3,4,5,6,7) * 3),
         command = c(
-          "                       \\multicolumn{9}{l}{ACEi/ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                       \\multicolumn{9}{l}{ACEI/ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ACEi vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ACEI vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
           "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
-          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ACEi vs ARB} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{9}{l}{ACEI vs ARB} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{9}{l}{+ Combination} \\\\"          
           )
       ),
@@ -715,7 +715,7 @@ numDb <- length(unique(wideTable$databaseId))
 
 \definecolor{light-gray}{gray}{0.50}
 \begin{table}
- \caption{Relative risk of COVID-19 diagnosis for ACEi, ARB, CCB and THZ prevalent-use. We report calibrated hazard ratios (HRs) and their 95\% confidence intervals (CIs) and calibrated p-value (P) for both monotherapy and in-combination cohort definitions, with propensity score (PS) stratification or matching and across data sources. Grayed out data source entries do not pass study diagnostics and grayed out meta-analysis entries 
+ \caption{Relative risk of COVID-19 diagnosis for ACEI, ARB, CCB and THZ prevalent-use. We report calibrated hazard ratios (HRs) and their 95\% confidence intervals (CIs) and calibrated p-value (P) for both monotherapy and in-combination cohort definitions, with propensity score (PS) stratification or matching and across data sources. Grayed out data source entries do not pass study diagnostics and grayed out meta-analysis entries 
  return heterogeneity measure $i^2$ >0.4.}
   \rowcolors{2}{gray!6}{white}
   \centering{
@@ -788,13 +788,13 @@ print(xtable(annotatedWideTable %>% filter(outcomeId == covidNarrowId) %>%
  add.to.row = list(
         pos = as.list(c(0:7) * numDb),
         command = c(
-          "                       \\multicolumn{10}{l}{ACEi/ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "                       \\multicolumn{10}{l}{ACEI/ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
-          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ACEi vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ACEI vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
           "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ARB vs CCB/THZ} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{9}{l}{+ Combination} \\\\",
-          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ACEi vs ARB} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
+          "\\rowcolor{white} \\\\ \\multicolumn{10}{l}{ACEI vs ARB} \\\\ & \\multicolumn{9}{l}{Monotherapy}  \\\\",
           "                        & \\multicolumn{9}{l}{+ Combination} \\\\"          
           )
       ),      
@@ -952,7 +952,7 @@ plot(0,0, type = "n",
 
 textCex <- 0.6
 
-cohortNames <- c("ACE/ARB vs CCB/THZ", "ACE vs CCB/THZ", "ARB vs CCB/THZ", "ACE vs ARB")
+cohortNames <- c("ACEI/ARB vs CCB/THZ", "ACEI vs CCB/THZ", "ARB vs CCB/THZ", "ACEI vs ARB")
 cohortPositions <- (c(1:length(cohortNames)) - 1) * (2 * dbs + 4) + 1
 text(x = 0, y = ymax - cohortPositions, labels = cohortNames, pos = 4, cex = textCex)
 
@@ -1374,7 +1374,7 @@ saveAllBalancePlots(getAllBalancePlots(aceComboId, arbComboId, limits = c(0, 0.4
 
 \begin{figure}[H]
   \caption{
-International Covid-ACE Receptor Inhibition Utilization and Safety (ICARIUS) susceptibility study design schematic. We highlight eligibility criteria, exposure definitions, adjustment strategies, index date specification (horizontal black arrow) and outcome definitions and time-at-risk. Exposure involves prescriptions to drugs with RxNorm ingredients that map to the first-line antihypertensive angiotensin converting enzyme inhibitor (ACEi), angiotensin receptor blocker (ARB), dihydropyridine calcium channel blockers (CCB) and thiazide or thiazide-like diuretic (THZ) classes.  
+International Covid-ACE Receptor Inhibition Utilization and Safety (ICARIUS) susceptibility study design schematic. We highlight eligibility criteria, exposure definitions, adjustment strategies, index date specification (horizontal black arrow) and outcome definitions and time-at-risk. Exposure involves prescriptions to drugs with RxNorm ingredients that map to the first-line antihypertensive angiotensin converting enzyme inhibitor (ACEI), angiotensin receptor blocker (ARB), dihydropyridine calcium channel blockers (CCB) and thiazide or thiazide-like diuretic (THZ) classes.  
   }
   \centerline{
     \includegraphics[width=1.0\textwidth]{schematic}
@@ -1385,7 +1385,7 @@ International Covid-ACE Receptor Inhibition Utilization and Safety (ICARIUS) sus
 
 \begin{figure}[H]
   \caption{
-Cohort balance diagnostics comparing ACEi/ARB and CCB/THZ monotherapy prevalent-use for the risk COVID-19 diagnosis. We plotted the absolute standardized difference of population proportions of all available patient characteristics (6,571 in SIDIAP, 11,183 in VA-OMOP, and 18,291 in CUIMC) before and after propensity score stratification or matching across data sources. Using stratification, CUIMC fails study diagnostics for this comparison as the absolute standardized difference is not consistently <0.1.%
+Cohort balance diagnostics comparing ACEI/ARB and CCB/THZ monotherapy prevalent-use for the risk COVID-19 diagnosis. We plotted the absolute standardized difference of population proportions of all available patient characteristics (6,571 in SIDIAP, 11,183 in VA-OMOP, and 18,291 in CUIMC) before and after propensity score stratification or matching across data sources. Using stratification, CUIMC fails study diagnostics for this comparison as the absolute standardized difference is not consistently <0.1.%
   }
   \centering{
     \includegraphics[width=0.9\textwidth]{allBalanceRasMono}
@@ -1502,7 +1502,7 @@ balanceStratAce[maxIndex,
 
 \begin{figure}[H]
   \caption{
-Relative risk of COVID-19-related outcomes for ACE inhibitor, ARB, CCB and THZ prevalent-use across data sources. Outcomes are COVID-19 diagnosis, COVID-19 hospitalization (+Hospital), patients hospitalized with pneumonia (PNA) and patients hospitalized with pneumonia, acute respiratory distress syndrome, acute kidney injury or sepsis (PAAS). We plot calibrated hazard ratios (circles) and their 95% confidence intervals labeled by propensity score (PS) adjustment method (black/white). 
+Relative risk of COVID-19-related outcomes for ACEI, ARB, CCB and THZ prevalent-use across data sources. Outcomes are COVID-19 diagnosis, COVID-19 hospitalization (+Hospital), patients hospitalized with pneumonia (PNA) and patients hospitalized with pneumonia, acute respiratory distress syndrome, acute kidney injury or sepsis (PAAS). We plot calibrated hazard ratios (circles) and their 95\% confidence intervals labeled by propensity score (PS) adjustment method (black/white). 
 Grayed out data source entries do not pass study diagnostics and grayed out meta-analysis entries return heterogeneity measure $i^2$ >0.4.
 }
     \vspace*{-0.5in}
