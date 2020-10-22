@@ -1149,6 +1149,9 @@ invisible(dev.off())
 
 ```{r, echo=FALSE, cache=TRUE}
 # SIDIAP
+
+cutoff <- 0.01
+
 files <- list.files(file.path(sidiapDir, "shinyData"),
                     pattern = "covariate_balance_t\\d",
                     full.names = TRUE)
@@ -1161,7 +1164,9 @@ sidiapCounts <- do.call("rbind.data.frame",
                           c <- sub(".*c", "", file)
                           comparator <- sub("_.*", "", c)
                           return(list(rows = bal %>% filter(analysis_id == primaryAnalysisId,
-                                                            outcome_id == covidNarrowId) %>% nrow(),
+                                                            outcome_id == covidNarrowId,
+                                                            target_mean_before >= cutoff,
+                                                            comparator_mean_before >= cutoff) %>% nrow(),
                                       target = as.numeric(target),
                                       comparator = as.numeric(comparator)))
                         }))
@@ -1179,7 +1184,9 @@ vaCounts <- do.call("rbind.data.frame",
                           c <- sub(".*c", "", file)
                           comparator <- sub("_.*", "", c)
                           return(list(rows = bal %>% filter(analysis_id == primaryAnalysisId,
-                                                            outcome_id == covidNarrowId) %>% nrow(),
+                                                            outcome_id == covidNarrowId,
+                                                            target_mean_before >= cutoff,
+                                                            comparator_mean_before >= cutoff) %>% nrow(),
                                       target = as.numeric(target),
                                       comparator = as.numeric(comparator)))
                         }))
@@ -1198,7 +1205,9 @@ cuimcCounts <- do.call("rbind.data.frame",
                          c <- sub(".*c", "", file)
                          comparator <- sub("_.*", "", c)
                          return(list(rows = bal %>% filter(analysis_id == primaryAnalysisId,
-                                                            outcome_id == covidNarrowId) %>% nrow(),
+                                                            outcome_id == covidNarrowId,
+                                                           target_mean_before >= cutoff,
+                                                            comparator_mean_before >= cutoff) %>% nrow(),
                                      target = as.numeric(target),
                                      comparator = as.numeric(comparator)))
                        }))
