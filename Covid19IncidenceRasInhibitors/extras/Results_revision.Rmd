@@ -15,7 +15,7 @@ mainfont: Arial
     #rticles::sim_article
 fontsize: 10pt
 geometry: margin=1in
-classoptions: doublespace
+classoption: doublespace, table
 longtable: true
 header-includes:
   - \usepackage[numbers,sort&compress]{natbib}
@@ -23,7 +23,6 @@ header-includes:
   - \usepackage{longtable}
   - \usepackage{array}
   - \usepackage{multirow}
-  - \usepackage[table]{xcolor}
   - \usepackage{wrapfig}
   - \usepackage{float}
   - \usepackage{colortbl}
@@ -465,17 +464,30 @@ cuimcTc <- tableCuimc %>% head(1) %>% select(targetSubjects, comparatorSubjects)
   title <- sub("0.5\\\\textwidth", paste0(scale, "\\\\textwidth"), x = title)
   title <- sub("-0.5em", "+0.5em", x = title)
 
-  title <- gsub("% Extra row",
-               paste0("& \\\\multicolumn{3}{c}{$N$ = ", sidiapTc$targetSubjects, 
-                      " } & \\\\multicolumn{3}{c}{$N$ = ", sidiapTc$comparatorSubjects, " } ",
-                      "& \\\\multicolumn{3}{c}{$N$ = ",     vaTc$targetSubjects, 
-                      " } & \\\\multicolumn{3}{c}{$N$ = ",     vaTc$comparatorSubjects, " } ",
-                      "& \\\\multicolumn{3}{c}{$N$ = ", cuimcTc$targetSubjects, 
-                      " } & \\\\multicolumn{3}{c}{$N$ = ", cuimcTc$comparatorSubjects, " } ",
+  title <- gsub("% Another row",
+                paste0("& \\\\multicolumn{6}{c}{$N$ = ", sidiapTc$targetSubjects, " (T) and ", sidiapTc$comparatorSubjects, " (C) }",
+                      "& \\\\multicolumn{6}{c}{$N$ = ", vaTc$targetSubjects, " (T) and ", vaTc$comparatorSubjects, " (C) }",
+                      "& \\\\multicolumn{6}{c}{$N$ = ", cuimcTc$targetSubjects, " (T) and ", cuimcTc$comparatorSubjects, " (C) }",
                       " \\\\\\\\"),
-               # , "\\\\\\\\ \n",
-               #        "\& \\\\multicolumn{3}{c}{Before stratification} \& \\\\multicolumn{3}{c}{After stratification} "),
                x = title)
+  
+  # title <- gsub("% Extra row",
+  #              paste0("& \\\\multicolumn{3}{c}{$N$ = ", sidiapTc$targetSubjects, 
+  #                     " } & \\\\multicolumn{3}{c}{$N$ = ", sidiapTc$comparatorSubjects, " } ",
+  #                     "& \\\\multicolumn{3}{c}{$N$ = ",     vaTc$targetSubjects, 
+  #                     " } & \\\\multicolumn{3}{c}{$N$ = ",     vaTc$comparatorSubjects, " } ",
+  #                     "& \\\\multicolumn{3}{c}{$N$ = ", cuimcTc$targetSubjects, 
+  #                     " } & \\\\multicolumn{3}{c}{$N$ = ", cuimcTc$comparatorSubjects, " } ",
+  #                     " \\\\\\\\"),
+  #              # , "\\\\\\\\ \n",
+  #              #        "\& \\\\multicolumn{3}{c}{Before stratification} \& \\\\multicolumn{3}{c}{After stratification} "),
+  #              x = title)
+  
+  # if (targetName == "THZ" && comparatorName == "ARB") {
+  #   title <- sub("table}", "table}[H]\\\\ContinuedFloat*", title)
+  # } else {
+  #   title <- sub("table}", "table}[H]\\\\ContinuedFloat", title)
+  # }
   
   # if (targetName == "THZ" && comparatorName == "ARB") {
   #   title <- sub("table}", "table}[H]\\\\ContinuedFloat*", title)
