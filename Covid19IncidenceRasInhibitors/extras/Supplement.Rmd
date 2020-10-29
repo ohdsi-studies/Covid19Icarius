@@ -11,7 +11,7 @@ output:
 mainfont: Arial    
 fontsize: 11pt
 geometry: margin=1in
-classoptions: doublespace
+classoption: doublespace, table
 longtable: true
 header-includes:
   - \usepackage[numbers,sort&compress]{natbib}
@@ -19,7 +19,6 @@ header-includes:
   - \usepackage{longtable}
   - \usepackage{array}
   - \usepackage{multirow}
-  - \usepackage[table]{xcolor}
   - \usepackage{wrapfig}
   - \usepackage{float}
   - \usepackage{colortbl}
