@@ -9,8 +9,8 @@ output:
     md_extensions: +raw_attribute
     latex_engine: xelatex
 mainfont: Arial    
-fontsize: 11pt
-geometry: margin=1in
+fontsize: 10pt
+geometry: margin=0.75in
 classoption: doublespace, table
 longtable: true
 header-includes:
@@ -77,15 +77,16 @@ readRdsCamelCase <- function(file) {
 
 ```{r, echo=FALSE}
 cohorts <- read.csv(file = system.file("settings", "CohortsToCreate.csv", package = "Covid19IncidenceRasInhibitors")) %>% select(cohortId, shinyName)
+cohorts <- cohorts %>% mutate(shinyName = sub("ACE", "ACEI", shinyName))
 
-aceMonoId <- cohorts %>% filter(shinyName == "ACE mono") %>% select(cohortId) %>% pull()
+aceMonoId <- cohorts %>% filter(shinyName == "ACEI mono") %>% select(cohortId) %>% pull()
 arbMonoId <- cohorts %>% filter(shinyName == "ARB mono") %>% select(cohortId) %>% pull()
-aceArbMonoId <- cohorts %>% filter(shinyName == "ACE/ARB mono") %>% select(cohortId) %>% pull()
+aceArbMonoId <- cohorts %>% filter(shinyName == "ACEI/ARB mono") %>% select(cohortId) %>% pull()
 ccbThzMonoId <- cohorts %>% filter(shinyName == "CCB/THZ mono") %>% select(cohortId) %>% pull()
 
-aceComboId <- cohorts %>% filter(shinyName == "ACE +combo") %>% select(cohortId) %>% pull()
+aceComboId <- cohorts %>% filter(shinyName == "ACEI +combo") %>% select(cohortId) %>% pull()
 arbComboId <- cohorts %>% filter(shinyName == "ARB +combo") %>% select(cohortId) %>% pull()
-aceArbComboId <- cohorts %>% filter(shinyName == "ACE/ARB +combo") %>% select(cohortId) %>% pull()
+aceArbComboId <- cohorts %>% filter(shinyName == "ACEI/ARB +combo") %>% select(cohortId) %>% pull()
 ccbThzComboId <- cohorts %>% filter(shinyName == "CCB/THZ +combo") %>% select(cohortId) %>% pull()
 
 ccbMonoId <- cohorts %>% filter(shinyName == "CCB mono") %>% select(cohortId) %>% pull()
@@ -102,8 +103,8 @@ adverseId <- cohorts %>% filter(shinyName == "PAAS event") %>% select(cohortId) 
 prettyNames <- data.frame(
   cohortId = c(aceMonoId, arbMonoId, aceArbMonoId, ccbMonoId, thzMonoId, ccbThzMonoId,
                aceComboId, arbComboId, aceArbComboId, ccbComboId, thzComboId, ccbThzComboId),
-  cohortName = c("ACE", "ARB", "ACE/ARB", "CCB", "THZ", "CCB/THZ",
-                 "ACE+", "ARB+", "ACE/ARB+", "CCB+", "THZ+", "CCB/THZ+"))
+  cohortName = c("ACEI", "ARB", "ACEI/ARB", "CCB", "THZ", "CCB/THZ",
+                 "ACEI+", "ARB+", "ACEI/ARB+", "CCB+", "THZ+", "CCB/THZ+"))
 
 primaryAnalysisId <- 5 # Full stratified PS
 ```
@@ -144,26 +145,26 @@ makeSampleSizeTable <- function(databaseId,
   cmResults <- cmResults %>% filter(analysisId == primaryAnalysisId, outcomeId == thisOutcomeId)
   
   table <- rbind(
-    cmResults %>% filter(targetId == aceArbMonoId, comparatorId == ccbThzMonoId) %>% mutate(targetId = "ACE/ARB (m)", comparatorId = "CCB/THZ (m)", order = 1),
-    cmResults %>% filter(targetId == aceArbComboId, comparatorId == ccbThzComboId) %>% mutate(targetId = "ACE/ARB (c)", comparatorId = "CCB/THZ (c)", order = 2),
+    cmResults %>% filter(targetId == aceArbMonoId, comparatorId == ccbThzMonoId) %>% mutate(targetId = "ACEI/ARB (m)", comparatorId = "CCB/THZ (m)", order = 1),
+    cmResults %>% filter(targetId == aceArbComboId, comparatorId == ccbThzComboId) %>% mutate(targetId = "ACEI/ARB (c)", comparatorId = "CCB/THZ (c)", order = 2),
     
-    cmResults %>% filter(targetId == aceArbMonoId, comparatorId == ccbMonoId) %>% mutate(targetId = "ACE/ARB (m)", comparatorId = "CCB (m)", order = 3),
-    cmResults %>% filter(targetId == aceArbComboId, comparatorId == ccbComboId) %>% mutate(targetId = "ACE/ARB (c)", comparatorId = "CCB (c)", order = 4),    
+    cmResults %>% filter(targetId == aceArbMonoId, comparatorId == ccbMonoId) %>% mutate(targetId = "ACEI/ARB (m)", comparatorId = "CCB (m)", order = 3),
+    cmResults %>% filter(targetId == aceArbComboId, comparatorId == ccbComboId) %>% mutate(targetId = "ACEI/ARB (c)", comparatorId = "CCB (c)", order = 4),    
     
-    cmResults %>% filter(targetId == aceArbMonoId, comparatorId == thzMonoId) %>% mutate(targetId = "ACE/ARB (m)", comparatorId = "THZ (m)", order = 5),
-    cmResults %>% filter(targetId == aceArbComboId, comparatorId == thzComboId) %>% mutate(targetId = "ACE/ARB (c)", comparatorId = "THZ (c)", order = 6),    
+    cmResults %>% filter(targetId == aceArbMonoId, comparatorId == thzMonoId) %>% mutate(targetId = "ACEI/ARB (m)", comparatorId = "THZ (m)", order = 5),
+    cmResults %>% filter(targetId == aceArbComboId, comparatorId == thzComboId) %>% mutate(targetId = "ACEI/ARB (c)", comparatorId = "THZ (c)", order = 6),    
     
-    cmResults %>% filter(targetId == aceMonoId, comparatorId == arbMonoId) %>% mutate(targetId = "ACE (m)", comparatorId = "ARB (m)", order = 7),
-    cmResults %>% filter(targetId == aceComboId, comparatorId == arbComboId) %>% mutate(targetId = "ACE (c)", comparatorId = "ARB (c)", order = 8),
+    cmResults %>% filter(targetId == aceMonoId, comparatorId == arbMonoId) %>% mutate(targetId = "ACEI (m)", comparatorId = "ARB (m)", order = 7),
+    cmResults %>% filter(targetId == aceComboId, comparatorId == arbComboId) %>% mutate(targetId = "ACEI (c)", comparatorId = "ARB (c)", order = 8),
     
-    cmResults %>% filter(targetId == aceMonoId, comparatorId == ccbThzMonoId) %>% mutate(targetId = "ACE (m)", comparatorId = "CCB/THZ (m)", order = 9),
-    cmResults %>% filter(targetId == aceComboId, comparatorId == ccbThzComboId) %>% mutate(targetId = "ACE (c)", comparatorId = "CCB/THZ (c)", order = 10),
+    cmResults %>% filter(targetId == aceMonoId, comparatorId == ccbThzMonoId) %>% mutate(targetId = "ACEI (m)", comparatorId = "CCB/THZ (m)", order = 9),
+    cmResults %>% filter(targetId == aceComboId, comparatorId == ccbThzComboId) %>% mutate(targetId = "ACEI (c)", comparatorId = "CCB/THZ (c)", order = 10),
     
-    cmResults %>% filter(targetId == aceMonoId, comparatorId == ccbMonoId) %>% mutate(targetId = "ACE (m)", comparatorId = "CCB (m)", order = 11),
-    cmResults %>% filter(targetId == aceComboId, comparatorId == ccbComboId) %>% mutate(targetId = "ACE (c)", comparatorId = "CCB (c)", order = 12),
+    cmResults %>% filter(targetId == aceMonoId, comparatorId == ccbMonoId) %>% mutate(targetId = "ACEI (m)", comparatorId = "CCB (m)", order = 11),
+    cmResults %>% filter(targetId == aceComboId, comparatorId == ccbComboId) %>% mutate(targetId = "ACEI (c)", comparatorId = "CCB (c)", order = 12),
     
-    cmResults %>% filter(targetId == aceMonoId, comparatorId == thzMonoId) %>% mutate(targetId = "ACE (m)", comparatorId = "THZ (m)", order = 13),
-    cmResults %>% filter(targetId == aceComboId, comparatorId == thzComboId) %>% mutate(targetId = "ACE (c)", comparatorId = "THZ (c)", order = 14),
+    cmResults %>% filter(targetId == aceMonoId, comparatorId == thzMonoId) %>% mutate(targetId = "ACEI (m)", comparatorId = "THZ (m)", order = 13),
+    cmResults %>% filter(targetId == aceComboId, comparatorId == thzComboId) %>% mutate(targetId = "ACEI (c)", comparatorId = "THZ (c)", order = 14),
 
     cmResults %>% filter(targetId == arbMonoId, comparatorId == ccbThzMonoId) %>% mutate(targetId = "ARB (m)", comparatorId = "CCB/THZ (m)", order = 15),
     cmResults %>% filter(targetId == arbComboId, comparatorId == ccbThzComboId) %>% mutate(targetId = "ARB (c)", comparatorId = "CCB/THZ (c)", order = 16),
@@ -613,7 +614,7 @@ balance <- getCovariateBalance(NULL, targetId, comparatorId, databaseId = databa
                replacement = paste0("Baseline patient characteristcs for ", targetName," (T) and ", comparatorName, " (C) prevalent-users in the ", databaseId, " data source"),
                x = header)
 
-  title <- sub(pattern = "ACE", replacement = "ACEI", x = title)
+  #title <- sub(pattern = "ACE", replacement = "ACEI", x = title)
   
   title <- sub("0.5\\\\textwidth", paste0(scale, "\\\\textwidth"), x = title)
   title <- sub("-0.5em", "+0.5em", x = title)
